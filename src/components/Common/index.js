@@ -1,5 +1,5 @@
 import Calendar from './Calendar';
 import Navigation from './Navigation';
+import PageContainer from './PageContainer'
 
-
-export { Calendar, Navigation };
+export { Calendar, Navigation, PageContainer };

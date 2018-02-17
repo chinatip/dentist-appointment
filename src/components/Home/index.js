@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import { PageContainer } from 'components/Common';
+
+const Container = styled.div`
+  
+`;
+
 class Index extends Component {
   render() {
     return (
-      <div>Home</div>
+      <PageContainer title={'Home'}>
+        <Container>
+          
+        </Container>
+      </PageContainer>
     );
   }
 }
