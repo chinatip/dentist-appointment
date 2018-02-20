@@ -1,0 +1,19 @@
+{
+  "user": {
+    "id": 1100900,
+    "name": "มานะ",
+    "lastname": "คงมี",
+    "address": "",
+    "telephone": "0818881234",
+    "phone": "026658899"
+  },
+  "clinics": [
+    {
+      "name": "บ้านรักฟัน",
+      "location": "",
+      "table": {},
+      "doctors": []
+    }
+  ],
+  "appointment": []
+}

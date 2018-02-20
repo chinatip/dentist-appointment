@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import { PageContainer } from 'components/Common';
+import { PageContainer } from 'common';
 
 const Container = styled.div`
   
@@ -10,7 +10,7 @@ const Container = styled.div`
 class Index extends Component {
   render() {
     return (
-      <PageContainer title={'Contact'}>
+      <PageContainer title={'Home'}>
         <Container>
           
         </Container>

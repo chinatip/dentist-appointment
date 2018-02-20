@@ -14,6 +14,17 @@ const Container = styled.div`
   margin: 0 auto;
   max-width: 976px;
   display: flex;
+
+  a {
+    text-decoration: none;
+    color: #7d7d7d;
+    transition: all 0.2s;
+    
+    &:hover, &:focus {
+      text-decoration: none;
+      color: #ababab;
+    }
+  }
 `;
 
 const LogoWrapper = styled.div`
@@ -22,30 +33,26 @@ const LogoWrapper = styled.div`
 `;
 
 const NavContainer = styled.div`
+  height: 100%;
   padding: 0 40px;
-  margin: auto 0;
+  display: flex;
+  align-items: center;
 `;
 const NavItemWrapper = styled.div`
-  color: #7d7d7d;
   font-size: 16px;
   line-height: 20px;
   font-weight: 500;
   letter-spacing: 0.01px;
   text-align: right;
-  transition: all 0.3s;
-
-  &:hover {
-    color: #ababab;
-  }
 `;
 
 const NavItem = ({ title, link }) => {
   return (
-    <NavContainer>
-      <Link to={link}>
+    <Link to={link}>
+      <NavContainer>
         <NavItemWrapper>{title}</NavItemWrapper>
-      </Link>
-    </NavContainer>
+      </NavContainer>
+    </Link>
   );
 };
 
