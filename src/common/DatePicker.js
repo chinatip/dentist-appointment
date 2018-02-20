@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { DatePicker } from 'antd';
 
-
 class CustomCalendar extends Component {
-  handleChange = (date, date2 = null, str = null, str2 = null) => {
-    console.log(date)
+  handleChange = (date, str) => {
+    console.log(date, str)
   }
 
   render() {

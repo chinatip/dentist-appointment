@@ -12,8 +12,14 @@
       "name": "บ้านรักฟัน",
       "location": "",
       "table": {},
-      "doctors": []
+      "doctors": [],
+      "actions": {
+        "ถอนฟัน": true,
+        "จัดฟัน": true,
+        "รักษารากฟัน": true
+      }
     }
   ],
-  "appointment": []
+  "appointment": [],
+  "timeSlots": [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 }
