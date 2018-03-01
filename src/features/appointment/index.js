@@ -1,34 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+
+import Table from './Table';
+import { getUser } from 'redux/user';
+import { getClinics } from 'redux/clinic';
+import { createAppointment } from 'redux/appointment';
 import { PageContainer, DatePicker, Select, Button, Modal } from 'common';
 
-import { loadUser, updateUser } from 'redux/user';
-import { WithData } from 'hoc';
-import Table from './Table';
-
-const CLINICS = [
-  { value: 'rak-fhan', label: 'บ้านรักฟัน' },
-  { value: 'rak-yim', label: 'บ้านรักยิ้ม' },
-];
-const TREATMENT_TYPES = [
-  { value: 'normal', label: 'ทั่วไป' },
-  { value: 'special', label: 'เฉพาะทาง' },
-];
-const NORMAL_TREATMENTS = [
-  { value: 'a', label: 'ตรวจฟัน' },
-  { value: 'b', label: 'อุดฟัน' },
-  { value: 'c', label: 'ถอนฟัน' },
-];
-const SPECIAL_TREATMENTS = [
-  { value: 'd', label: 'จัดฟัน' },
-  { value: 'e', label: 'รักษารากฟัน' },
-];
-const DOCTORS = [
-  { value: 'มานี', label: 'มานี' },
-  { value: 'มีนา', label: 'มีนา' },
-];
-
+const timeSlots = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 
 const Container = styled.div`
   
@@ -56,27 +36,38 @@ class Index extends Component {
     super();
 
     this.state = {
-      clinic: CLINICS[0].value,
-      treatmentType: TREATMENT_TYPES[0].value,
-      normalTreatment: NORMAL_TREATMENTS[0].value,
-      specialTreatment:  SPECIAL_TREATMENTS[0].value,
-      doctor: DOCTORS[0].value,
+      options: {
+        clinics: props.clinics
+      },
       showTable: false,
       showTableMenu: false,
       showModal: false
     };
   }
 
-  handleChange = (key) => (value) => {
+  updateClinic = (clinicId) => {
+    const { clinics } = this.props;
+    const clinic = clinics.filter((c) => c.id === clinicId)[0];
+    const { doctors, treatments } = clinic;
+    let updateState = this.state;
+    updateState.options['doctors'] = doctors;
+    updateState.options['treatmentTypes'] = treatments;
+    updateState['clinic'] = clinic.id;
+
+    this.setState(updateState);
+  }
+
+  handleChange = (key) => (value = true) => {
     this.setState({
       [key]: value
     });
   }
 
-  handleClick = (key) => () => {
-    this.setState({
-      [key]: true
-    });
+  handleSubmit = () => {
+    const { createAppointment, user } = this.props;
+    createAppointment(user.id, this.state)
+    
+    this.handleCloseModal();
   }
 
   handleCloseModal = () => {
@@ -85,19 +76,25 @@ class Index extends Component {
     });
   }
 
-  handleUpdateUser = () => {
-    const { updateUser, user } = this.props;
-    console.log(user, updateUser)
-    // updateUser({ name: 'yesss' })
+  renderSelectOptions(selects, fieldValue, fieldLabel) {
+    if (!selects || selects.length < 1) {
+      return [];
+    }
+
+    return (
+      selects.map((s) => {
+        return { value: s[fieldValue], label: s[fieldLabel || fieldValue] };
+      })
+    );
   }
 
   renderTable() {
-    const { showTable, showTableMenu, doctor } = this.state;
+    const { showTable, showTableMenu, doctor, options: { doctors } } = this.state;
 
     return showTable && (
       <TableContainer>
         <Col>
-          <Table timeSlots={this.props.data.clinics[0].timeSlots} onClick={this.handleClick('showTableMenu')} />
+          <Table timeSlots={timeSlots} onClick={this.handleChange('showTableMenu')} />
         </Col>
         <Col>
           { showTableMenu && <TableMenuContainer>
@@ -105,8 +102,8 @@ class Index extends Component {
               <div>อุดฟัน</div>
               <div>600 - 1000</div>
               <div>เลือกหมอ</div>
-              <Select value={doctor} options={DOCTORS} onChange={this.handleChange('doctor')} />
-              <Button value={'Confirm'} onClick={this.handleClick('showModal')}/>
+              <Select value={doctor} options={this.renderSelectOptions(doctors, 'name')} onChange={this.handleChange('doctor')} />
+              <Button value={'Confirm'} onClick={this.handleChange('showModal')}/>
             </TableMenuContainer>
           }
         </Col>
@@ -115,41 +112,37 @@ class Index extends Component {
   }
 
   render() {
-    const { clinic, treatmentType, normalTreatment, specialTreatment, showModal } = this.state;
-    
+    const { clinic, treatmentType, treatment, showModal, options } = this.state;
+    const { clinics, treatmentTypes } = options;
+
     return (
       <PageContainer title={'Appointment'}>
         <Container>
           <OptionContainer>
-            <button onClick={this.handleUpdateUser}>updateUser</button>
             <Col>
-              <Select value={clinic} options={CLINICS} onChange={this.handleChange('clinic')} />
+              <Select value={clinic} options={this.renderSelectOptions(clinics, 'id', 'name')} onChange={this.updateClinic} />
               <DatePicker size={'large'} />
             </Col>
             <Col>
-              <Select value={treatmentType} options={TREATMENT_TYPES} onChange={this.handleChange('treatmentType')} />
-              { treatmentType === 'normal'? 
-                <Select value={normalTreatment} options={NORMAL_TREATMENTS} onChange={this.handleChange('normalTreatment')} />:
-                <Select value={specialTreatment} options={SPECIAL_TREATMENTS} onChange={this.handleChange('specialTreatment')} />
-              }
-              <Button value={'Find'} onClick={this.handleClick('showTable')} />
+              <Select disabled={!clinic} value={treatmentType} options={this.renderSelectOptions(treatmentTypes, 'name')} onChange={this.handleChange('treatmentType')} />
+              <Select disabled={!clinic} value={treatment} options={this.renderSelectOptions(treatmentTypes, 'name')} onChange={this.handleChange('treatment')} />:
+              <Button value={'Find'} onClick={this.handleChange('showTable')} />
             </Col>
           </OptionContainer>
           { this.renderTable() }
-          <Modal visible={showModal} onOk={this.handleCloseModal} onCancel={this.handleCloseModal} />
+          <Modal visible={showModal} onOk={this.handleSubmit} onCancel={this.handleCloseModal} />
         </Container>
       </PageContainer>
     );
   }
 }
 
-// export default WithData(Index);
-
 export default connect(
   state => {
     return {
-      user: loadUser(state)
+      user: getUser(state),
+      clinics: getClinics(state),
     }
   },
-  { updateUser }
-)(WithData(Index));
+  { createAppointment }
+)(Index);

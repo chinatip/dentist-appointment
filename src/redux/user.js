@@ -1,17 +1,14 @@
 const head = '';
-const LOAD = head + 'LOAD';
 const CREATE = head + 'CREATE';
 const UPDATE = head + 'UPDATE';
 const REMOVE = head + 'REMOVE'; 
 
 const initialState = {
-  name: 'default'
+  id: '001'
 };
 
-export default function reducer(state = initialState, action = {}) {
+export default (state = initialState, action = {}) => {
   switch (action.type) {
-    case LOAD:
-      return state.user;
     case UPDATE:
       return { ...state, user: action.user  };
     default: 
@@ -19,22 +16,18 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-export function loadUser(state) {
-  return state.user
+export const getUser = (state) => {
+  return state.user;
 }
 
-export function createUser(user) {
+export const createUser = (user) => {
   return { type: CREATE, user };
 }
 
-export function updateUser(user) {
+export const updateUser = (user) => {
   return { type: UPDATE, user };
 }
 
-export function removeUser() {
+export const removeUser = () => {
   return { type: REMOVE };
-}
-
-export function getUser(state) {
-  return (dispatch) => dispatch(loadUser(state));
 }

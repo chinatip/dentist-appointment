@@ -5,12 +5,12 @@ const Option = Select.Option;
 
 class CustomSelect extends Component {
   render() {
-    const { value, options, onChange } = this.props;
+    const { value, options, onChange, ...props } = this.props;
     
     return (
       <Select value={value} onChange={onChange}>
         { options.map((opt) => {
-          return <Option value={opt.value}>{opt.label}</Option>;
+          return <Option {...props} value={opt.value}>{opt.label}</Option>;
         })}
       </Select>
     );
