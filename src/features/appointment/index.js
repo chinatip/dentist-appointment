@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { PageContainer, DatePicker, Select, Button, Modal } from 'common';
 
+import { loadUser, updateUser } from 'redux/user';
 import { WithData } from 'hoc';
 import Table from './Table';
 
@@ -83,6 +85,12 @@ class Index extends Component {
     });
   }
 
+  handleUpdateUser = () => {
+    const { updateUser, user } = this.props;
+    console.log(user, updateUser)
+    // updateUser({ name: 'yesss' })
+  }
+
   renderTable() {
     const { showTable, showTableMenu, doctor } = this.state;
 
@@ -113,6 +121,7 @@ class Index extends Component {
       <PageContainer title={'Appointment'}>
         <Container>
           <OptionContainer>
+            <button onClick={this.handleUpdateUser}>updateUser</button>
             <Col>
               <Select value={clinic} options={CLINICS} onChange={this.handleChange('clinic')} />
               <DatePicker size={'large'} />
@@ -134,4 +143,13 @@ class Index extends Component {
   }
 }
 
-export default WithData(Index);
+// export default WithData(Index);
+
+export default connect(
+  state => {
+    return {
+      user: loadUser(state)
+    }
+  },
+  { updateUser }
+)(WithData(Index));
