@@ -89,7 +89,7 @@ class Index extends Component {
   }
 
   renderTable() {
-    const { showTable, showTableMenu, doctor, options: { doctors } } = this.state;
+    const { showTable, showTableMenu, doctor, treatment, options: { doctors } } = this.state;
 
     return showTable && (
       <TableContainer>
@@ -99,7 +99,7 @@ class Index extends Component {
         <Col>
           { showTableMenu && <TableMenuContainer>
               <div>ราคาเฉลี่ย</div>
-              <div>อุดฟัน</div>
+              <div>{treatment}</div>
               <div>600 - 1000</div>
               <div>เลือกหมอ</div>
               <Select value={doctor} options={this.renderSelectOptions(doctors, 'name')} onChange={this.handleChange('doctor')} />
@@ -115,6 +115,8 @@ class Index extends Component {
     const { clinic, treatmentType, treatment, showModal, options } = this.state;
     const { clinics, treatmentTypes } = options;
 
+    const treatments = treatmentTypes && treatmentType? treatmentTypes.filter(t => t.name === treatmentType)[0].treatments: [];
+
     return (
       <PageContainer title={'Appointment'}>
         <Container>
@@ -125,7 +127,7 @@ class Index extends Component {
             </Col>
             <Col>
               <Select disabled={!clinic} value={treatmentType} options={this.renderSelectOptions(treatmentTypes, 'name')} onChange={this.handleChange('treatmentType')} />
-              <Select disabled={!clinic} value={treatment} options={this.renderSelectOptions(treatmentTypes, 'name')} onChange={this.handleChange('treatment')} />:
+              <Select disabled={!clinic || !treatmentType} value={treatment} options={this.renderSelectOptions(treatments, 'name')} onChange={this.handleChange('treatment')} />:
               <Button value={'Find'} onClick={this.handleChange('showTable')} />
             </Col>
           </OptionContainer>
