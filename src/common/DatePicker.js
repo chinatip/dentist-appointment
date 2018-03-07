@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import { DatePicker } from 'antd';
+import moment from 'moment';
 
 class CustomCalendar extends Component {
   handleChange = (date, str) => {
-    console.log(date, str)
+    const { onChange } = this.props;
+    
+    if (onChange) {
+      onChange(date);
+    }
+  }
+
+  disabledDate = (date) => {
+    return date && moment().isAfter(date);
   }
 
   render() {
@@ -13,6 +22,7 @@ class CustomCalendar extends Component {
       <DatePicker 
         size={size}
         onChange={this.handleChange} 
+        disabledDate={this.disabledDate}
         onCalendarChange={this.handleChange} 
       />
     );

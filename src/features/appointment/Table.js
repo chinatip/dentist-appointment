@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Table, Button } from 'common';
 
-const renderSelectButton = (onClick) => {
-  return <Button value={'Select'} onClick={onClick} />
+const renderSelectButton = (onClick, text) => {
+  return <Button value={'Select'} onClick={onClick(text)} />
 };
 
 const getTableData = ({timeSlots, onClick}) => {
@@ -12,16 +12,15 @@ const getTableData = ({timeSlots, onClick}) => {
     dataIndex: 'timeSlot',
     key: 'timeSlot',
   }, {
-    dataIndex: 'select',
+    dataIndex: 'timeSlot',
     key: 'select',
-    render: text => renderSelectButton(onClick)
+    render: text => renderSelectButton(onClick, text)
   }];
 
   timeSlots.forEach((slot) => {
     const action = {
       key: slot,
       timeSlot: `${slot}:00 - ${slot + 1}:00`,
-      select: (slot % 2 === 0),
     }
     dataSource.push(action)
   });

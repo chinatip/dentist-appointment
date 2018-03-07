@@ -31,6 +31,67 @@ const TableMenuContainer = styled.div`
 
 `;
 
+const renderSelectOptions = (selects, fieldValue, fieldLabel) => {
+  if (!selects || selects.length < 1) {
+    return [];
+  }
+
+  return (
+    selects.map((s) => {
+      return { value: s[fieldValue], label: s[fieldLabel || fieldValue] };
+    })
+  );
+}
+
+const TimeTableSection = ({ showTable, showTableMenu, doctor, treatment, options: { doctors }, onTimeTable, onChange }) => {
+  return showTable && (
+    <TableContainer>
+      <Col>
+        <Table timeSlots={timeSlots} onClick={onTimeTable} />
+      </Col>
+      <Col>
+        { showTableMenu && <TableMenuContainer>
+            <div>ราคาเฉลี่ย</div>
+            <div>{treatment}</div>
+            <div>600 - 1000</div>
+            <div>เลือกหมอ</div>
+            <Select value={doctor} options={renderSelectOptions(doctors, 'name')} onChange={onChange('doctor')} />
+            <Button value={'Confirm'} onClick={onChange('showModal')}/>
+          </TableMenuContainer>
+        }
+      </Col>
+    </TableContainer>
+  );
+};
+
+const ClinicSection = ({ clinic, date, treatmentType, treatment, showModal, options: { clinics, treatmentTypes },
+  onChange, onUpdateClinic }) => {
+
+  const treatments = treatmentTypes && treatmentType? treatmentTypes.filter(t => t.name === treatmentType)[0].treatments: [];
+
+  return (
+    <OptionContainer>
+      <Col>
+        <Select value={clinic} options={renderSelectOptions(clinics, 'id', 'name')} onChange={onUpdateClinic} />
+        <DatePicker value={date} size={'large'} onChange={onChange('date')} />
+      </Col>
+      <Col>
+        <Select disabled={!clinic} value={treatmentType} options={renderSelectOptions(treatmentTypes, 'name')} onChange={onChange('treatmentType')} />
+        <Select disabled={!clinic || !treatmentType} value={treatment} options={renderSelectOptions(treatments, 'name')} onChange={onChange('treatment')} />:
+        <Button value={'Find'} onClick={onChange('showTable')} />
+      </Col>
+    </OptionContainer>
+  );
+};
+
+const ModalSection = ({ clinic, date, doctor, treatment, timeSlot, showModal, onSubmit, onCancel }) => {
+  return (
+    <Modal visible={showModal} onOk={onSubmit} onCancel={onCancel}>
+      {`Clinic: ${clinic}\n Treatment: ${treatment}\n Doctor: ${doctor}\n Date: ${date}\n timeSlot: ${timeSlot}`}
+    </Modal>
+  );
+};
+
 class Index extends Component {
   constructor(props) {
     super();
@@ -76,63 +137,20 @@ class Index extends Component {
     });
   }
 
-  renderSelectOptions(selects, fieldValue, fieldLabel) {
-    if (!selects || selects.length < 1) {
-      return [];
-    }
-
-    return (
-      selects.map((s) => {
-        return { value: s[fieldValue], label: s[fieldLabel || fieldValue] };
-      })
-    );
-  }
-
-  renderTable() {
-    const { showTable, showTableMenu, doctor, treatment, options: { doctors } } = this.state;
-
-    return showTable && (
-      <TableContainer>
-        <Col>
-          <Table timeSlots={timeSlots} onClick={this.handleChange('showTableMenu')} />
-        </Col>
-        <Col>
-          { showTableMenu && <TableMenuContainer>
-              <div>ราคาเฉลี่ย</div>
-              <div>{treatment}</div>
-              <div>600 - 1000</div>
-              <div>เลือกหมอ</div>
-              <Select value={doctor} options={this.renderSelectOptions(doctors, 'name')} onChange={this.handleChange('doctor')} />
-              <Button value={'Confirm'} onClick={this.handleChange('showModal')}/>
-            </TableMenuContainer>
-          }
-        </Col>
-      </TableContainer>
-    );
+  handleTimeTable = (slot) => () => {
+    this.setState({
+      showTableMenu: true,
+      timeSlot: slot
+    });
   }
 
   render() {
-    const { clinic, treatmentType, treatment, showModal, options } = this.state;
-    const { clinics, treatmentTypes } = options;
-
-    const treatments = treatmentTypes && treatmentType? treatmentTypes.filter(t => t.name === treatmentType)[0].treatments: [];
-
     return (
       <PageContainer title={'Appointment'}>
         <Container>
-          <OptionContainer>
-            <Col>
-              <Select value={clinic} options={this.renderSelectOptions(clinics, 'id', 'name')} onChange={this.updateClinic} />
-              <DatePicker size={'large'} />
-            </Col>
-            <Col>
-              <Select disabled={!clinic} value={treatmentType} options={this.renderSelectOptions(treatmentTypes, 'name')} onChange={this.handleChange('treatmentType')} />
-              <Select disabled={!clinic || !treatmentType} value={treatment} options={this.renderSelectOptions(treatments, 'name')} onChange={this.handleChange('treatment')} />:
-              <Button value={'Find'} onClick={this.handleChange('showTable')} />
-            </Col>
-          </OptionContainer>
-          { this.renderTable() }
-          <Modal visible={showModal} onOk={this.handleSubmit} onCancel={this.handleCloseModal} />
+          <ClinicSection {...this.state} onChange={this.handleChange} onUpdateClinic={this.updateClinic} />
+          <TimeTableSection {...this.state} onChange={this.handleChange} onTimeTable={this.handleTimeTable} />
+          <ModalSection {...this.state} onSubmit={this.handleSubmit} onCancel={this.handleCloseModal} />
         </Container>
       </PageContainer>
     );

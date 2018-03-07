@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 
 class CustomModal extends Component {
   render() {
-    const { visible, onOk, onCancel } = this.props;
+    const { visible, onOk, onCancel, children } = this.props;
 
       return (
         <Modal
@@ -12,7 +12,7 @@ class CustomModal extends Component {
           onOk={onOk}
           onCancel={onCancel}
         >
-        dddd
+          {children}
         </Modal>
       );
     }
