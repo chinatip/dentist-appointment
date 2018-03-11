@@ -9,18 +9,8 @@ import thunk from 'redux-thunk';
 import reducer from 'redux/reducers';
 import 'antd/dist/antd.css';
 import 'common/styles/global.css';
-import { Navigation } from 'common';
-import { Home, Appointment, Contact } from 'features';
+import Client from 'client';
 import registerServiceWorker from './registerServiceWorker';
-
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-`;
-const InnerContainer = styled.div`
-  max-width: 962px;
-  margin: 0 auto;
-`;
 
 const middlewares = [thunk];
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -33,15 +23,7 @@ class App extends Component {
     return (
       <Provider store={store} key="provider">
         <Router>
-          <Container>
-            <Navigation />
-            <InnerContainer>
-              <Route exact path="/" component={Home} />
-              <Route path="/appointment" component={Appointment} />
-              <Route path="/contact" component={Contact} />
-              <Route path="/login" component={Contact} />
-            </InnerContainer>
-          </Container>
+          <Client />
         </Router>
       </Provider>
     );
