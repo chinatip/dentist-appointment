@@ -24,6 +24,7 @@
     "react-scripts": "1.1.1"
   },
   "scripts": {
+    "start-win": "react-scripts start",
     "start": "NODE_PATH=./src react-scripts start",
     "build": "NODE_PATH=./src react-scripts build",
     "test": "react-scripts test --env=jsdom",

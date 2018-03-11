@@ -11,6 +11,7 @@ export function fetchClinicsWithRedux() {
     return (dispatch) => {
     dispatch(fetchClinicsRequest());
     return fetchClinics().then(([response, json]) =>{
+        console.log(json);
         if(response.status === 200){
         dispatch(fetchClinicsSuccess(json))
       }

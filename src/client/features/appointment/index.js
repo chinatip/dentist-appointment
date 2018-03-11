@@ -158,12 +158,14 @@ class Index extends Component {
   }
 }
 
-export default connect(
-  state => {
-    return {
-      user: getUser(state),
-      clinics: getClinics(state),
-    }
-  },
-  { createAppointment }
-)(Index);
+export default Index;
+
+// export default connect(
+//   state => {
+//     return {
+//       user: getUser(state),
+//       clinics: getClinics(state),
+//     }
+//   },
+//   { createAppointment }
+// )(Index);

@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import user from './user';
-import clinic from './clinic';
-import appointment from './appointment';
+import users from './user';
+import clinics from './clinic';
+import appointments from './appointment';
 
 export default combineReducers({
-  user,
-  clinic,
-  appointment,
+  users,
+  clinics,
+  appointments,
 });
