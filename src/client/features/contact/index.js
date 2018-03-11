@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import { PageContainer } from 'common';
+import PageContainer from 'client/components/PageContainer';
 
 const Container = styled.div`
   

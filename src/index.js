@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
@@ -10,6 +10,8 @@ import reducer from 'redux/reducers';
 import 'antd/dist/antd.css';
 import 'common/styles/global.css';
 import Client from 'client';
+import Clinic from 'clinic';
+import { Home, Appointment, Contact } from 'client'
 import registerServiceWorker from './registerServiceWorker';
 
 const middlewares = [thunk];
@@ -23,7 +25,13 @@ class App extends Component {
     return (
       <Provider store={store} key="provider">
         <Router>
-          <Client />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/appointment" component={Appointment} />
+            <Route path="/contact" component={Contact} />
+            <Route path="/login" component={Contact} />
+            <Route path="/clinic" component={Clinic} />
+          </Switch>
         </Router>
       </Provider>
     );

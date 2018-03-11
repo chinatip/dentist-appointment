@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import Table from './Table';
+import PageContainer from 'client/components/PageContainer';
 import { getUser } from 'redux/user';
 import { getClinics } from 'redux/clinic';
 import { createAppointment } from 'redux/appointment';
-import { PageContainer, DatePicker, Select, Button, Modal } from 'common';
+import { DatePicker, Select, Button, Modal } from 'common';
 
 const timeSlots = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 

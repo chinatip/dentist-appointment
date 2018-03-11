@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Route } from 'react-router-dom';
 
-import PageContainer from 'client/components/PageContainer';
+import { ClinicNavigation } from 'common';
 
 const Container = styled.div`
-  
+  width: 100vw;
+  height: 100vh;
 `;
 
 class Index extends Component {
   render() {
     return (
-      <PageContainer title={'Home'}>
-        <Container>
-          
-        </Container>
-      </PageContainer>
+      <Container>
+        <ClinicNavigation />
+      </Container>
     );
   }
 }
