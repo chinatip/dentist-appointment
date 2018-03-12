@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled, { withTheme } from 'styled-components';
-import { PageContainer, DatePicker, Select, Button, Modal } from 'common';
+import PageContainer from 'client/components/PageContainer';
+import user from '../../../redux/user';
 
+import {fetchClinics} from '../service/apiservice/clinic';
+import {fetchUsers} from '../service/apiservice/user';
+import {fetchDentists} from '../service/apiservice/dentist';
+import {fetchPatients} from '../service/apiservice/patient';
+import {fetchTreatments} from '../service/apiservice/treatment';
+import {fetchTimeslots} from '../service/apiservice/timeslot';
+
+import ListItem from '../service/backend/ListItem';
 
 const Container = styled.div`
   
@@ -17,126 +26,61 @@ class Index extends Component {
     this.state = {
       users: [],
       clinics: [],
-      root: null,
+      dentists: [],
+      clinic: 1,
     }
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  //Service for Clinic
-
-  fetchClinics(){
-    const URL = "http://35.198.239.97:8000/api/clinics/";
-    return fetch(URL, { method: 'GET'})
-        .then((response) => response.json())
-        .then((clinics) => this.setState({ clinics: clinics }))
-  }
-
-  createClinic(newClinic){
-    const URL = "http://35.198.239.97:8000/api/clinics/";
-    return fetch(URL, {
-            method: 'post',
-            body: newClinic
-          }).then(function(response) {
-            return response.json();
-          })
-  }
-
-  getClinic(id){
-    const URL = "http://35.198.239.97:8000/api/clinics/"+id;
-    return fetch(URL, { method: 'GET'})
-        .then((response) => response.json())
-  }
-
-  updateClinic(id,newClinic){
-    const URL = "http://35.198.239.97:8000/api/clinics/"+id;
-    return fetch(URL,  {
-              method: 'PUT',
-              body: {newClinic}
-          })
-          .then(response => response.json())
-  }
-
-  //Service for User
-
-  fetchUsers(){
-    const URL = "http://35.198.239.97:8000/api/users/";
-    return fetch(URL, { method: 'GET'})
-        .then((response) => response.json())
-        .then((users) => this.setState({ users: users }))
-  }
-
-  createUser(newUser){
-    const URL = "http://35.198.239.97:8000/api/users/";
-    return fetch(URL, {
-            method: 'post',
-            body: newUser
-          }).then(function(response) {
-            return response.json();
-          })
-  }
-
-  getUser(id){
-    const URL = "http://35.198.239.97:8000/api/users/"+id;
-    return fetch(URL, { method: 'GET'})
-        .then((response) => response.json())
-  }
-
-  updateUser(id,newUser){
-    const URL = "http://35.198.239.97:8000/api/users/"+id;
-    return fetch(URL,  {
-              method: 'PUT',
-              body: {newUser}
-          })
-          .then(response => response.json())
-  }
 
 	componentDidMount(){
-      this.fetchClinics();
-      this.fetchUsers();
+      fetchClinics().then((clinics) => this.setState({ clinics: clinics }));
+      fetchUsers().then((users) => this.setState({ users: users }));
+      fetchDentists(this.state.clinic).then((dentists) => this.setState({ dentists: dentists }))
+      fetchPatients().then((patients) => this.setState({ patients: patients }))
+      fetchTreatments().then((treatments) => this.setState({ treatments: treatments }))
+      fetchTimeslots("2018-02-23",this.state.clinic).then((timeslots) => this.setState({ timeslots: timeslots}))
   }
 
-  // componentWillUpdate(nextProps, nextState) {
-  //   console.log("Users:",nextProps.users)
-  //   // if(this.state.clinics != nextProps.clinics.clinics || this.state.users != nextProps.users.users)
-  //   // this.setState({
-  //   //   clinics : nextProps.clinics.clinics,
-  //   //   users: nextProps.users.users,
-  //   // });
-  // }
+  componentWillUpdate(nextProps, nextState) {
+        if(this.state.clinic != nextState.clinic)
+          fetchDentists(nextState.clinic).then((dentists) => this.setState({ dentists: dentists }))
+
+  }
 
   handleClick(e){
     alert("Select "+e.target.value);
   }
 
-  render() {
-    console.log("clinics :",this.state.clinics);
-    console.log("users :",this.state.users);
-    console.log("clinic at 1 :",this.getClinic(1));
-    console.log("User at 1 :",this.getUser(1));
-    const data = this.state.clinics;
+  handleChange(event){
+    let key = event.target.name;
+    let val = event.target.value;
+    this.setState({[key]: val});
+    console.log("Will :",key,val);
+  }
 
-    const userDB = this.state.users;
-    let listItems = null;
-    if(data && data.length > 0)
-    {
-      listItems = data.map((d,id) => <li key={id}>{d.name}<button value={d.name} onClick={this.handleClick.bind(this)}>Select</button></li>);
-      console.log("GET :",data);
-      console.log("GET :",data[0].name);
-    }
-    
-    let listUsers = null;
-    if(userDB != undefined)
-    {listUsers = userDB.map((d,id) => <li key={id}>{d.firstname}<button value={d.id_number} onClick={this.handleClick.bind(this)}>Select</button></li>);}
-    
 
-    // let root = data[0].name;
-    
+
+  render() {    
     return (
       <PageContainer title={'Home'}>
         <Container>
           <div>Clinic List</div>
-          {/* <Select value={root} options={listItems} /> */}
-          <div>User List</div>
-          {listUsers}
+          <select name="clinic" value={this.state.clinicID} onChange={this.handleChange.bind(this)}>
+            {ListItem.refreshClinics(this.state.clinics)}
+          </select>
+          <div>Dentist List</div>
+          <ul>
+          {ListItem.refreshDentists(this.state.dentists,this.state.users)}
+          </ul>
+          <div>Treatment List</div>
+          <select name="treatment" value={this.state.treatmentID} onChange={this.handleChange.bind(this)}>
+          {ListItem.refreshTreatments(this.state.treatments)}
+          </select>
+          <div>Timeslot List</div>
+          <ul>
+          {ListItem.refreshTimeslots(this.state.timeslots,this.state.dentists,this.state.users)}
+          </ul>
         </Container>
       </PageContainer>
     );
