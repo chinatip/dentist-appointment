@@ -1,20 +1,36 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Route } from 'react-router-dom';
 
-import { ClinicNavigation } from 'common';
+import Navigation from './components/Navigation';
+import Status from './features/status';
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+  display: flex;
+`;
+const InnerContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+`;
+
+const Title = styled.div`
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 20px;
 `;
 
 class Index extends Component {
   render() {
     return (
       <Container>
-        <ClinicNavigation />
-      </Container>
+        <Navigation />
+        <InnerContainer>
+          <Title>Status1</Title>
+          <Status />
+        </InnerContainer>
+    </Container>
     );
   }
 }
