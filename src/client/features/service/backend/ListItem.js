@@ -1,4 +1,7 @@
 import React from 'react'
+var dateList = [],dates=[];
+
+
 function refreshClinics(data){
     let listItems = null;
     let root;
@@ -7,6 +10,7 @@ function refreshClinics(data){
       listItems = data.map((d,id) => <option value={id+1} key={id}>{d.name}</option>);
       root = data[0].name;
     }
+    if(listItems == null) return <option value="-1">none</option>
     return listItems;
   }
 
@@ -22,6 +26,7 @@ function refreshTreatments(data){
         </option>
       );
     }
+    if(listTreatments == null) return <option value="-1">none</option>
     return listTreatments;
   }
 
@@ -37,6 +42,7 @@ function refreshDentists(data,users){
         );
       }
     }
+    if(listDentists== null) return <option value="-1">none</option>
     return listDentists;
   }
 
@@ -51,28 +57,58 @@ function refreshPatients(data,users){
           </option>
         );
       }
+      if(listPatients == null) return <option value="-1">none</option>
       return listPatients;
     }
   }
 
-function refreshTimeslots(data,dentists,users){
+
+
+
+function refreshTimeslots(data,dentists){
+    // var a = JSON.parse(dentists);
+
     let listTimeslots = null;
-      if(data && data.length > 0){
-        console.log("Timeslot",data);
-        console.log('Users',users)
-        if(dentists && dentists.length > 0){
-          console.log("Timeslot dent",dentists,users);
-        listTimeslots = data.map( (d,id) => 
-        <li key={id}>
-          {users[dentists[d.dentist_id-1].person_id-1].firstname+":"+d.startTime.split("T")[1].split("Z")[0]+"-"+d.endTime.split("T")[1].split("Z")[0]}
-          <button>Pick</button>
-        </li>
-      );
+      for(let i = 0 ; dentists && i< dentists.length ; i++){
+        if(data && data.length > 0){
+          listTimeslots = data.map((d,id) => (
+            (d.dentist_id === dentists[i].person_id) ?
+            (<li key={id}>
+            {d.dentist_id +": "+d.startTime.split("T")[1].split("Z")[0]+"-"+d.endTime.split("T")[1].split("Z")[0]}
+            <button>Pick</button>
+            </li>) : ""
+          ))
+        }
       }
-    }
+    if(listTimeslots == null) return <option value="-1">none</option>  
     return listTimeslots;
   }
 
+  function updateDates(newItem){
+    console.log(newItem,dateList.indexOf(newItem))
+    if(dateList.indexOf(newItem) < 0 ) {
+
+      dateList.push(newItem)
+      dates.push(<option value={newItem}>{newItem}</option>)
+    }
+  }
+
+  function refreshDateLists(data){
+    // var a = JSON.parse(dentists);
+
+    if(data && data.length > 0){
+      data.map( (d,id) => 
+        updateDates(d.startTime.split("T")[0]))
+    }
+    // if(listDates == null) return <option value="-1">none</option>  
+    return dates;
+  }
+
   export default {
-    refreshClinics,refreshDentists,refreshPatients,refreshTimeslots,refreshTreatments
+    refreshClinics,
+    refreshDentists,
+    refreshPatients,
+    refreshTimeslots,
+    refreshTreatments,
+    refreshDateLists
   }

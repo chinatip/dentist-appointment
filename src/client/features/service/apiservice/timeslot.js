@@ -1,11 +1,18 @@
 //Service for Timeslot
 const apiURL = `http://35.198.239.97:8000`
-export function fetchTimeslots(date,dentist){
-    const URL = apiURL+"/api/timeslots/?startDate="+date+"&dentist="+dentist;
+export function fetchTimeslotsByDate(date){
+    const URL = apiURL+"/api/timeslots/?startDate="+date;
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
 
-  }
+}
+
+export function fetchTimeslots(){
+  const URL = apiURL+"/api/timeslots/";
+  return fetch(URL, { method: 'GET'})
+      .then((response) => response.json())
+
+}
 
 export function createTimeslot(newTimeslot){
     const URL = apiURL+"/api/timeslots/";

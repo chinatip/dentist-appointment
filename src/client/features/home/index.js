@@ -9,7 +9,7 @@ import {fetchUsers} from '../service/apiservice/user';
 import {fetchDentists} from '../service/apiservice/dentist';
 import {fetchPatients} from '../service/apiservice/patient';
 import {fetchTreatments} from '../service/apiservice/treatment';
-import {fetchTimeslots} from '../service/apiservice/timeslot';
+import {fetchTimeslotsByDate, fetchTimeslots} from '../service/apiservice/timeslot';
 
 import ListItem from '../service/backend/ListItem';
 
@@ -36,19 +36,26 @@ class Index extends Component {
 
 	componentDidMount(){
       fetchClinics().then((clinics) => this.setState({ clinics: clinics }));
+      fetchTreatments().then((treatments) => this.setState({ treatments: treatments }))
+      
       fetchUsers().then((users) => this.setState({ users: users }));
       fetchDentists(this.state.clinic,this.state.treatment).then((dentists) => this.setState({ dentists: dentists }))
       fetchPatients().then((patients) => this.setState({ patients: patients }))
-      fetchTreatments().then((treatments) => this.setState({ treatments: treatments }))
-      fetchTimeslots("2018-02-23",this.state.clinic).then((timeslots) => this.setState({ timeslots: timeslots}))
+      
+      fetchTimeslots().then((dates) => this.setState({ dates: dates}))
+      fetchTimeslotsByDate(this.state.date).then((timeslots) => this.setState({ timeslots: timeslots}))
   }
 
   componentWillUpdate(nextProps, nextState) {
-        if(this.state.clinic != nextState.clinic){
-          if(this.state.treatment != nextState.treatment)
+
+        if(this.state.clinic != nextState.clinic || this.state.treatment != nextState.treatment){
           fetchDentists(nextState.clinic,nextState.treatment).then((dentists) => this.setState({ dentists: dentists }))
-          fetchTimeslots("2018-02-23",nextState.clinic).then((timeslots) => this.setState({ timeslots: timeslots}))
         }
+        if(this.state.date != nextState.date)
+        fetchTimeslotsByDate(nextState.date).then((timeslots) => this.setState({ timeslots: timeslots}))
+
+
+
   }
 
   handleClick(e){
@@ -69,17 +76,22 @@ class Index extends Component {
       <PageContainer title={'Home'}>
         <Container>
           <div>Clinic List</div>
-          <select name="clinic" value={this.state.clinicID} onChange={this.handleChange.bind(this)}>
+          <select name="clinic" value={this.state.clinic} onChange={this.handleChange.bind(this)}>
             {ListItem.refreshClinics(this.state.clinics)}
           </select>
           <div>Treatment List</div>
-          <select name="treatment" value={this.state.treatmentID} onChange={this.handleChange.bind(this)}>
+          <select name="treatment" value={this.state.treatment} onChange={this.handleChange.bind(this)}>
           {ListItem.refreshTreatments(this.state.treatments)}
           </select>
           <div>Dentist List</div>
           <ul>
           {ListItem.refreshDentists(this.state.dentists,this.state.users)}
           </ul>
+
+          <div>Date List</div>
+          <select name="date" value={this.state.date} onChange={this.handleChange.bind(this)}>
+          {ListItem.refreshDateLists(this.state.dates)}
+          </select>
 
           <div>Timeslot List</div>
           <ul>
