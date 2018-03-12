@@ -17,7 +17,7 @@ function refreshTreatments(data){
       if(data && data.length > 0){
         console.log("Treatment",data);
         listTreatments = data.map( (d,id) => 
-        <option key={id}>
+        <option value={id+1} key={id}>
           {d.treatment_name}
         </option>
       );

@@ -28,6 +28,7 @@ class Index extends Component {
       clinics: [],
       dentists: [],
       clinic: 1,
+      treatment: 1,
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -36,16 +37,18 @@ class Index extends Component {
 	componentDidMount(){
       fetchClinics().then((clinics) => this.setState({ clinics: clinics }));
       fetchUsers().then((users) => this.setState({ users: users }));
-      fetchDentists(this.state.clinic).then((dentists) => this.setState({ dentists: dentists }))
+      fetchDentists(this.state.clinic,this.state.treatment).then((dentists) => this.setState({ dentists: dentists }))
       fetchPatients().then((patients) => this.setState({ patients: patients }))
       fetchTreatments().then((treatments) => this.setState({ treatments: treatments }))
       fetchTimeslots("2018-02-23",this.state.clinic).then((timeslots) => this.setState({ timeslots: timeslots}))
   }
 
   componentWillUpdate(nextProps, nextState) {
-        if(this.state.clinic != nextState.clinic)
-          fetchDentists(nextState.clinic).then((dentists) => this.setState({ dentists: dentists }))
-
+        if(this.state.clinic != nextState.clinic){
+          if(this.state.treatment != nextState.treatment)
+          fetchDentists(nextState.clinic,nextState.treatment).then((dentists) => this.setState({ dentists: dentists }))
+          fetchTimeslots("2018-02-23",nextState.clinic).then((timeslots) => this.setState({ timeslots: timeslots}))
+        }
   }
 
   handleClick(e){
@@ -69,14 +72,15 @@ class Index extends Component {
           <select name="clinic" value={this.state.clinicID} onChange={this.handleChange.bind(this)}>
             {ListItem.refreshClinics(this.state.clinics)}
           </select>
-          <div>Dentist List</div>
-          <ul>
-          {ListItem.refreshDentists(this.state.dentists,this.state.users)}
-          </ul>
           <div>Treatment List</div>
           <select name="treatment" value={this.state.treatmentID} onChange={this.handleChange.bind(this)}>
           {ListItem.refreshTreatments(this.state.treatments)}
           </select>
+          <div>Dentist List</div>
+          <ul>
+          {ListItem.refreshDentists(this.state.dentists,this.state.users)}
+          </ul>
+
           <div>Timeslot List</div>
           <ul>
           {ListItem.refreshTimeslots(this.state.timeslots,this.state.dentists,this.state.users)}

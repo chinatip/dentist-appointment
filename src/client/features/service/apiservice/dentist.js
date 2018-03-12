@@ -1,7 +1,7 @@
   //Service for Dentist
   const apiURL = `http://35.198.239.97:8000`
-export function fetchDentists(clinic){
-    const URL = apiURL+"/api/dentists/?clinic="+clinic;
+export function fetchDentists(clinic,treatment){
+    const URL = apiURL+"/api/dentists/?clinic="+clinic+"&treatment="+treatment;
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
 
