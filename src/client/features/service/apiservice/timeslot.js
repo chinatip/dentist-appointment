@@ -1,6 +1,7 @@
 //Service for Timeslot
 const apiURL = `http://35.198.239.97:8000`
 export function fetchTimeslotsByDate(date){
+    console.log(date);
     const URL = apiURL+"/api/timeslots/?startDate="+date;
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())

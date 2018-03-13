@@ -19,7 +19,6 @@ function refreshClinics(data){
 function refreshTreatments(data){
     let listTreatments = null;
       if(data && data.length > 0){
-        console.log("Treatment",data);
         listTreatments = data.map( (d,id) => 
         <option value={id+1} key={id}>
           {d.treatment_name}
@@ -85,12 +84,15 @@ function refreshTimeslots(data,dentists){
   }
 
   function updateDates(newItem){
-    console.log(newItem,dateList.indexOf(newItem))
     if(dateList.indexOf(newItem) < 0 ) {
 
       dateList.push(newItem)
-      dates.push(<option value={newItem}>{newItem}</option>)
+      dates.push(<option key={dateList.length} value={newItem}>{newItem}</option>)
     }
+  }
+
+  function getDates(){
+    return dateList;
   }
 
   function refreshDateLists(data){
@@ -110,5 +112,6 @@ function refreshTimeslots(data,dentists){
     refreshPatients,
     refreshTimeslots,
     refreshTreatments,
-    refreshDateLists
+    refreshDateLists,
+    getDates
   }
