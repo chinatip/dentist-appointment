@@ -36,7 +36,7 @@ function refreshDentists(data,users){
       if(data && data.length > 0){
           listDentists = data.map( (d,id) => 
           <li key={data[id].person_id}>
-            {users[data[id].person_id-1].firstname}
+            {users[data[id].person_id-1].name}
           </li>
         );
       }
@@ -52,7 +52,7 @@ function refreshPatients(data,users){
       if(data && data.length > 0){
           listPatients = data.map( (d,id) => 
           <option key={data[id].person_id}>
-            {users[data[id].person_id-1].firstname}
+            {users[data[id].person_id-1].name}
           </option>
         );
       }
@@ -68,17 +68,17 @@ function refreshTimeslots(data,dentists){
     // var a = JSON.parse(dentists);
 
     let listTimeslots = null;
-      for(let i = 0 ; dentists && i< dentists.length ; i++){
-        if(data && data.length > 0){
-          listTimeslots = data.map((d,id) => (
-            (d.dentist_id === dentists[i].person_id) ?
-            (<li key={id}>
-            {d.dentist_id +": "+d.startTime.split("T")[1].split("Z")[0]+"-"+d.endTime.split("T")[1].split("Z")[0]}
-            <button>Pick</button>
-            </li>) : ""
-          ))
+    let timeslotFilter;
+        if(data && data.length > 0 && dentists && dentists.length > 0){
+          timeslotFilter = ("TEST",data.filter( slotTime => dentists.map(dentist =>dentist.id).indexOf(slotTime.dentist_id) >= 0));
+          listTimeslots = timeslotFilter.map((d,id) => <li key={id}>
+          {d.dentist_id +": "+d.startTime.split("T")[1].split("Z")[0]+"-"+d.endTime.split("T")[1].split("Z")[0]}
+          <button>Pick</button>
+          </li>)
+          
         }
-      }
+        
+    //   console.log("TEST :",listTimeslots);
     if(listTimeslots == null) return <option value="-1">none</option>  
     return listTimeslots;
   }
