@@ -7,6 +7,7 @@ import user from '../../../redux/user';
 import Fetcher from '../service/backend/FetcherWrapper';
 import ListItem from '../service/backend/ListItemWrapper';
 import Creator from '../service/backend/CreatorWrapper';
+import Updater from '../service/backend/UpdaterWrapper';
 
 const Container = styled.div`
   
@@ -24,6 +25,8 @@ class Index extends Component {
       dentists: [],
       clinic: 1,
       treatment: 1,
+      clinicName: '',
+      clinicAddress: '',
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -39,7 +42,10 @@ class Index extends Component {
       
       Fetcher.fetchTimeslots().then((dates) => this.setState({ dates: dates}))
       Fetcher.fetchTimeslotsByDate(this.state.date).then((timeslots) => this.setState({ timeslots: timeslots}))
-  }
+
+
+
+    }
 
   componentWillUpdate(nextProps, nextState) {
 
@@ -48,7 +54,6 @@ class Index extends Component {
         }
         if(this.state.date != nextState.date)
         Fetcher.fetchTimeslotsByDate(nextState.date).then((timeslots) => this.setState({ timeslots: timeslots}))
-
 
 
   }
@@ -62,6 +67,19 @@ class Index extends Component {
     let val = event.target.value;
     this.setState({[key]: val});
     console.log("Will :",key,val);
+  }
+
+
+
+  handleSubmit(event) {
+    console.log('INPUT: ', this.state.clinicName,this.state.clinicAddress);
+    let newClinic = {
+      "name":this.state.clinicName,
+      "address": this.state.clinicAddress
+    };
+    console.log()
+    Creator.createClinic(newClinic);
+    event.preventDefault();
   }
 
 
@@ -92,6 +110,27 @@ class Index extends Component {
           <ul>
           {ListItem.refreshTimeslots(this.state.timeslots,this.state.dentists,this.state.users)}
           </ul>
+
+          <form onSubmit={this.handleSubmit.bind(this)}>
+            <label>
+              name:
+              <input
+                name="clinicName"
+                value={this.state.clinicName}
+                onChange={this.handleChange.bind(this)} />
+            </label>
+            <br />
+            <label>
+              address:
+              <input
+                name="clinicAddress"
+                value={this.state.clinicAddress}
+                onChange={this.handleChange.bind(this)} />
+            </label>
+
+            <input type="submit" />
+          </form>
+
         </Container>
       </PageContainer>
     );

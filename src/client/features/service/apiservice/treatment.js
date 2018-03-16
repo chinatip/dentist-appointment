@@ -10,8 +10,12 @@ export function fetchTreatments(){
 export function createTreatment(newTreatment){
     const URL = apiURL+"/api/treatments/";
     return fetch(URL, {
-            method: 'post',
-            body: newTreatment
+            method: 'POST',
+            body: JSON.stringify(newTreatment),
+            headers: {
+              "Content-Type": 'application/json',
+              "Accept": "application/json"
+            }
           }).then(function(response) {
             return response.json();
           })

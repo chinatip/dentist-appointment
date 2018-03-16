@@ -10,8 +10,12 @@ export function fetchAppointments(){
 export function createAppointment(newAppointment){
     const URL = apiURL+"/api/appointments/";
     return fetch(URL, {
-            method: 'post',
-            body: newAppointment
+            method: 'POST',
+            body: JSON.stringify(newAppointment),
+            headers: {
+              "Content-Type": 'application/json',
+              "Accept": "application/json"
+            }
           }).then(function(response) {
             return response.json();
           })

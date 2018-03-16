@@ -11,8 +11,12 @@ export function fetchDentists(clinic,treatment){
   export function createDentist(newDentist){
     const URL = apiURL+"/api/dentists/";
     return fetch(URL, {
-            method: 'post',
-            body: newDentist
+            method: 'POST',
+            body: JSON.stringify(newDentist),
+            headers: {
+              "Content-Type": 'application/json',
+              "Accept": "application/json"
+            }
           }).then(function(response) {
             return response.json();
           })

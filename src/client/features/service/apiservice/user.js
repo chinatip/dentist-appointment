@@ -10,8 +10,12 @@ export function fetchUsers(){
 export function createUser(newUser){
     const URL = apiURL+"/api/users/";
     return fetch(URL, {
-            method: 'post',
-            body: newUser
+            method: 'POST',
+            body: JSON.stringify(newUser),
+            headers: {
+              "Content-Type": 'application/json',
+              "Accept": "application/json"
+            }
           }).then(function(response) {
             return response.json();
           })

@@ -10,8 +10,12 @@ export function fetchPatients(){
 export function createPatient(newPatient){
     const URL = apiURL+"/api/patients/";
     return fetch(URL, {
-            method: 'post',
-            body: newPatient
+            method: 'POST',
+            body: JSON.stringify(newPatient),
+            headers: {
+              "Content-Type": 'application/json',
+              "Accept": "application/json"
+            }
           }).then(function(response) {
             return response.json();
           })

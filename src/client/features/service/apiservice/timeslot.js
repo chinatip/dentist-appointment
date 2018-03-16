@@ -18,8 +18,12 @@ export function fetchTimeslots(){
 export function createTimeslot(newTimeslot){
     const URL = apiURL+"/api/timeslots/";
     return fetch(URL, {
-            method: 'post',
-            body: newTimeslot
+            method: 'POST',
+            body: JSON.stringify(newTimeslot),
+            headers: {
+              "Content-Type": 'application/json',
+              "Accept": "application/json"
+            }
           }).then(function(response) {
             return response.json();
           })

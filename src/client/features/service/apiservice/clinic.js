@@ -9,8 +9,12 @@ const apiURL = `http://35.198.239.97:8000`
   export function createClinic(newClinic){
     const URL = apiURL+"/api/clinics/";
     return fetch(URL, {
-            method: 'post',
-            body: newClinic
+            method: 'POST',
+            body: JSON.stringify(newClinic),
+            headers: {
+              "Content-Type": 'application/json',
+              "Accept": "application/json"
+            }
           }).then(function(response) {
             return response.json();
           })
