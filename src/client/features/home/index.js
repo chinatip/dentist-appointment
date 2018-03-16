@@ -77,7 +77,6 @@ class Index extends Component {
       "name":this.state.clinicName,
       "address": this.state.clinicAddress
     };
-    console.log()
     Creator.createClinic(newClinic);
     event.preventDefault();
   }
