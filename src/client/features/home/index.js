@@ -4,14 +4,9 @@ import styled, { withTheme } from 'styled-components';
 import PageContainer from 'client/components/PageContainer';
 import user from '../../../redux/user';
 
-import {fetchClinics} from '../service/apiservice/clinic';
-import {fetchUsers} from '../service/apiservice/user';
-import {fetchDentists} from '../service/apiservice/dentist';
-import {fetchPatients} from '../service/apiservice/patient';
-import {fetchTreatments} from '../service/apiservice/treatment';
-import {fetchTimeslotsByDate, fetchTimeslots} from '../service/apiservice/timeslot';
-
-import ListItem from '../service/backend/ListItem';
+import Fetcher from '../service/backend/FetcherWrapper';
+import ListItem from '../service/backend/ListItemWrapper';
+import Creator from '../service/backend/CreatorWrapper';
 
 const Container = styled.div`
   
@@ -35,24 +30,24 @@ class Index extends Component {
 
 
 	componentDidMount(){
-      fetchClinics().then((clinics) => this.setState({ clinics: clinics }));
-      fetchTreatments().then((treatments) => this.setState({ treatments: treatments }))
+      Fetcher.fetchClinics().then((clinics) => this.setState({ clinics: clinics }));
+      Fetcher.fetchTreatments().then((treatments) => this.setState({ treatments: treatments }))
       
-      fetchUsers().then((users) => this.setState({ users: users }));
-      fetchDentists(this.state.clinic,this.state.treatment).then((dentists) => this.setState({ dentists: dentists }))
-      fetchPatients().then((patients) => this.setState({ patients: patients }))
+      Fetcher.fetchUsers().then((users) => this.setState({ users: users }));
+      Fetcher.fetchDentists(this.state.clinic,this.state.treatment).then((dentists) => this.setState({ dentists: dentists }))
+      Fetcher.fetchPatients().then((patients) => this.setState({ patients: patients }))
       
-      fetchTimeslots().then((dates) => this.setState({ dates: dates}))
-      fetchTimeslotsByDate(this.state.date).then((timeslots) => this.setState({ timeslots: timeslots}))
+      Fetcher.fetchTimeslots().then((dates) => this.setState({ dates: dates}))
+      Fetcher.fetchTimeslotsByDate(this.state.date).then((timeslots) => this.setState({ timeslots: timeslots}))
   }
 
   componentWillUpdate(nextProps, nextState) {
 
         if(this.state.clinic != nextState.clinic || this.state.treatment != nextState.treatment){
-          fetchDentists(nextState.clinic,nextState.treatment).then((dentists) => this.setState({ dentists: dentists }))
+          Fetcher.fetchDentists(nextState.clinic,nextState.treatment).then((dentists) => this.setState({ dentists: dentists }))
         }
         if(this.state.date != nextState.date)
-        fetchTimeslotsByDate(nextState.date).then((timeslots) => this.setState({ timeslots: timeslots}))
+        Fetcher.fetchTimeslotsByDate(nextState.date).then((timeslots) => this.setState({ timeslots: timeslots}))
 
 
 
