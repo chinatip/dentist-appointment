@@ -22,13 +22,13 @@ export function createUser(newUser){
   }
 
 export function getUser(id){
-    const URL = apiURL+"/api/users/"+id;
+    const URL = apiURL+"/api/users/"+id+"/";
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
   }
 
   export function updateUser(id,newUser){
-    const URL = apiURL+"/api/users/"+id;
+    const URL = apiURL+"/api/users/"+id+"/";
     return fetch(URL,  {
               method: 'PUT',
               body: {newUser}

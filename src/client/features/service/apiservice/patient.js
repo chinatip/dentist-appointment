@@ -22,13 +22,13 @@ export function createPatient(newPatient){
   }
 
 export function getPatient(id){
-    const URL = apiURL+"/api/patients/"+id;
+    const URL = apiURL+"/api/patients/"+id+"/";
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
   }
 
 export function updatePatient(id,newPatient){
-    const URL = apiURL+"/api/patients/"+id;
+    const URL = apiURL+"/api/patients/"+id+"/";
     return fetch(URL,  {
               method: 'PUT',
               body: {newPatient}

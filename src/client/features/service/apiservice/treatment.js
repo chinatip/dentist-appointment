@@ -22,13 +22,13 @@ export function createTreatment(newTreatment){
   }
 
 export function getTreatment(id){
-    const URL = apiURL+"/api/treatments/"+id;
+    const URL = apiURL+"/api/treatments/"+id+"/";
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
   }
 
   export function updateTreatment(id,newTreatment){
-    const URL = apiURL+"/api/treatments/"+id;
+    const URL = apiURL+"/api/treatments/"+id+"/";
     return fetch(URL,  {
               method: 'PUT',
               body: {newTreatment}

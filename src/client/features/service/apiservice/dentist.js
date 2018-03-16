@@ -23,13 +23,13 @@ export function fetchDentists(clinic,treatment){
   }
 
 export function getDentist(id){
-    const URL = apiURL+"/api/dentists/"+id;
+    const URL = apiURL+"/api/dentists/"+id+"/";
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
   }
 
 export function updateDentist(id,newDentist){
-    const URL = apiURL+"/api/dentists/"+id;
+    const URL = apiURL+"/api/dentists/"+id+"/";
     return fetch(URL,  {
               method: 'PUT',
               body: {newDentist}

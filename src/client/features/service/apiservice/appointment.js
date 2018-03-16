@@ -22,13 +22,13 @@ export function createAppointment(newAppointment){
   }
 
 export function getAppointment(id){
-    const URL = apiURL+"/api/appointments/"+id;
+    const URL = apiURL+"/api/appointments/"+id+"/";
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
   }
 
 export function updateAppointment(id,newAppointment){
-    const URL = apiURL+"/api/appointments/"+id;
+    const URL = apiURL+"/api/appointments/"+id+"/";
     return fetch(URL,  {
               method: 'PUT',
               body: {newAppointment}

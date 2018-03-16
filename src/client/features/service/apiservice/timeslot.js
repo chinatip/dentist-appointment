@@ -30,13 +30,13 @@ export function createTimeslot(newTimeslot){
   }
 
 export function getTimeslot(id){
-    const URL = apiURL+"/api/timeslots/"+id;
+    const URL = apiURL+"/api/timeslots/"+id+"/";
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
   }
 
   export function updateTimeslot(id,newTimeslot){
-    const URL = apiURL+"/api/timeslots/"+id;
+    const URL = apiURL+"/api/timeslots/"+id+"/";
     return fetch(URL,  {
               method: 'PUT',
               body: {newTimeslot}
