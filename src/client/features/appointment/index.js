@@ -148,9 +148,8 @@ class Index extends Component {
   render() {
     const { clinics } = this.props;
     
-    if (!clinics) {
-      return <noscript />
-    }
+    return <noscript />
+    
 
     return (
       <PageContainer title={'Appointment'}>

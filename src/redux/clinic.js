@@ -1,4 +1,6 @@
 import { CLINICS } from './const';
+import { API_URL } from 'service/const';
+
 
 const CREATE = 'CREATE';
 const UPDATE = 'UPDATE';
@@ -18,7 +20,15 @@ export default (state = initialState, action = {}) => {
 }
 
 export const loadClinics = (state) => {
-  return state.clinic.clinics;
+  return async dispatch => {
+    try {
+      const data = await load_clinics();
+      console.log('try', data)
+      dispatch(data)
+    } catch (e) {
+      console.log('error')
+    }
+  }
 }
 
 export const createClinic = (clinic) => {
@@ -31,4 +41,18 @@ export const updateClinic = (clinic) => {
 
 export const removeClinic = () => {
   return { type: REMOVE };
+}
+
+const URL = API_URL + '/api/clinics/';
+
+export function getClinics(){
+  return fetch(URL, { method: 'GET'})
+    .then((response) => response.json())
+}
+
+export const load_clinics = async () => {
+  const response = await fetch(URL, { method: 'GET'})
+  console.log('load_clinics',  response.json())
+
+  return response.json();
 }
