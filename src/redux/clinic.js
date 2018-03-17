@@ -17,7 +17,7 @@ export default (state = initialState, action = {}) => {
   }
 }
 
-export const getClinics = (state) => {
+export const loadClinics = (state) => {
   return state.clinic.clinics;
 }
 

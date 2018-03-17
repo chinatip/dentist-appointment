@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import PageContainer from 'client/components/PageContainer';
-import Updater from '../service/backend/UpdaterWrapper';
-import Fetcher from '../service/backend/FetcherWrapper';
-import ListItem from '../service/backend/ListItemWrapper';
-import Getter from '../service/backend/GetterWrapper';
-import Deleter from '../service/backend/DeleteWrapper';
+import Updater from 'service/backend/UpdaterWrapper';
+import Fetcher from 'service/backend/FetcherWrapper';
+import ListItem from 'service/backend/ListItemWrapper';
+import Getter from 'service/backend/GetterWrapper';
+import Deleter from 'service/backend/DeleteWrapper';
 
 
 
@@ -24,8 +24,6 @@ class Index extends Component {
       clinicAddress: 'none',
       currClinic: null
     }
-
-
   }
 
 	componentDidMount(){
@@ -36,15 +34,14 @@ class Index extends Component {
 
   }
 
-componentWillUpdate(nextProps, nextState) {
+  componentWillUpdate(nextProps, nextState) {
 
-  if(this.state.clinic != nextState.clinic){
-    Getter.getClinic(nextState.clinic).then((clinic) => this.setState({ clinicName: clinic.name,
-    clinicAddress: clinic.address }));
+    if(this.state.clinic != nextState.clinic){
+      Getter.getClinic(nextState.clinic).then((clinic) => this.setState({ clinicName: clinic.name,
+      clinicAddress: clinic.address }));
+    }
+
   }
-
-}
-
 
   handleChange(event){
     let key = event.target.name;
@@ -52,8 +49,6 @@ componentWillUpdate(nextProps, nextState) {
     this.setState({[key]: val});
     console.log("Will :",key,val);
   }
-
-
 
   handleSubmit(event) {
     console.log('INPUT: ', this.state.clinicName,this.state.clinicAddress);
@@ -69,8 +64,6 @@ componentWillUpdate(nextProps, nextState) {
     }
     event.preventDefault();
   }
-
-
 
   render() {
 

@@ -1,22 +1,22 @@
-//Service for Timeslot
-const apiURL = `http://35.198.239.97:8000`
+import { API_URL } from 'service/const';
+
 export function fetchTimeslotsByDate(date){
     console.log(date);
-    const URL = apiURL+"/api/timeslots/?startDate="+date;
+    const URL = API_URL+"/api/timeslots/?startDate="+date;
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
 
 }
 
 export function fetchTimeslots(){
-  const URL = apiURL+"/api/timeslots/";
+  const URL = API_URL+"/api/timeslots/";
   return fetch(URL, { method: 'GET'})
       .then((response) => response.json())
 
 }
 
 export function createTimeslot(newTimeslot){
-    const URL = apiURL+"/api/timeslots/";
+    const URL = API_URL+"/api/timeslots/";
     return fetch(URL, {
             method: 'POST',
             body: JSON.stringify(newTimeslot),
@@ -30,13 +30,13 @@ export function createTimeslot(newTimeslot){
   }
 
 export function getTimeslot(id){
-    const URL = apiURL+"/api/timeslots/"+id+"/";
+    const URL = API_URL+"/api/timeslots/"+id+"/";
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
   }
 
   export function updateTimeslot(id,newTimeslot){
-    const URL = apiURL+"/api/timeslots/"+id+"/";
+    const URL = API_URL+"/api/timeslots/"+id+"/";
     return fetch(URL,  {
               method: 'PUT',
               body: {newTimeslot}

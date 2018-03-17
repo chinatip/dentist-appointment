@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Table from './Table';
 import PageContainer from 'client/components/PageContainer';
 import { getUser } from 'redux/user';
-import { getClinics } from 'redux/clinic';
+import { loadClinics } from 'redux/clinic';
 import { createAppointment } from 'redux/appointment';
 import { DatePicker, Select, Button, Modal } from 'common';
 
@@ -78,7 +78,7 @@ const ClinicSection = ({ clinic, date, treatmentType, treatment, showModal, opti
       </Col>
       <Col>
         <Select disabled={!clinic} value={treatmentType} options={renderSelectOptions(treatmentTypes, 'name')} onChange={onChange('treatmentType')} />
-        <Select disabled={!clinic || !treatmentType} value={treatment} options={renderSelectOptions(treatments, 'name')} onChange={onChange('treatment')} />:
+        <Select disabled={!clinic || !treatmentType} value={treatment} options={renderSelectOptions(treatments, 'name')} onChange={onChange('treatment')} />
         <Button value={'Find'} onClick={onChange('showTable')} />
       </Col>
     </OptionContainer>
@@ -146,6 +146,12 @@ class Index extends Component {
   }
 
   render() {
+    const { clinics } = this.props;
+    
+    if (!clinics) {
+      return <noscript />
+    }
+
     return (
       <PageContainer title={'Appointment'}>
         <Container>
@@ -162,7 +168,7 @@ export default connect(
   state => {
     return {
       user: getUser(state),
-      clinics: getClinics(state),
+      clinics: loadClinics(state),
     }
   },
   { createAppointment }

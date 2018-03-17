@@ -1,14 +1,14 @@
-  //Service for Patient
-const apiURL = `http://35.198.239.97:8000`
+import { API_URL } from 'service/const';
+
 export function fetchPatients(){
-    const URL = apiURL+"/api/patients/";
+    const URL = API_URL+"/api/patients/";
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
 
   }
 
 export function createPatient(newPatient){
-    const URL = apiURL+"/api/patients/";
+    const URL = API_URL+"/api/patients/";
     return fetch(URL, {
             method: 'POST',
             body: JSON.stringify(newPatient),
@@ -22,13 +22,13 @@ export function createPatient(newPatient){
   }
 
 export function getPatient(id){
-    const URL = apiURL+"/api/patients/"+id+"/";
+    const URL = API_URL+"/api/patients/"+id+"/";
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
   }
 
 export function updatePatient(id,newPatient){
-    const URL = apiURL+"/api/patients/"+id+"/";
+    const URL = API_URL+"/api/patients/"+id+"/";
     return fetch(URL,  {
               method: 'PUT',
               body: {newPatient}

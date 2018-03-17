@@ -2,18 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled, { withTheme } from 'styled-components';
 import PageContainer from 'client/components/PageContainer';
-import user from '../../../redux/user';
+import user from 'redux/user';
 
-import Fetcher from '../service/backend/FetcherWrapper';
-import ListItem from '../service/backend/ListItemWrapper';
-import Creator from '../service/backend/CreatorWrapper';
-import Updater from '../service/backend/UpdaterWrapper';
+import Fetcher from 'service/backend/FetcherWrapper';
+import ListItem from 'service/backend/ListItemWrapper';
+import Creator from 'service/backend/CreatorWrapper';
+import Updater from 'service/backend/UpdaterWrapper';
 
 const Container = styled.div`
   
 `;
-
-
 
 class Index extends Component {
 
@@ -31,31 +29,24 @@ class Index extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-
 	componentDidMount(){
-      Fetcher.fetchClinics().then((clinics) => this.setState({ clinics: clinics }));
-      Fetcher.fetchTreatments().then((treatments) => this.setState({ treatments: treatments }))
-      
-      Fetcher.fetchUsers().then((users) => this.setState({ users: users }));
-      Fetcher.fetchDentists(this.state.clinic,this.state.treatment).then((dentists) => this.setState({ dentists: dentists }))
-      Fetcher.fetchPatients().then((patients) => this.setState({ patients: patients }))
-      
-      Fetcher.fetchTimeslots().then((dates) => this.setState({ dates: dates}))
-      Fetcher.fetchTimeslotsByDate(this.state.date).then((timeslots) => this.setState({ timeslots: timeslots}))
-
-
-
-    }
+    Fetcher.fetchClinics().then((clinics) => this.setState({ clinics: clinics }));
+    Fetcher.fetchTreatments().then((treatments) => this.setState({ treatments: treatments }))
+    
+    Fetcher.fetchUsers().then((users) => this.setState({ users: users }));
+    Fetcher.fetchDentists(this.state.clinic,this.state.treatment).then((dentists) => this.setState({ dentists: dentists }))
+    Fetcher.fetchPatients().then((patients) => this.setState({ patients: patients }))
+    
+    Fetcher.fetchTimeslots().then((dates) => this.setState({ dates: dates}))
+    Fetcher.fetchTimeslotsByDate(this.state.date).then((timeslots) => this.setState({ timeslots: timeslots}))
+  }
 
   componentWillUpdate(nextProps, nextState) {
-
-        if(this.state.clinic != nextState.clinic || this.state.treatment != nextState.treatment){
-          Fetcher.fetchDentists(nextState.clinic,nextState.treatment).then((dentists) => this.setState({ dentists: dentists }))
-        }
-        if(this.state.date != nextState.date)
-        Fetcher.fetchTimeslotsByDate(nextState.date).then((timeslots) => this.setState({ timeslots: timeslots}))
-
-
+    if (this.state.clinic != nextState.clinic || this.state.treatment != nextState.treatment){
+      Fetcher.fetchDentists(nextState.clinic,nextState.treatment).then((dentists) => this.setState({ dentists: dentists }))
+    }
+    if (this.state.date != nextState.date)
+    Fetcher.fetchTimeslotsByDate(nextState.date).then((timeslots) => this.setState({ timeslots: timeslots}))
   }
 
   handleClick(e){
@@ -69,8 +60,6 @@ class Index extends Component {
     console.log("Will :",key,val);
   }
 
-
-
   handleSubmit(event) {
     console.log('INPUT: ', this.state.clinicName,this.state.clinicAddress);
     let newClinic = {
@@ -80,8 +69,6 @@ class Index extends Component {
     Creator.createClinic(newClinic);
     event.preventDefault();
   }
-
-
 
   render() {    
     return (
@@ -135,21 +122,6 @@ class Index extends Component {
     );
   }
 }
-
-// function mapClinicStateToProps(state){
-// 	return {
-//     clinics: state.clinics,
-//   }
-// }
-
-// function mapStateToProps(state){
-//   console.log("MAP USER",state.users)
-//   console.log("MAP CLINIC",state.clinics)
-//   return {
-//     users: state.users,
-//   }
-// }
-
 
 export default Index;
 

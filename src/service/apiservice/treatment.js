@@ -1,17 +1,17 @@
-//Service for User
-const apiURL = `http://35.198.239.97:8000`
-export function fetchUsers(){
-    const URL = apiURL+"/api/users/";
+import { API_URL } from 'service/const';
+
+export function fetchTreatments(){
+    const URL = API_URL + "/api/treatments/";
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
 
   }
 
-export function createUser(newUser){
-    const URL = apiURL+"/api/users/";
+export function createTreatment(newTreatment){
+    const URL = API_URL + "/api/treatments/";
     return fetch(URL, {
             method: 'POST',
-            body: JSON.stringify(newUser),
+            body: JSON.stringify(newTreatment),
             headers: {
               "Content-Type": 'application/json',
               "Accept": "application/json"
@@ -21,17 +21,17 @@ export function createUser(newUser){
           })
   }
 
-export function getUser(id){
-    const URL = apiURL+"/api/users/"+id+"/";
+export function getTreatment(id){
+    const URL = API_URL + "/api/treatments/" + id + "/";
     return fetch(URL, { method: 'GET'})
         .then((response) => response.json())
   }
 
-  export function updateUser(id,newUser){
-    const URL = apiURL+"/api/users/"+id+"/";
+  export function updateTreatment(id,newTreatment){
+    const URL = API_URL + "/api/treatments/" + id + "/";
     return fetch(URL,  {
               method: 'PUT',
-              body: {newUser}
+              body: {newTreatment}
           })
           .then(response => response.json())
   }
