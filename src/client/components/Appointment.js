@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import Table from './Table';
+import Table from './AppointmentTable';
 import PageContainer from 'client/components/PageContainer';
 import { getUser } from 'redux/user';
 import { loadClinics } from 'redux/clinic';

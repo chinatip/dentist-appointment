@@ -8,8 +8,6 @@ import ListItem from 'service/backend/ListItemWrapper';
 import Getter from 'service/backend/GetterWrapper';
 import Deleter from 'service/backend/DeleteWrapper';
 
-
-
 const Container = styled.div`
   
 `;
