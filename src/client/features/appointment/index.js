@@ -31,7 +31,7 @@ const TableContainer = styled.div`
 const TableMenuContainer = styled.div`
 
 `;
-
+ 
 const renderSelectOptions = (selects, fieldValue, fieldLabel) => {
   if (!selects || selects.length < 1) {
     return [];
@@ -107,6 +107,10 @@ class Index extends Component {
     };
   }
 
+  componentDidMount () {
+    this.props.loadClinics()
+  }
+
   updateClinic = (clinicId) => {
     const { clinics } = this.props;
     const clinic = clinics.filter((c) => c.id === clinicId)[0];
@@ -148,6 +152,7 @@ class Index extends Component {
   render() {
     const { clinics } = this.props;
     
+    console.log(clinics)
     return <noscript />
     
 
@@ -167,8 +172,8 @@ export default connect(
   state => {
     return {
       user: getUser(state),
-      clinics: loadClinics(state),
+      clinics: state.clinic
     }
   },
-  { createAppointment }
+  { loadClinics, createAppointment }
 )(Index);

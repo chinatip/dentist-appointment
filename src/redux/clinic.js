@@ -13,18 +13,17 @@ const initialState = {
 export default (state = initialState, action = {}) => {
   switch (action.type) {
     case UPDATE:
-      return { ...state, clinic: action.clinic  };
+      return { ...state, clinic: action.clinics  };
     default: 
       return state;
   }
 }
 
-export const loadClinics = (state) => {
+export const loadClinics = () => {
   return async dispatch => {
     try {
-      const data = await load_clinics();
-      console.log('try', data)
-      dispatch(data)
+      const clinics = await load_clinics();
+      dispatch({ type: UPDATE, clinics });
     } catch (e) {
       console.log('error')
     }
@@ -35,8 +34,8 @@ export const createClinic = (clinic) => {
   return { type: CREATE, clinic };
 }
 
-export const updateClinic = (clinic) => {
-  return { type: UPDATE, clinic };
+export const updateClinic = (clinics) => {
+  return { type: UPDATE, clinics };
 }
 
 export const removeClinic = () => {
@@ -44,11 +43,6 @@ export const removeClinic = () => {
 }
 
 const URL = API_URL + '/api/clinics/';
-
-export function getClinics(){
-  return fetch(URL, { method: 'GET'})
-    .then((response) => response.json())
-}
 
 export const load_clinics = async () => {
   const response = await fetch(URL, { method: 'GET'})

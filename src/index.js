@@ -16,7 +16,7 @@ import registerServiceWorker from './registerServiceWorker';
 const middlewares = [thunk];
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-let store = createStore(reducer, {},  composeEnhancers(applyMiddleware(...middlewares)));
+let store = createStore(reducer, {}, composeEnhancers(applyMiddleware(...middlewares)));
 
 const Container = styled.div`
   width: 100vw;
