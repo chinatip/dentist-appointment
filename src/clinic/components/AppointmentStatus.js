@@ -1,5 +1,7 @@
 import React from 'react';
+import { compose } from 'recompose';
 
+import { LOADER, FETCH_TABLE } from 'services';
 import { Table, Button } from 'common';
 
 const getTableData = () => {
@@ -45,8 +47,17 @@ const getTableData = () => {
   return { columns, dataSource };
 };
 
-export default ({ timeSlots, onClick }) => {
+const Index = (props) => {
+  console.log(props)
   const { columns, dataSource } = getTableData();
 
   return <Table columns={columns} dataSource={dataSource} />;
 };
+
+const enhance = compose(
+  LOADER,
+  FETCH_TABLE('appointments'),
+  FETCH_TABLE('timeslots'),
+)
+
+export default enhance(Index);

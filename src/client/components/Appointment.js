@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -9,6 +10,8 @@ import { loadClinics } from 'redux/clinic';
 import { createAppointment } from 'redux/appointment';
 import { DatePicker, Select, Button, Modal } from 'common';
 
+// https://github.com/ericclemmons/react-resolver/issues/72
+// https://github.com/ericclemmons/react-resolver/blob/master/examples/react-v15/src/components/Stargazers.js#L8
 const timeSlots = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 
 const Container = styled.div`
@@ -108,7 +111,12 @@ class Index extends Component {
   }
 
   componentDidMount () {
-    this.props.loadClinics()
+    this.props.loadClinics().then(() => {
+      console.log('===========================')
+      // this.setState({
+
+      // })
+    })
   }
 
   updateClinic = (clinicId) => {
@@ -153,8 +161,8 @@ class Index extends Component {
     const { clinics } = this.props;
     
     console.log(clinics)
-    return <noscript />
-    
+    // return / <noscript />
+    if (!clinics) return null
 
     return (
       <PageContainer title={'Appointment'}>
@@ -172,7 +180,8 @@ export default connect(
   state => {
     return {
       user: getUser(state),
-      clinics: state.clinic
+      clinics: _.get(state, 'clinic.clinics'),
+      loading: _.get(state, 'clinic.loading')
     }
   },
   { loadClinics, createAppointment }

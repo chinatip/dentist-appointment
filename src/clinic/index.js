@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import Navigation from './components/Navigation';
-import Status from './components/Status';
+import AppointmentStatus from './components/AppointmentStatus';
 
 const Container = styled.div`
   width: 100%;
@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 const InnerContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 600px;
   padding: 20px;
 `;
 
@@ -28,7 +28,7 @@ class Index extends Component {
         <Navigation />
         <InnerContainer>
           <Title>Status1</Title>
-          <Status />
+          <AppointmentStatus />
         </InnerContainer>
     </Container>
     );

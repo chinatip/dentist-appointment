@@ -4,6 +4,7 @@ import Table from './Table';
 import Button from './Button';
 import Select from './Select';
 import Modal from './Modal';
+import Loader from './Loader';
 
 export { 
   Calendar, 
@@ -12,4 +13,5 @@ export {
   Button,
   Select,
   Modal,
+  Loader,
 };

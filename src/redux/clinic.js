@@ -22,8 +22,10 @@ export default (state = initialState, action = {}) => {
 export const loadClinics = () => {
   return async dispatch => {
     try {
+      dispatch({ type: 'UPDATE_LOADING', loading: true })
       const clinics = await load_clinics();
       dispatch({ type: UPDATE, clinics });
+      dispatch({ type: 'UPDATE_LOADING', loading: false })
     } catch (e) {
       console.log('error')
     }

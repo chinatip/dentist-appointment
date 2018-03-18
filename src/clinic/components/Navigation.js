@@ -18,16 +18,19 @@ class ClinicNavigation extends Component {
     return (
       <Container>
         <Menu
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
+          defaultSelectedKeys={['sub1-1']}
+          defaultOpenKeys={['sub1', 'sub2']}
           mode="inline"
           forceSubMenuRender={true}
           inlineCollapsed={false}
         >
-          <SubMenu key="sub1" title={<span><Icon type="calendar" /><span>Appointment</span></span>}>
-            <Menu.Item key="1">Overview</Menu.Item>
-            <Menu.Item key="2">Status</Menu.Item>
-            <Menu.Item key="3">Manage</Menu.Item>
+          <SubMenu key="sub1" title={<span><Icon type="calendar" /><span>นัดหมาย</span></span>}>
+            <Menu.Item key="sub1-1">สรุป</Menu.Item>
+            <Menu.Item key="sub1-2">สถานะ</Menu.Item>
+          </SubMenu>
+          <SubMenu key="sub2" title={<span><Icon type="calendar" /><span>จัดการ</span></span>}>
+            <Menu.Item key="sub2-1">ตารางเวลา</Menu.Item>
+            <Menu.Item key="sub2-2">ทันตแพทย์</Menu.Item>
           </SubMenu>
         </Menu>
       </Container>
