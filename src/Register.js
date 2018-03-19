@@ -21,7 +21,19 @@ const FormContainer = styled.div`
 
 class Login extends React.Component {
   applyFBData = (response) => {
-    console.log(response)
+    const { form } = this.props
+    const names = response.name.split(' ')
+    const name = names? names[0]: ''
+    const lastname = names && names.length > 1? names[1]: ''
+
+    form.setFields({
+      name: {
+        value: name
+      },
+      lastname: {
+        value: lastname
+      }
+    })
   }
 
 
