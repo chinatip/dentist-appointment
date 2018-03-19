@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
@@ -35,7 +35,8 @@ class App extends Component {
               <Route path="/appointment" component={Appointment} />
               <Route path="/contact" component={Contact} />
               <Route path="/login" component={Contact} />
-              <Route path="/clinic" component={Clinic} />
+              <Route exact path="/clinic" render={() => <Redirect to="/clinic/status" />} />
+              <Route path="/clinic/:type" component={Clinic} />
             </Switch>
           </Router>
         </Container>
