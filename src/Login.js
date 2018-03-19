@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Form, Icon, Input, Button, Checkbox } from 'antd'
 import styled from 'styled-components'
+import FacebookLogin from 'react-facebook-login'
+
+import { FB_APP_ID } from 'auth'
 
 const FormItem = Form.Item
 const Container = styled.div`
@@ -56,6 +59,14 @@ class Login extends React.Component {
             <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
           )}
         </FormItem>
+        <FacebookLogin
+          appId={FB_APP_ID}
+          autoLoad={true}
+          fields="name,email,picture"
+          callback={(res) => console.log(res)}
+          cssClass="my-facebook-button-class"
+          icon="fa-facebook"
+        />
         <FormItem>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',

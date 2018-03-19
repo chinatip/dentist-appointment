@@ -122,7 +122,7 @@ const formatTimetableTable = ({ timeslots, dentists, users }) => {
     }
   }];
 
-  _.range(9, 20).forEach((time) => {
+  _.range(9, 21).forEach((time) => {
     columns.push({
       title: `${time - 1} - ${time}`,
       dataIndex: time,
@@ -132,7 +132,7 @@ const formatTimetableTable = ({ timeslots, dentists, users }) => {
 
   const dataSource = dentists.map((dent, idx) => {
     const dentist = {}
-    _.range(9, 20).forEach((time) => {
+    _.range(9, 21).forEach((time) => {
       dentist[time] = 5
     })
     dentist.key = idx
