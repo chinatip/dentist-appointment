@@ -13,3 +13,20 @@ export const FETCH_TABLE = (table) => {
     return axios.get(url).then(({ data }) => data)
   })
 }
+
+export const CREATE_USER = (newPatient) => {
+  const URL = `${API_URL}patients`;
+
+  // fetch(URL, {
+  //   method: 'POST',
+  //   body: JSON.stringify(newPatient),
+  //   headers: {
+  //     "Content-Type": 'application/json',
+  //     "Accept": "application/json"
+  //   }
+  // }).then(function(response) {
+  //   return response.json();
+  // })
+
+  axios(URL, newPatient).then((response) => console.log(response))
+}
