@@ -1,6 +1,8 @@
 import React from 'react'
 import moment from 'moment'
 import _ from 'lodash'
+import styled from 'styled-components'
+import { withStateHandlers } from 'recompose'
 
 const DATE_FORMAT = 'DD MMM YYYY'
 const TIME_FORMAT = 'HH:mm'
@@ -97,6 +99,38 @@ export const formatStatus = (props) => {
 
 // --------------------------------- Manage TimeTable ---------------------------------
 
+const updateSlotToTimetable = ({ dentist, slot, availableSlot }) => {
+  console.log(dentist, slot, availableSlot)
+}
+
+const SlotContainer = styled.div`
+  display: flex;
+
+  div {
+    font-weight: bold;
+  }
+`
+
+const SlotController = withStateHandlers(
+  ( ({ availableSlot }) => ({ slot: availableSlot.value }) ),
+    { 
+      updateSlot: ({ slot }, { dentist, availableSlot }) => (value) => ({ 
+        slot: value < 0? 0: value, 
+        update: updateSlotToTimetable({ dentist, slot: value < 0? 0: value, availableSlot }) 
+      })
+    }
+  ) (({ slot, updateSlot, updateTable }) => {
+
+    return (
+      <SlotContainer>
+        <button onClick={() => updateSlot(slot-1)}>-</button>
+        <div>{slot}</div>
+        <button onClick={() => updateSlot(slot+1)}>+</button>
+      </SlotContainer>
+    )
+  }
+)
+
 const formatTimetableData = ({ timeslots, dentists, users }) => {
   const timeslotsById = dataById(timeslots)
   const dentistsById = dataById(dentists)
@@ -126,18 +160,21 @@ const formatTimetableTable = ({ timeslots, dentists, users }) => {
     }
   }];
 
-  _.range(9, 21).forEach((time) => {
+  _.range(9, 21).forEach((timeslot) => {
     columns.push({
-      title: `${time - 1} - ${time}`,
-      dataIndex: time,
-      key: time,
+      title: `${timeslot - 1} - ${timeslot}`,
+      dataIndex: timeslot,
+      key: timeslot,
+      render: (availableSlot, { dentist, timeslot }) => {
+        return <SlotController availableSlot={availableSlot} dentist={dentist} />
+      }
     })
   })
 
   const dataSource = dentists.map((dent, idx) => {
     const dentist = {}
     _.range(9, 21).forEach((time) => {
-      dentist[time] = 5
+      dentist[time] = { label: time, value: Math.round(Math.random()*5)}
     })
     dentist.key = idx
     dentist.dentist = dent
