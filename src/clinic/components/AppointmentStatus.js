@@ -18,6 +18,7 @@ const enhance = compose(
   FETCH_TABLE('dentists'),
   FETCH_TABLE('patients'),
   FETCH_TABLE('users'),
+  FETCH_TABLE('treatments'),
 )
 
 export default enhance(AppointmentStatus);

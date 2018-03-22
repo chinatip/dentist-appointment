@@ -17,24 +17,27 @@ function dataById(data) {
 
 // --------------------------------- Appointment Status ---------------------------------
 
-const formatStatusData = ({ appointments, timeslots, dentists, patients, users }) => {
+const formatStatusData = ({ appointments, timeslots, dentists, patients, users, treatments }) => {
   const timeslotsById = dataById(timeslots)
   const dentistsById = dataById(dentists)
   const patientsById = dataById(patients)
   const usersById = dataById(users)
+  const treatmentsById = dataById(treatments)
 
   return appointments.map((appointment, idx) => {
-    const { patient_id, timeslot_id } = appointment
+    const { patient_id, timeslot_id, treatment_id } = appointment
     const timeslot = timeslotsById[timeslot_id]
     const dentist = usersById[dentistsById[timeslot.dentist_id].id]
     const patient = usersById[patientsById[patient_id].id]
+    const treatment = treatmentsById[treatment_id]
 
     return { 
       key: idx,
       ...appointment, 
       timeslot,
       dentist,
-      patient
+      patient,
+      treatment
     }
   })
 }
@@ -63,9 +66,8 @@ const formatStatusTable = (appointments) => {
     render: (dentist) => <p>{`${dentist.name} ${dentist.lastname}`}</p>
   }, {
     title: 'Action',
-    dataIndex: 'customerName',
-    key: 'customerName',
-    render: () => <p>unknown</p>
+    dataIndex: 'treatment.name',
+    key: 'treatment',
   }, {
     title: 'Patient',
     dataIndex: 'patient',
@@ -75,7 +77,9 @@ const formatStatusTable = (appointments) => {
     title: 'Status',
     dataIndex: 'status',
     key: 'status',
-    render: (status) => <p>waiting</p>
+    render: (status) => {
+      if (status === 'W') return <p>Waiting</p>
+    }
   }];
   
   return { dataSource: appointments, columns}
