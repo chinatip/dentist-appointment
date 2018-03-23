@@ -2,7 +2,8 @@ import {fetchClinics} from '../apiservice/clinic';
 import {fetchUsers} from '../apiservice/user';
 import {fetchDentists} from '../apiservice/dentist';
 import {fetchPatients} from '../apiservice/patient';
-import {fetchTreatments} from '../apiservice/treatment';
+import {fetchTreatments,getTreatments} from '../apiservice/treatment';
+import {fetchSpecialties} from '../apiservice/specialty';
 import {fetchTimeslotsByDate, fetchTimeslots} from '../apiservice/timeslot';
 
 export default {
@@ -12,5 +13,7 @@ export default {
     fetchTimeslots,
     fetchTimeslotsByDate,
     fetchTreatments,
-    fetchUsers
+    fetchUsers,
+    fetchSpecialties,
+    getTreatments
 }

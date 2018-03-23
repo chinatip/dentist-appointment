@@ -3,6 +3,7 @@ import {createUser} from '../apiservice/user';
 import {createDentist} from '../apiservice/dentist';
 import {createPatient} from '../apiservice/patient';
 import {createTreatment} from '../apiservice/treatment';
+import {createSpecialty} from '../apiservice/specialty';
 import {createTimeslot} from '../apiservice/timeslot';
 
 

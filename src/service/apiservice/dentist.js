@@ -2,8 +2,8 @@ import { API_URL } from 'service/const';
 
 const URL = API_URL + "/api/dentists/";
 
-export function fetchDentists(clinic, treatment){
-  const FETCH_URL = `${URL}?clinic=${clinic}&treatment=${treatment}`
+export function fetchDentists(clinic, specialty){
+  const FETCH_URL = `${URL}?clinic=${clinic}&specialty=${specialty}`
 
   return fetch(FETCH_URL, { method: 'GET'})
     .then((response) => response.json())

@@ -21,7 +21,7 @@ function refreshTreatments(data){
       if(data && data.length > 0){
         listTreatments = data.map( (d,id) => 
         <option value={id+1} key={id}>
-          {d.treatment_name}
+          {d.name}
         </option>
       );
     }
@@ -36,7 +36,7 @@ function refreshDentists(data,users){
       if(data && data.length > 0){
           listDentists = data.map( (d,id) => 
           <li key={data[id].person_id}>
-            {users[data[id].person_id-1].name}
+            {users[data[id].person_id-1].name+" "+data[id].specialty_id }
           </li>
         );
       }
@@ -64,8 +64,10 @@ function refreshPatients(data,users){
 
 
 
-function refreshTimeslots(data,dentists){
+function refreshTimeslots(specialty,data,dentists){
     // var a = JSON.parse(dentists);
+
+    console.log(specialty,data,dentists)
 
     let listTimeslots = null;
     let timeslotFilter;

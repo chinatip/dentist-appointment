@@ -7,6 +7,14 @@ export function fetchTreatments(){
 
   }
 
+
+export function getTreatments(specialty){
+    const URL = API_URL + "/api/treatments/?specialty="+specialty+"/";
+    return fetch(URL, { method: 'GET'})
+        .then((response) => response.json())
+
+}
+
 export function createTreatment(newTreatment){
     const URL = API_URL + "/api/treatments/";
     return fetch(URL, {

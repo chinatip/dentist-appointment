@@ -8,7 +8,7 @@ import Fetcher from 'service/backend/FetcherWrapper';
 import ListItem from 'service/backend/ListItemWrapper';
 import Creator from 'service/backend/CreatorWrapper';
 import Updater from 'service/backend/UpdaterWrapper';
-
+import Getter from 'service/backend/GetterWrapper';
 const Container = styled.div`
   
 `;
@@ -31,10 +31,13 @@ class Index extends Component {
 
 	componentDidMount(){
     Fetcher.fetchClinics().then((clinics) => this.setState({ clinics: clinics }));
+    Fetcher.fetchSpecialties().then((specialties) => this.setState({ specialties: specialties}))
     Fetcher.fetchTreatments().then((treatments) => this.setState({ treatments: treatments }))
     
     Fetcher.fetchUsers().then((users) => this.setState({ users: users }));
-    Fetcher.fetchDentists(this.state.clinic,this.state.treatment).then((dentists) => this.setState({ dentists: dentists }))
+    //////////////////
+    Getter.getTreatment(this.state.treatment).then((treatment) => this.setState({ specialty: treatment.specialty_id}))
+    Fetcher.fetchDentists(this.state.clinic,this.state.specialty).then((dentists) => this.setState({ dentists: dentists }))
     Fetcher.fetchPatients().then((patients) => this.setState({ patients: patients }))
     
     Fetcher.fetchTimeslots().then((dates) => this.setState({ dates: dates}))
@@ -42,9 +45,15 @@ class Index extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (this.state.clinic != nextState.clinic || this.state.treatment != nextState.treatment){
-      Fetcher.fetchDentists(nextState.clinic,nextState.treatment).then((dentists) => this.setState({ dentists: dentists }))
+    if (this.state.treatment != nextState.treatment){
+      //////////////////
+      Getter.getTreatment(nextState.treatment).then((treatment) => this.setState({ specialty: treatment.specialty_id}))
     }
+
+     if (this.state.clinic != nextState.clinic || this.state.specialty != nextState.specialty){
+      Fetcher.fetchDentists(nextState.clinic,nextState.specialty).then((dentists) => this.setState({ dentists: dentists }))
+     }
+
     if (this.state.date != nextState.date)
     Fetcher.fetchTimeslotsByDate(nextState.date).then((timeslots) => this.setState({ timeslots: timeslots}))
   }
@@ -94,7 +103,7 @@ class Index extends Component {
 
           <div>Timeslot List</div>
           <ul>
-          {ListItem.refreshTimeslots(this.state.timeslots,this.state.dentists,this.state.users)}
+          {ListItem.refreshTimeslots(this.state.specialties,this.state.timeslots,this.state.dentists,this.state.users)}
           </ul>
 
           <form onSubmit={this.handleSubmit.bind(this)}>
