@@ -19,35 +19,10 @@ function dataById(data) {
 
 // --------------------------------- Appointment Status ---------------------------------
 
-const formatStatusData = ({ appointments, timeslots, dentists, patients, users, treatments }) => {
-  const timeslotsById = dataById(timeslots)
-  const dentistsById = dataById(dentists)
-  const patientsById = dataById(patients)
-  const usersById = dataById(users)
-  const treatmentsById = dataById(treatments)
-
-  return appointments.map((appointment, idx) => {
-    const { patient_id, timeslot_id, treatment_id } = appointment
-    const timeslot = timeslotsById[timeslot_id]
-    const dentist = usersById[dentistsById[timeslot.dentist_id].id]
-    const patient = usersById[patientsById[patient_id].id]
-    const treatment = treatmentsById[treatment_id]
-
-    return { 
-      key: idx,
-      ...appointment, 
-      timeslot,
-      dentist,
-      patient,
-      treatment
-    }
-  })
-}
-
 const formatStatusTable = (appointments) => {
   const columns = [{
     title: 'Time',
-    dataIndex: 'timeslot',
+    dataIndex: 'slot',
     key: 'time',
     render: (slot) => {
       const { startTime, endTime } = slot
@@ -63,34 +38,29 @@ const formatStatusTable = (appointments) => {
     }
   }, {
     title: 'Dentist',
-    dataIndex: 'dentist',
+    dataIndex: 'slot.dentist',
     key: 'dentist',
-    render: (dentist) => <p>{`${dentist.name} ${dentist.lastname}`}</p>
+    render: (dentist) => <p>{`${dentist.firstname} ${dentist.lastname}`}</p>
   }, {
-    title: 'Action',
+    title: 'Treatment',
     dataIndex: 'treatment.name',
     key: 'treatment',
   }, {
     title: 'Patient',
     dataIndex: 'patient',
     key: 'patient',
-    render: (patient) => <p>{`${patient.name} ${patient.lastname}`}</p>
+    render: (patient) => <p>{`${patient.firstname} ${patient.lastname}`}</p>
   }, {
     title: 'Status',
     dataIndex: 'status',
-    key: 'status',
-    render: (status) => {
-      if (status === 'W') return <p>Waiting</p>
-    }
+    key: 'status'
   }];
   
   return { dataSource: appointments, columns}
 }
 
-export const formatStatus = (props) => {
-  if (props) {
-    const appointments = formatStatusData(props)
-
+export const formatStatus = ({ appointments }) => {
+  if (appointments) {
     return formatStatusTable(appointments)
   }
 
