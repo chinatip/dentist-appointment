@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose } from 'recompose'
 
-import { LOADER, FETCH_TABLE } from 'services'
+import { LOADER, FETCH } from 'services'
 import { Table, Button } from 'common'
 
 const ManageDoctor = (props) => {
@@ -11,9 +11,9 @@ const ManageDoctor = (props) => {
 
 const enhance = compose(
   LOADER,
-  FETCH_TABLE('timeslots'),
-  FETCH_TABLE('dentists'),
-  FETCH_TABLE('users'),
+  FETCH('timeslots'),
+  FETCH('dentists'),
+  FETCH('users'),
 )
 
 export default enhance(ManageDoctor);

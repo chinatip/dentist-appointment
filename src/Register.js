@@ -3,7 +3,7 @@ import { Form, Icon, Input, Button, Checkbox, Select } from 'antd'
 import styled from 'styled-components'
 import FacebookLogin from 'react-facebook-login'
 
-import { CREATE_USER } from 'services'
+// import { CREATE_USER } from 'services'
 import { FB_APP_ID } from 'auth'
 
 const FormItem = Form.Item
@@ -43,7 +43,7 @@ class Login extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values)
 
-        CREATE_USER({ ...values, "deleted": false })
+        // CREATE_USER({ ...values, "deleted": false })
       }
     })
   }
