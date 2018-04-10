@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import { compose } from 'recompose'
@@ -41,7 +42,6 @@ class Index extends Component {
     }
   }
 
-
   handleSubmit = (newData) => {
     const { step, data } = this.state
     const updateData = { ...data, ...newData }
@@ -60,14 +60,33 @@ class Index extends Component {
     this.setState({ step: newStep })
   }
 
+  findDentists() {
+    const { data } = this.state
+    const { clinics, dentists } = this.props
+    const clinic = _.filter(clinics, (c) => c._id === data.clinic)[0]
+    const matchDentists = _.filter(clinic.dentists, (d) => {
+      let match = false
+      d.treatments.forEach((t) => {
+        if (t._id === data.treatment) {
+          match = true
+        }
+      })
+      return match
+    })
+    
+    return matchDentists
+  }
+  
   renderStep() {
-    const { step } = this.state
-    const { clinics } = this.props
+    const { step, data } = this.state
+    const { clinics, appointments } = this.props
 
     if (step === 0) {
-      return <Step1 onSubmit={this.handleSubmit} clinics={clinics} />
+      return <Step1 onSubmit={this.handleSubmit} clinics={clinics} data={data} />
     } else if (step === 1) {
-      return <Step2 onSubmit={this.handleSubmit} onBackStep={this.handleUpdateStep(step - 1)} />
+      const matchDentists = []
+      return <Step2 onSubmit={this.handleSubmit} onBackStep={this.handleUpdateStep(step - 1)} 
+        dentists={this.findDentists()} appointments={appointments} data={data} />
     } else if (step === 2) {
       return <Step3 onSubmit={this.handleSubmit} onBackStep={this.handleUpdateStep(step - 1)} />
     }

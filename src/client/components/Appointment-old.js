@@ -61,7 +61,7 @@ const TimeTableSection = ({ showTable, showTableMenu, doctor, treatment, options
             <div>ราคาเฉลี่ย</div>
             <div>{treatment}</div>
             <div>600 - 1000</div>
-            <div>เลือกหมอ</div>
+            <div>หมอ</div>
             <Select value={doctor} options={renderSelectOptions(doctors, 'name')} onChange={onChange('doctor')} />
             <Button value={'Confirm'} onClick={onChange('showModal')}/>
           </TableMenuContainer>

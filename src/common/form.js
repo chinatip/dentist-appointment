@@ -108,9 +108,6 @@ const FormContainerWrapper = styled.div`
 
   .ant-input {
     ${cssFontInput};
-    background-color: #1c6688;
-    border-width: 0px;
-    height: 40px;
   }
 
   .ant-form-item-control-wrapper, .ant-calendar-picker {

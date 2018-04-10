@@ -15,6 +15,27 @@ const getOptions = (list) => {
 }
 
 class Step1Form extends Component {
+  componentDidMount () {
+    this.initForm(this.props)
+  }
+
+  componentWillUpdate (nextProps, nextState) {
+    if (nextProps.data !== this.props.data) {
+      this.initForm(nextProps)
+    }
+  }
+
+  initForm({ form, data: { clinic, treatment }}) {
+    form.setFields({
+      clinic: {
+        value: clinic,
+      },
+      treatment: {
+        value: treatment,
+      }
+    });
+  }
+
   handleSubmit = (e) => {
     const { form, onSubmit } = this.props
 
@@ -50,8 +71,8 @@ class Step1Form extends Component {
 
     return (
       <FormContainer width={700}>
-        <FormItem label={'เลือกคลินิค'} field={'clinic'} message={'กรุณาเลือกคลินิค'} getFieldDecorator={getFieldDecorator} options={getOptions(clinics)} />
-        <FormItem label={'เลือกการรักษา'} field={'treatment'} message={'กรุณาเลือกการรักษา'} getFieldDecorator={getFieldDecorator} options={this.getTreatmentsOptions()} />
+        <FormItem label={'คลินิค'} field={'clinic'} message={'กรุณาคลินิค'} getFieldDecorator={getFieldDecorator} options={getOptions(clinics)} />
+        <FormItem label={'การรักษา'} field={'treatment'} message={'กรุณาการรักษา'} getFieldDecorator={getFieldDecorator} options={this.getTreatmentsOptions()} />
         <NavigationButton onSubmit={this.handleSubmit} />
       </FormContainer>
     )
