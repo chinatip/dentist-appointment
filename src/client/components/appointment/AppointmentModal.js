@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
+import styled, { injectGlobal } from 'styled-components'
 import { compose } from 'recompose'
 
 import Step1 from './Step1'
@@ -9,6 +9,19 @@ import Step3 from './Step3'
 import { Modal } from 'common'
 import { LOADER, FETCH, LIST, CLINIC, DENTIST, DENTIST_APPOINTMENT, APPOINTMENT } from 'services'
 
+const Container = styled.div``
+
+const GlobalStyles = ({ theme }) => {
+  injectGlobal `
+    .appointment-modal {
+      .ant-modal-footer {
+        display: none;
+      }
+    }
+  `;
+
+  return null;
+}
 
 const enhance = compose(
   LOADER,
@@ -17,10 +30,6 @@ const enhance = compose(
   FETCH(APPOINTMENT, LIST),
   FETCH(DENTIST_APPOINTMENT, LIST),
 )
-
-const Container = styled.div`
-  
-`
 
 class Index extends Component {
   constructor(props) {
@@ -70,9 +79,12 @@ class Index extends Component {
     const { visible, onOk, onCancel, children } = this.props
     console.log(this.props)
     return (
-      <Modal visible={visible} onOk={onOk} onCancel={onCancel}>
-        {this.renderStep()}
-      </Modal>
+      <Container>
+        <GlobalStyles />
+        <Modal visible={visible} onOk={onOk} onCancel={onCancel} wrapClassName={'appointment-modal'}>
+          {this.renderStep()}
+        </Modal>
+      </Container>
     )
   }
 }
