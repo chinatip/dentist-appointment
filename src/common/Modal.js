@@ -7,7 +7,6 @@ class CustomModal extends Component {
 
       return (
         <Modal
-          title="Basic Modal"
           visible={visible}
           onOk={onOk}
           onCancel={onCancel}

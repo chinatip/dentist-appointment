@@ -19,14 +19,17 @@ const Title = styled.div`
   margin-bottom: 20px;
 `;
 
-export default ({ title, children }) => {
+export default ({ title, children, home = false }) => {
   return (
     <Container>
       <Navigation />
-      <InnerContainer>
-        <Title>{title}</Title>
-        { children }
-      </InnerContainer>
+        { !home &&
+          <InnerContainer>
+            <Title>{title}</Title>
+            { children }
+          </InnerContainer>
+        }
+        { home && children }
     </Container>
   );
 }
