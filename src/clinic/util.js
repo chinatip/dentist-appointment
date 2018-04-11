@@ -45,6 +45,7 @@ const formatStatusTable = (appointments) => {
     title: 'Treatment',
     dataIndex: 'treatment.name',
     key: 'treatment',
+    render: (treatment) => <p>{treatment}</p>
   }, {
     title: 'Patient',
     dataIndex: 'patient',
@@ -53,7 +54,9 @@ const formatStatusTable = (appointments) => {
   }, {
     title: 'Status',
     dataIndex: 'status',
-    key: 'status'
+    key: 'status',
+    render: (status) => <p>{status}</p>
+
   }];
   
   return { dataSource: appointments, columns}

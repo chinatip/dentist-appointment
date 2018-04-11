@@ -86,7 +86,7 @@ class Index extends Component {
     } else if (step === 1) {
       const matchDentists = []
       return <Step2 onSubmit={this.handleSubmit} onBackStep={this.handleUpdateStep(step - 1)} 
-        dentists={this.findDentists()} appointments={appointments} data={data} />
+        dentists={this.findDentists()} appointments={appointments} data={data} timeslots={this.props['dentist-timeslots']} />
     } else if (step === 2) {
       return <Step3 onSubmit={this.handleSubmit} onBackStep={this.handleUpdateStep(step - 1)} />
     }

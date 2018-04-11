@@ -60,11 +60,12 @@ const getInputItem = ({ date, textarea, options }) => {
   return <Input />
 }
 
-export const FormItem = ({ getFieldDecorator, label, message, field, required = true, ...props }) => {
+export const FormItem = ({ getFieldDecorator, label, message, field, required = true, hidden, ...props }) => {
   return (
     <Form.Item
       {...formItemLayout}
       label={label}
+      className={hidden && 'hidden'}
     >
       { getFieldDecorator(field, {
         rules: [{ required: props.date? false: required, message }],
@@ -81,6 +82,10 @@ const FormContainerWrapper = styled.div`
     flex-direction: column;
     width: 100%;
     margin-right: 40px;
+  }
+
+  .hidden {
+    display: none;
   }
 
   .ant-upload, .ant-upload-list-item {
