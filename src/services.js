@@ -9,19 +9,26 @@ export const LIST = 'list'
 export const CREATE = 'create'
 export const UPDATE = 'update'
 export const DELETE = 'delete'
+export const FIND_BY_ID = 'find'
 
 export const APPOINTMENT =  'appointments'
 export const CLINIC = 'clinics'
 export const DENTIST = 'dentists'
-export const DENTIST_APPOINTMENT = 'dentist-timeslots'
+export const DENTIST_APPOINTMENT = 'dentistTimeslots'
 export const PATIENT = 'patients'
 export const TREATMENT = 'treatments'
 
 export const LOADER = client(Loader)
 
 export const FETCH = (table, action, body = null) => {
-  return resolve(table, () => {
+  return resolve(table, (props) => {
     const url = `${API_URL}/${table}/${action}`
+    
+    if (action === FIND_BY_ID) {
+      const actualBody = { _id: props[body.path]}
+      
+      return axios.post(url, actualBody).then(({ data }) => data)
+    }
 
     return axios.post(url, body).then(({ data }) => data)
   })

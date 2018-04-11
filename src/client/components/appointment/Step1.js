@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Form } from 'antd'
 
-import { FormContainer, FormItem, NavigationButton, Row } from 'common/form'
+import { FormContainer, FormItem, NavigationButton } from 'common/form'
 
 const getOptions = (list) => {
   const options = []

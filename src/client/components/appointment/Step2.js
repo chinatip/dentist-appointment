@@ -5,7 +5,7 @@ import { Form } from 'antd'
 
 import { stringToMoment } from 'common/utils'
 
-import { FormContainer, FormItem, NavigationButton, Row } from 'common/form'
+import { FormContainer, FormItem, NavigationButton } from 'common/form'
 
 const TimetableContainer = styled.div`
   display: flex;
@@ -115,7 +115,7 @@ class Step2Form extends Component {
 
       return (
         <TimetableContainer>
-          {
+          { availableTimeslots.length > 0? 
             availableTimeslots.map((slot) => {
               const date = stringToMoment(slot.startTime).format('HH:mm')
 
@@ -124,7 +124,7 @@ class Step2Form extends Component {
                   {date}
                 </Timeslot>
               )
-            })
+            }) : 'ไม่พบช่วงเวลาว่าง'
           }
         </TimetableContainer>
       )

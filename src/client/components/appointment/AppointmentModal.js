@@ -45,13 +45,15 @@ class Index extends Component {
   handleSubmit = (newData) => {
     const { step, data } = this.state
     const updateData = { ...data, ...newData }
-    this.setState({ data: updateData })
-    
-    if (step < 2) {
-      this.setState({ step: step + 1 })
-    }
+    this.setState({ 
+      data: updateData,
+      step: step + 1 
+    })
+  }
 
-    console.log(`Step: ${step} ;`, 'submit data:', updateData)
+  createAppointment = () => {
+    const { data } = this.state
+    console.log('create', data)
   }
 
   handleUpdateStep = (step) => () => {
@@ -79,16 +81,16 @@ class Index extends Component {
   
   renderStep() {
     const { step, data } = this.state
-    const { clinics, appointments } = this.props
+    const { clinics, appointments, dentistTimeslots } = this.props
 
     if (step === 0) {
       return <Step1 onSubmit={this.handleSubmit} clinics={clinics} data={data} />
     } else if (step === 1) {
       const matchDentists = []
       return <Step2 onSubmit={this.handleSubmit} onBackStep={this.handleUpdateStep(step - 1)} 
-        dentists={this.findDentists()} appointments={appointments} data={data} timeslots={this.props['dentist-timeslots']} />
+        dentists={this.findDentists()} appointments={appointments} data={data} timeslots={dentistTimeslots} />
     } else if (step === 2) {
-      return <Step3 onSubmit={this.handleSubmit} onBackStep={this.handleUpdateStep(step - 1)} />
+      return <Step3 onSubmit={this.createAppointment} onBackStep={this.handleUpdateStep(step - 1)} data={data} />
     }
 
     return <Step1 />
@@ -96,7 +98,7 @@ class Index extends Component {
 
   render() {
     const { visible, onOk, onCancel, children } = this.props
-    console.log(this.props)
+
     return (
       <Container>
         <GlobalStyles />
