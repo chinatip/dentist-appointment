@@ -8,7 +8,7 @@ import Step2 from './Step2'
 import Step3 from './Step3'
 
 import { Modal } from 'common'
-import { LOADER, FETCH, LIST, CLINIC, DENTIST, DENTIST_APPOINTMENT, APPOINTMENT } from 'services'
+import { LOADER, FETCH, POST, LIST, CREATE, CLINIC, DENTIST, DENTIST_APPOINTMENT, APPOINTMENT } from 'services'
 
 const Container = styled.div``
 
@@ -36,10 +36,11 @@ class Index extends Component {
   constructor(props) {
     super()
 
-    this.state = {
-      step: 0,
-      data: {}
-    }
+    this.state = this.initState()
+  }
+
+  initState() {
+    return { step: 0, data: {} }
   }
 
   handleSubmit = (newData) => {
@@ -51,9 +52,18 @@ class Index extends Component {
     })
   }
 
-  createAppointment = () => {
+  createAppointment = async () => {
     const { data } = this.state
-    console.log('create', data)
+    const { onCancel } = this.props
+    const body = { 
+      ...data, 
+      patient: "5acb71503aaca540a6695c43",
+      status: 'waiting'
+    }
+
+    const res = await POST(APPOINTMENT, CREATE, body)
+    this.setState(this.initState())
+    onCancel()
   }
 
   handleUpdateStep = (step) => () => {

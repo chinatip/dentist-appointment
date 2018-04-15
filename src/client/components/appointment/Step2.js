@@ -52,7 +52,7 @@ class Step2Form extends Component {
     }
   }
 
-  initForm({ form: { setFields }, data: { dentist, date, timeslot }}) {
+  initForm({ form: { setFields }, data: { dentist, date, slot }}) {
     setFields({
       dentist: {
         value: dentist,
@@ -60,8 +60,8 @@ class Step2Form extends Component {
       date: {
         value: date,
       },
-      timeslot: {
-        value: timeslot
+      slot: {
+        value: slot
       }
     })
   }
@@ -70,7 +70,7 @@ class Step2Form extends Component {
     const { form: { setFields }} = this.props
 
     setFields({
-      timeslot: {
+      slot: {
         value: slotId
       }
     })
@@ -111,7 +111,7 @@ class Step2Form extends Component {
         }).length === 1)
       )
 
-      const timeslot = getFieldValue('timeslot')
+      const timeslot = getFieldValue('slot')
 
       return (
         <TimetableContainer>
@@ -140,7 +140,7 @@ class Step2Form extends Component {
       <FormContainer width={700}>
         <FormItem label={'ทันตแพทย์'} field={'dentist'} message={'กรุณาทันตแพทย์'} getFieldDecorator={getFieldDecorator} options={getOptions(dentists)} />
         <FormItem label={'วันที่นัดหมาย'} field={'date'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} date />
-        <FormItem label={'วันที่นัดหมาย'} field={'timeslot'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} hidden />
+        <FormItem label={'วันที่นัดหมาย'} field={'slot'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} hidden />
         { this.renderTimetable() }
         <NavigationButton onBackStep={onBackStep} onSubmit={this.handleSubmit} />
       </FormContainer>

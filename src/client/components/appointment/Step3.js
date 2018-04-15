@@ -5,18 +5,18 @@ import { compose, withProps } from 'recompose'
 
 import { stringToMoment } from 'common/utils'
 import { FormContainer, FormItem, NavigationButton } from 'common/form'
-import { LOADER, FETCH, FIND_BY_ID, CLINIC, TREATMENT, DENTIST, DENTIST_APPOINTMENT } from 'services'
+import { FETCH, FIND_BY_ID, CLINIC, TREATMENT, DENTIST, DENTIST_APPOINTMENT } from 'services'
 
 const enhance = compose(
   withProps(
     props => {
-      const { clinic, treatment, timeslot } = props.data
+      const { clinic, treatment, slot } = props.data
 
-      return { clinic, treatment, timeslot }
+      return { clinic, treatment, slot }
     }),
   FETCH(CLINIC, FIND_BY_ID, { path: 'clinic' }),
   FETCH(TREATMENT, FIND_BY_ID, { path: 'treatment' }),
-  FETCH(DENTIST_APPOINTMENT, FIND_BY_ID, { path: 'timeslot' })
+  FETCH(DENTIST_APPOINTMENT, FIND_BY_ID, { path: 'slot' })
 )
 
 class Step3Form extends Component {
