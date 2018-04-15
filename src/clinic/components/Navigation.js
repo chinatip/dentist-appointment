@@ -12,14 +12,6 @@ const Container = styled.div`
   }
 `
 
-// const MenuItem = ({ path, label }) => {
-//   return (
-//     <Menu.Item key={path}>
-//       <Link to={`/clinic/${path}`}>{label}</Link>
-//     </Menu.Item>
-//   )
-// }
-
 export default ({ type }) => {
   return (
     <Container>
@@ -37,8 +29,8 @@ export default ({ type }) => {
           <Menu.Item key='timetable'>
             <Link to={`/clinic/timetable`}>ตารางเวลา</Link>
           </Menu.Item>
-          <Menu.Item key='edit'>
-            <Link to={`/clinic/edit`}>แก้ไข</Link>
+          <Menu.Item key='doctors'>
+            <Link to={`/clinic/doctors`}>หมอ</Link>
           </Menu.Item>
           {/* <MenuItem key={1} path='status' label='สถานะ' />
           <MenuItem key={2} path='timetable' label='ตารางเวลา' />

@@ -1,19 +1,23 @@
 import React from 'react'
 import { compose } from 'recompose'
 
-import { LOADER, FETCH } from 'services'
 import { Table, Button } from 'common'
+import { formatDoctor } from '../util'
+import { LOADER, FETCH, DENTIST_TIMESLOT, CLINIC, LIST } from 'services'
 
 const ManageDoctor = (props) => {
-  return <div></div>
-  // return <Table columns={columns} dataSource={dataSource} />
-};
+  const clinic = props.clinics[0]
+  const dentists = clinic.dentists
+  
+  const { dataSource, columns } = formatDoctor({ clinic, dentists })
+  
+  return <Table dataSource={dataSource} columns={columns} />
+}
 
 const enhance = compose(
   LOADER,
-  FETCH('timeslots'),
-  FETCH('dentists'),
-  FETCH('users'),
+  FETCH(DENTIST_TIMESLOT, LIST),
+  FETCH(CLINIC, LIST)
 )
 
-export default enhance(ManageDoctor);
+export default enhance(ManageDoctor)

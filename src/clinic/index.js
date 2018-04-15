@@ -28,7 +28,7 @@ const ClinicDetail = ({ type }) => {
     return <AppointmentStatus />
   } else if (type === 'timetable') {
     return <ManageTimeTable />
-  } else if (type === 'edit') {
+  } else if (type === 'doctors') {
     return <ManageDoctor />
   }
 
@@ -42,7 +42,7 @@ export default (props) => {
     <Container>
       <Navigation type={type} />
       <InnerContainer>
-        <Title>{type}</Title>
+        {/* <Title>{type}</Title> */}
         <ClinicDetail type={type} />
       </InnerContainer>
   </Container>

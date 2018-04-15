@@ -10,16 +10,6 @@ import { POST, APPOINTMENT, UPDATE } from 'services'
 const DATE_FORMAT = 'DD MMM YYYY'
 const TIME_FORMAT = 'HH:mm'
 
-function dataById(data) {
-  const dataById = {}
-
-  data.forEach((d) => {
-    dataById[d.id] = d
-  })
-
-  return dataById
-}
-
 // --------------------------------- Appointment Status ---------------------------------
 const APPOINTMENT_STATUS = [
   { label: 'Waiting', value: 'waiting' },
@@ -100,7 +90,7 @@ export const formatStatus = ({ appointments, editable }) => {
     return formatStatusTable(appointments, editable)
   }
 
-  return 
+  return { dataSource: [], columns: [] }
 }
 
 // --------------------------------- Manage TimeTable ---------------------------------
@@ -120,10 +110,9 @@ const SlotContainer = styled.div`
 const SlotController = withStateHandlers(
   ( ({ availableSlot }) => ({ slot: availableSlot.value }) ),
     { 
-      updateSlot: ({ slot }, { dentist, availableSlot }) => (value) => ({ 
-        slot: value < 0? 0: value, 
-        update: updateSlotToTimetable({ dentist, slot: value < 0? 0: value, availableSlot }) 
-      })
+      updateSlot: ({ slot }, { dentist, availableSlot }) => (value) => {
+        return { slot: value < 0? 0: value } 
+      }
     }
   ) (({ slot, updateSlot, updateTable }) => {
 
@@ -137,33 +126,14 @@ const SlotController = withStateHandlers(
   }
 )
 
-const formatTimetableData = ({ timeslots, dentists, users }) => {
-  const timeslotsById = dataById(timeslots)
-  const dentistsById = dataById(dentists)
-  const usersById = dataById(users)
-
-  return timeslots.map((slot, idx) => {
-    const timeslot = timeslotsById[slot.id]
-    const dentist = usersById[dentistsById[timeslot.dentist_id].id]
-
-    return { 
-      key: idx,
-      timeslot,
-      dentist
-    }
-  })
-}
-
-const formatTimetableTable = ({ timeslots, dentists, users }) => {
+const formatTimetableTable = ({ dentists, clinic }) => {
   const columns = [{
     title: 'Dentist',
     dataIndex: 'dentist',
     key: 'dentist',
-    render: (dentist) => {
-      const { name, lastname } = dataById(users)[dentist.person_id]
-      
-      return <p>{`${name} ${lastname}`}</p>
-    }
+    // render: (dentist) => {      
+    //   return <p>{`${name} ${lastname}`}</p>
+    // }
   }];
 
   _.range(9, 21).forEach((timeslot) => {
@@ -191,12 +161,55 @@ const formatTimetableTable = ({ timeslots, dentists, users }) => {
   return { dataSource, columns}
 }
 
-export const formatTimetable = (props) => {
-  if (props) {
-    const timeslots = formatTimetableData(props)
-
-    return formatTimetableTable({ ...props, timeslots })
+export const formatTimetable = ({ clinic, dentists }) => {
+  if (clinic && dentists) {
+    // const timeslots = formatTimetableData(props)
+    console.log('ok')
+    // return formatTimetableTable({ ...props, timeslots })
+    return { dataSource: [], columns: [] }
   }
 
-  return 
+  return { dataSource: [], columns: [] } 
+}
+
+// --------------------------------- Manage Doctor ---------------------------------
+
+const formatDoctorTable = (dentists) => {
+  const columns = [
+    {
+      title: 'ชื่อ',
+      dataIndex: 'firstname',
+      key: 'firstname'
+    }, {
+      title: 'นามสกุล',
+      dataIndex: 'lastname',
+      key: 'lastname',
+    }, {
+      title: 'การรักษา',
+      dataIndex: 'treatments',
+      key: 'treatments',
+      render: (treatments) => {
+        return <div>{ treatments.map((t) => <p>{t.name}</p>) }</div>
+      }
+    }, {
+      title: 'เบอร์โทร',
+      dataIndex: 'phone',
+      key: 'phone',
+    }, {
+      title: 'แก้ไข',
+      dataIndex: '_id',
+      key: 'edit',
+      render: (id) => <button>edit</button>
+    }
+  ]  
+
+  return { dataSource: dentists, columns }
+}
+
+export const formatDoctor = ({ dentists }) => {
+  if (dentists) {
+    return formatDoctorTable(dentists)
+  }
+
+  return { dataSource: [], columns: [] }
 }
