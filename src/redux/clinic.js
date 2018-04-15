@@ -1,5 +1,5 @@
 import { CLINICS } from './const';
-import { API_URL } from 'service/const';
+import { API_URL } from 'const';
 
 
 const CREATE = 'CREATE';
