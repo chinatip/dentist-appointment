@@ -4,14 +4,14 @@ import { compose } from 'recompose'
 
 import PageContainer from './PageContainer'
 import { DatePicker, Select, Button, Modal } from 'common'
-import { LOADER, FETCH, LIST, CLINIC, DENTIST, DENTIST_APPOINTMENT, APPOINTMENT } from 'services'
+import { LOADER, FETCH, LIST, CLINIC, DENTIST, DENTIST_TIMESLOT, APPOINTMENT } from 'services'
 
 const enhance = compose(
   LOADER,
   FETCH(CLINIC, LIST),
   FETCH(DENTIST, LIST),
   FETCH(APPOINTMENT, LIST),
-  FETCH(DENTIST_APPOINTMENT, LIST),
+  FETCH(DENTIST_TIMESLOT, LIST),
 )
 
 const Container = styled.div`

@@ -14,7 +14,7 @@ export const FIND_BY_ID = 'find'
 export const APPOINTMENT =  'appointments'
 export const CLINIC = 'clinics'
 export const DENTIST = 'dentists'
-export const DENTIST_APPOINTMENT = 'dentistTimeslots'
+export const DENTIST_TIMESLOT = 'dentistTimeslots'
 export const PATIENT = 'patients'
 export const TREATMENT = 'treatments'
 

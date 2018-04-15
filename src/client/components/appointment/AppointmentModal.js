@@ -8,7 +8,7 @@ import Step2 from './Step2'
 import Step3 from './Step3'
 
 import { Modal } from 'common'
-import { LOADER, FETCH, POST, LIST, CREATE, CLINIC, DENTIST, DENTIST_APPOINTMENT, APPOINTMENT } from 'services'
+import { LOADER, FETCH, POST, LIST, CREATE, CLINIC, DENTIST, DENTIST_TIMESLOT, APPOINTMENT } from 'services'
 
 const Container = styled.div``
 
@@ -29,7 +29,7 @@ const enhance = compose(
   FETCH(CLINIC, LIST),
   FETCH(DENTIST, LIST),
   FETCH(APPOINTMENT, LIST),
-  FETCH(DENTIST_APPOINTMENT, LIST),
+  FETCH(DENTIST_TIMESLOT, LIST),
 )
 
 class Index extends Component {
