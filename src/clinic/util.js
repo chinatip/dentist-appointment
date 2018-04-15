@@ -4,6 +4,9 @@ import _ from 'lodash'
 import styled from 'styled-components'
 import { withStateHandlers } from 'recompose'
 
+import { Select } from 'common'
+import { POST, APPOINTMENT, UPDATE } from 'services'
+
 const DATE_FORMAT = 'DD MMM YYYY'
 const TIME_FORMAT = 'HH:mm'
 
@@ -18,53 +21,83 @@ function dataById(data) {
 }
 
 // --------------------------------- Appointment Status ---------------------------------
+const APPOINTMENT_STATUS = [
+  { label: 'Waiting', value: 'waiting' },
+  { label: 'Confirmed', value: 'confirmed' },
+  { label: 'Cancel', value: 'cancel' }
+]
 
-const formatStatusTable = (appointments) => {
-  const columns = [{
-    title: 'Time',
-    dataIndex: 'slot',
-    key: 'time',
-    render: (slot) => {
-      const { startTime, endTime } = slot
-      const start = moment(startTime)
-      const end = moment(endTime)
+const SelectStatus = withStateHandlers(
+  ({ status }) => ({ select: status }),
+  {
+    updateStatus: ({}, { status, _id }) => (value) => {
+      POST(APPOINTMENT, UPDATE, { status: value, _id })
 
-      return (
-        <div>
-          <p>{start.format(DATE_FORMAT)}</p>
-          <p>{`${start.format(TIME_FORMAT)} - ${end.format(TIME_FORMAT)}`}</p>
-        </div>
-      )
+      return { select: value }
     }
-  }, {
-    title: 'Dentist',
-    dataIndex: 'slot.dentist',
-    key: 'dentist',
-    render: (dentist) => <p>{`${dentist.firstname} ${dentist.lastname}`}</p>
-  }, {
-    title: 'Treatment',
-    dataIndex: 'treatment.name',
-    key: 'treatment',
-    render: (treatment) => <p>{treatment}</p>
-  }, {
-    title: 'Patient',
-    dataIndex: 'patient',
-    key: 'patient',
-    render: (patient) => <p>{`${patient.firstname} ${patient.lastname}`}</p>
-  }, {
+  }
+)(({ select, updateStatus }) => {
+    return ( select === 'cancel'? 
+      <p>{select}</p>
+      : <Select value={select || select} onChange={updateStatus} options={APPOINTMENT_STATUS} />
+  )}
+)
+
+const formatStatusTable = (appointments, editable) => {
+  const columns = [
+    {
+      title: 'Time',
+      dataIndex: 'slot',
+      key: 'time',
+      render: (slot) => {
+        const { startTime, endTime } = slot
+        const start = moment(startTime)
+        const end = moment(endTime)
+
+        return (
+          <div>
+            <p>{start.format(DATE_FORMAT)}</p>
+            <p>{`${start.format(TIME_FORMAT)} - ${end.format(TIME_FORMAT)}`}</p>
+          </div>
+        )
+    }
+    }, {
+      title: 'Dentist',
+      dataIndex: 'slot.dentist',
+      key: 'dentist',
+      render: (dentist) => <p>{`${dentist.firstname} ${dentist.lastname}`}</p>
+    }, {
+      title: 'Treatment',
+      dataIndex: 'treatment.name',
+      key: 'treatment',
+      render: (treatment) => <p>{treatment}</p>
+    }, {
+      title: 'Patient',
+      dataIndex: 'patient',
+      key: 'patient',
+      render: (patient) => <p>{`${patient.firstname} ${patient.lastname}`}</p>
+    }
+  ]
+
+  const statusCol = {
     title: 'Status',
     dataIndex: 'status',
     key: 'status',
-    render: (status) => <p>{status}</p>
+  }
 
-  }];
+  if (editable) {
+    statusCol.render = (status, { _id }) => <SelectStatus status={status} _id={_id} /> 
+  } else {
+    statusCol.render = (status) => <p>{status}</p> 
+  }
+  columns.push(statusCol)
   
-  return { dataSource: appointments, columns}
+  return { dataSource: appointments, columns }
 }
 
-export const formatStatus = ({ appointments }) => {
+export const formatStatus = ({ appointments, editable }) => {
   if (appointments) {
-    return formatStatusTable(appointments)
+    return formatStatusTable(appointments, editable)
   }
 
   return 
