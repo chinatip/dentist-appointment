@@ -43,28 +43,32 @@ const formItemLayout = {
   },
 }
 
-const getOptions = (list, optionLabel) => {
-  const options = []
+const getOptions = (options) => {
+  const { list, label, mode } = options
+  const selectOptions = []
+
   _.forEach(list, (l) => {
-    if (optionLabel) {
-      options.push({ label: optionLabel(l), value: l._id })
+    if (label) {
+      selectOptions.push({ label: label(l), value: l._id })
     } else {
-      options.push({ label: l.name, value: l._id })
+      selectOptions.push({ label: l.name, value: l._id })
     }
   })
 
-  return options
+  return { selectOptions, mode }
 }
 
-const getInputItem = ({ date, textarea, options, optionLabel }) => {
+const getInputItem = ({ date, textarea, options }) => {
   if (date) {
     return <DatePicker placeholder='' />
   } else if (textarea) {
     return <Input.TextArea row={4} />
   } else if (options) {
+    const { selectOptions, mode } = getOptions(options)
+    
     return (
-      <Select>
-        { getOptions(options, optionLabel).map((s) => {
+      <Select mode={mode}>
+        { selectOptions.map((s) => {
           return <Select.Option value={s.value}>{s.label}</Select.Option>
         })}
       </Select>

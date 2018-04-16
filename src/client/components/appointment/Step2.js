@@ -128,7 +128,8 @@ class Step2Form extends Component {
 
     return (
       <FormContainer width={700}>
-        <FormItem label={'ทันตแพทย์'} field={'dentist'} message={'กรุณาทันตแพทย์'} getFieldDecorator={getFieldDecorator} options={dentists} optionLabel={(l) => `${l.firstname} ${l.lastname}`}/>
+        <FormItem label={'ทันตแพทย์'} field={'dentist'} message={'กรุณาทันตแพทย์'} getFieldDecorator={getFieldDecorator} 
+          options={{ list: dentists, label: (l) => `${l.firstname} ${l.lastname}` }} />
         <FormItem label={'วันที่นัดหมาย'} field={'date'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} date />
         <FormItem label={'วันที่นัดหมาย'} field={'slot'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} hidden />
         { this.renderTimetable() }

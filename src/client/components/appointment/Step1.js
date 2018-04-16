@@ -61,8 +61,8 @@ class Step1Form extends Component {
 
     return (
       <FormContainer width={700}>
-        <FormItem label={'คลินิค'} field={'clinic'} message={'กรุณาคลินิค'} getFieldDecorator={getFieldDecorator} options={clinics} />
-        <FormItem label={'การรักษา'} field={'treatment'} message={'กรุณาการรักษา'} getFieldDecorator={getFieldDecorator} options={this.getTreatmentsOptions()} />
+        <FormItem label={'คลินิค'} field={'clinic'} message={'กรุณาคลินิค'} getFieldDecorator={getFieldDecorator} options={{ list: clinics }} />
+        <FormItem label={'การรักษา'} field={'treatment'} message={'กรุณาการรักษา'} getFieldDecorator={getFieldDecorator} options={{ list: this.getTreatmentsOptions() }} />
         <NavigationButton onSubmit={this.handleSubmit} />
       </FormContainer>
     )

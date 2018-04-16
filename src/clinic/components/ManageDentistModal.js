@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import { Form } from 'antd'
@@ -32,13 +33,20 @@ class ManageDentistForm extends Component {
     }
   }
 
-  initForm({ form, data: { firstname, lastname, phone } }) {
+  initForm({ form, data: { firstname, lastname, treatments, phone } }) {
+    const treamentsIds = []
+    treatments = _.sortBy(treatments, ['name'])
+    _.forEach(treatments, (t) => treamentsIds.push(t._id))
+
     form.setFields({
       firstname: {
         value: firstname,
       },
       lastname: {
         value: lastname,
+      },
+      treatments: {
+        value: treamentsIds
       },
       phone: {
         value: phone,
@@ -60,14 +68,15 @@ class ManageDentistForm extends Component {
   }
 
   render() {
-    const { form: { getFieldDecorator }, clinics } = this.props
+    const { form: { getFieldDecorator }, treatments } = this.props
 
     return (
       <FormContainer width={700}>
         <FormItem label={'ชื่อ'} field={'firstname'} message={'กรุณาใส่ชื่อ'} getFieldDecorator={getFieldDecorator} />
         <FormItem label={'นามสกุล'} field={'lastname'} message={'กรุณาใส่นามสกุล'} getFieldDecorator={getFieldDecorator} />
+        <FormItem label={'การรักษา'} field={'treatments'} message={'กรุณาการรักษา'} getFieldDecorator={getFieldDecorator} options={{ list: treatments, mode: 'multiple' }} />
         <FormItem label={'เบอร์โทร'} field={'phone'} message={'กรุณาใส่เบอร์โทร'} getFieldDecorator={getFieldDecorator} />
-        <NavigationButton onSubmit={this.handleSubmit} />
+        <NavigationButton onSubmit={this.handleSubmit} last />
       </FormContainer>
     )
   }
@@ -82,7 +91,7 @@ class ManageDentist extends Component {
     return (
       <Container>
         <GlobalStyles />
-        <Modal visible={visible} onOk={onOk} onCancel={onCancel} wrapClassName={'dentist-modal'} noFooter>
+        <Modal visible={visible} onOk={onOk} onCancel={onCancel} wrapClassName={'dentist-modal'}>
           <WrappedForm {...this.props} />
         </Modal>
       </Container>
