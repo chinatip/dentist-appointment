@@ -1,24 +1,35 @@
 import React from 'react'
-import { compose } from 'recompose'
+import { compose, withStateHandlers } from 'recompose'
+import moment from 'moment'
 
 import { LOADER, FETCH, DENTIST_TIMESLOT, CLINIC, LIST } from 'services'
-import { Table, Button } from 'common'
+import { Table, DatePicker, Button } from 'common'
 import { formatTimetable } from '../util'
 
-
-const ManageTimeTable = (props) => {
-  const clinic = props.clinics[0]
-  const dentists = clinic.dentists
-  const { dataSource, columns } = formatTimetable({ clinic, dentists })
+const ManageTimeTable = ({ clinics, dentistTimeslots, date, updateDate }) => {
+  const clinic = clinics[0]
+  const { dataSource, columns } = formatTimetable({ clinic, date, dentistTimeslots })
   console.log(dataSource, columns)
+
   // return <Table columns={columns} dataSource={dataSource} />
-  return <noscript />
+  return (
+    <div>
+      <DatePicker value={date} onChange={updateDate}/>
+      <Table columns={columns} dataSource={dataSource} />
+    </div>
+  )
 }
 
 const enhance = compose(
   LOADER,
   FETCH(DENTIST_TIMESLOT, LIST),
-  FETCH(CLINIC, LIST)
+  FETCH(CLINIC, LIST),
+  withStateHandlers(
+    { date: new moment() },
+    {
+      updateDate: () => (date) => ({ date })
+    }
+  )
 )
 
 export default enhance(ManageTimeTable)

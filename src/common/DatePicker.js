@@ -16,13 +16,14 @@ class CustomCalendar extends Component {
   }
 
   render() {
-    const { size } = this.props;
+    const { size, value } = this.props;
 
     return (
       <DatePicker 
+        value={value}
         size={size}
         onChange={this.handleChange} 
-        disabledDate={this.disabledDate}
+        // disabledDate={this.disabledDate}
         onCalendarChange={this.handleChange} 
       />
     );
