@@ -7,11 +7,13 @@ import { formatTimetable } from '../util'
 
 
 const ManageTimeTable = (props) => {
-  // const { dataSource, columns } = formatTimetable(props)
-  console.log(props)
+  const clinic = props.clinics[0]
+  const dentists = clinic.dentists
+  const { dataSource, columns } = formatTimetable({ clinic, dentists })
+  console.log(dataSource, columns)
   // return <Table columns={columns} dataSource={dataSource} />
   return <noscript />
-};
+}
 
 const enhance = compose(
   LOADER,
@@ -19,4 +21,4 @@ const enhance = compose(
   FETCH(CLINIC, LIST)
 )
 
-export default enhance(ManageTimeTable);
+export default enhance(ManageTimeTable)

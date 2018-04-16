@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import Navigation from './components/Navigation'
 import AppointmentStatus from './components/AppointmentStatus'
-import ManageDoctor from './components/ManageDoctor'
+import ManageDentist from './components/ManageDentist'
 import ManageTimeTable from './components/ManageTimeTable'
 
 const Container = styled.div`
@@ -28,8 +28,8 @@ const ClinicDetail = ({ type }) => {
     return <AppointmentStatus />
   } else if (type === 'timetable') {
     return <ManageTimeTable />
-  } else if (type === 'doctors') {
-    return <ManageDoctor />
+  } else if (type === 'dentists') {
+    return <ManageDentist />
   }
 
   return <AppointmentStatus />

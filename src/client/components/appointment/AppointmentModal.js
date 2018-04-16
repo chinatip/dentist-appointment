@@ -107,7 +107,7 @@ class Index extends Component {
   }
 
   render() {
-    const { visible, onOk, onCancel, children } = this.props
+    const { visible, onOk, onCancel } = this.props
 
     return (
       <Container>

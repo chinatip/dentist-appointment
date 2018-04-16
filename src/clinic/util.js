@@ -174,7 +174,9 @@ export const formatTimetable = ({ clinic, dentists }) => {
 
 // --------------------------------- Manage Doctor ---------------------------------
 
-const formatDoctorTable = (dentists) => {
+const formatDoctorTable = (dentists, onEdit) => {
+  const EditButton = (props) => <button onClick={() => onEdit(props)}>edit</button>
+
   const columns = [
     {
       title: 'ชื่อ',
@@ -199,16 +201,16 @@ const formatDoctorTable = (dentists) => {
       title: 'แก้ไข',
       dataIndex: '_id',
       key: 'edit',
-      render: (id) => <button>edit</button>
+      render: (id, props) => <EditButton {...props} />
     }
   ]  
 
   return { dataSource: dentists, columns }
 }
 
-export const formatDoctor = ({ dentists }) => {
+export const formatDoctor = ({ dentists, onEdit }) => {
   if (dentists) {
-    return formatDoctorTable(dentists)
+    return formatDoctorTable(dentists, onEdit)
   }
 
   return { dataSource: [], columns: [] }
