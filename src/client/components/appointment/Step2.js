@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import React, { Component } from 'react'
 import styled, { css } from 'styled-components'
 import { Form } from 'antd'
@@ -31,15 +30,6 @@ const Timeslot = styled.div`
 
   ${props => props.select && cssSelectSlot}
 `
-
-const getOptions = (list) => {
-  const options = []
-  _.forEach(list, (l) => {
-    options.push({ label: `${l.firstname} ${l.lastname}`, value: l._id })
-  })
-
-  return options
-}
 
 class Step2Form extends Component {
   componentDidMount () {
@@ -138,7 +128,7 @@ class Step2Form extends Component {
 
     return (
       <FormContainer width={700}>
-        <FormItem label={'ทันตแพทย์'} field={'dentist'} message={'กรุณาทันตแพทย์'} getFieldDecorator={getFieldDecorator} options={getOptions(dentists)} />
+        <FormItem label={'ทันตแพทย์'} field={'dentist'} message={'กรุณาทันตแพทย์'} getFieldDecorator={getFieldDecorator} options={dentists} optionLabel={(l) => `${l.firstname} ${l.lastname}`}/>
         <FormItem label={'วันที่นัดหมาย'} field={'date'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} date />
         <FormItem label={'วันที่นัดหมาย'} field={'slot'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} hidden />
         { this.renderTimetable() }

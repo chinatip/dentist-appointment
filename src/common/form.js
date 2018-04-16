@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { Form, Input, Select, DatePicker, Button } from 'antd'
@@ -42,7 +43,20 @@ const formItemLayout = {
   },
 }
 
-const getInputItem = ({ date, textarea, options }) => {
+const getOptions = (list, optionLabel) => {
+  const options = []
+  _.forEach(list, (l) => {
+    if (optionLabel) {
+      options.push({ label: optionLabel(l), value: l._id })
+    } else {
+      options.push({ label: l.name, value: l._id })
+    }
+  })
+
+  return options
+}
+
+const getInputItem = ({ date, textarea, options, optionLabel }) => {
   if (date) {
     return <DatePicker placeholder='' />
   } else if (textarea) {
@@ -50,7 +64,7 @@ const getInputItem = ({ date, textarea, options }) => {
   } else if (options) {
     return (
       <Select>
-        { options.map((s) => {
+        { getOptions(options, optionLabel).map((s) => {
           return <Select.Option value={s.value}>{s.label}</Select.Option>
         })}
       </Select>

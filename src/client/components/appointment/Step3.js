@@ -47,7 +47,6 @@ class Step3Form extends Component {
   render() {
     const { form: { getFieldDecorator }, data, onSubmit, onBackStep } = this.props
     
-    console.log(this.props)
     return (
       <FormContainer width={700}>
         <FormItem label={'คลินิค'} field={'sumClinic'} getFieldDecorator={getFieldDecorator} required={false} />

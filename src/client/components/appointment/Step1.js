@@ -1,18 +1,8 @@
-import _ from 'lodash'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Form } from 'antd'
 
 import { FormContainer, FormItem, NavigationButton } from 'common/form'
-
-const getOptions = (list) => {
-  const options = []
-  _.forEach(list, (l) => {
-    options.push({ label: l.name, value: l._id })
-  })
-
-  return options
-}
 
 class Step1Form extends Component {
   componentDidMount () {
@@ -60,7 +50,7 @@ class Step1Form extends Component {
         })
       })
       
-      return getOptions(treatments)
+      return treatments
     }
 
     return []
@@ -71,7 +61,7 @@ class Step1Form extends Component {
 
     return (
       <FormContainer width={700}>
-        <FormItem label={'คลินิค'} field={'clinic'} message={'กรุณาคลินิค'} getFieldDecorator={getFieldDecorator} options={getOptions(clinics)} />
+        <FormItem label={'คลินิค'} field={'clinic'} message={'กรุณาคลินิค'} getFieldDecorator={getFieldDecorator} options={clinics} />
         <FormItem label={'การรักษา'} field={'treatment'} message={'กรุณาการรักษา'} getFieldDecorator={getFieldDecorator} options={this.getTreatmentsOptions()} />
         <NavigationButton onSubmit={this.handleSubmit} />
       </FormContainer>
