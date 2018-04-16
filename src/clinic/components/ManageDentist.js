@@ -26,7 +26,6 @@ const ManageDentist = ({ clinics, treatments, data, modal, onUpdateModal }) => {
 
 const enhance = compose(
   LOADER,
-  FETCH(DENTIST_TIMESLOT, LIST),
   FETCH(CLINIC, LIST),
   FETCH(TREATMENT, LIST),
   withStateHandlers(
@@ -36,7 +35,7 @@ const enhance = compose(
         if (!modal) {
           return { modal: !modal, data }
         }
-        
+
         return { modal: !modal, data: {} }
       }
     }

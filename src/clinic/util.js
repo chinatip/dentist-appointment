@@ -237,7 +237,7 @@ export const formatTimetable = (props) => {
   return { dataSource: [], columns: [] } 
 }
 
-// --------------------------------- Manage Doctor ---------------------------------
+// --------------------------------- Manage Dentist ---------------------------------
 
 const formatDoctorTable = (dentists, onEdit) => {
   const EditButton = (props) => <button onClick={() => onEdit(props)}>edit</button>

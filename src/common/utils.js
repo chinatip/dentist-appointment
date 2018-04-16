@@ -5,5 +5,5 @@ export const stringToMoment = (dateString) => {
 }
 
 export const momentToString = (date) => {
-  return moment(date._i).add(7, 'h')
+  return moment(date).add(7, 'h').subtract(1,' d')
 }
