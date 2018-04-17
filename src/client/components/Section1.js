@@ -5,6 +5,7 @@ import { Modal } from 'antd'
 import Navigation from './Navigation'
 import { Button } from 'common'
 import AppointmentModal from './appointment/AppointmentModal'
+import { cssFontH1, cssFontP, colorWhite } from 'common/styles/style-base'
 
 const Container = styled.div`
   width: 100%;
@@ -30,6 +31,33 @@ const InnerContainer = styled.div`
   max-width: 926px;
   margin: auto;
   position: relative;
+`
+const PartContainer = styled.div`
+  height: 70%;
+  display: flex;
+`
+
+const Part1 = styled.div`
+  flex-basis: 40%;
+  flex-overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
+const Part1Header = styled.div`
+  ${cssFontH1}
+  color: ${colorWhite};
+  margin-bottom: 1.5rem;
+`
+const Part1Subheader = styled.div`
+  ${cssFontP}
+  color: ${colorWhite};
+  margin-bottom: 2.5rem;
+`
+const Part2 = styled.div`
+  flex-basis: 60%;
+  flex-overflow: hidden;
 `
 
 class Index extends Component {
@@ -59,7 +87,14 @@ class Index extends Component {
         <Background2 />
         <InnerContainer>
           <Navigation />
-          <Button onClick={this.handleModal('appointment')} value={'นัดหมอ'} />
+          <PartContainer>
+            <Part1>
+              <Part1Header>ให้ทุกการนัดหมายเป็นเรื่องง่าย</Part1Header>
+              <Part1Subheader>สามารถเลือกคลินิคที่สะดวก จะนัดหรือยกเลิกเมื่อไหร่ก็ได้ และการแจ้งเตือนที่จะทำให้คุณไม่พลาดทุกการนัดหมาย</Part1Subheader>
+              <Button onClick={this.handleModal('appointment')} value={'นัดหมาย'} landingPage large />
+            </Part1>
+            <Part2 />
+          </PartContainer>
           <AppointmentModal visible={modal.appointment} onOk={this.handleModal('appointment')} onCancel={this.handleModal('appointment')}/>
         </InnerContainer>
       </Container>

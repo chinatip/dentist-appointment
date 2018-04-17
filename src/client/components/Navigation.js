@@ -34,7 +34,7 @@ export default () => {
       <Logo>MeetDent</Logo>
       {/* <Line /> */}
       <NavItemContainer>
-        <Button value={'Login'} />
+        <Button value={'Login'} landingPage />
       </NavItemContainer>
     </Container>
   )

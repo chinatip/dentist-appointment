@@ -23,7 +23,7 @@ class CustomCalendar extends Component {
         value={value}
         size={size}
         onChange={this.handleChange} 
-        // disabledDate={this.disabledDate}
+        disabledDate={this.disabledDate}
         onCalendarChange={this.handleChange} 
       />
     );

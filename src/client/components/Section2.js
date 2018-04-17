@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-import { cssFontH2, cssFontH3, cssFontP, colorBlue, colorBlack, colorGrey } from 'common/styles/style-base'
+import { cssFontH2, cssFontH3, cssFontP, colorBlack, colorGrey } from 'common/styles/style-base'
 
 const Container = styled.div`
   width: 100%;

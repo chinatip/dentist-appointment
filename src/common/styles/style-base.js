@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 export const colorBlue = '#00bcce'
 export const colorBlack = '#252c3c'
 export const colorGrey = '#9aadbc'
+export const colorWhite = '#fff'
 
 export const fontPrompt = "'Prompt'" 
 export const cssFont = css`
@@ -11,7 +12,13 @@ export const cssFont = css`
 
 export const cssFontP = css`
   ${cssFont}
-  font-weight: 400;
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.1rem;
+`
+export const cssFontH4 = css`
+  ${cssFont}
+  font-weight: 500;
   font-size: 1rem;
   line-height: 1.1rem;
 `

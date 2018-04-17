@@ -1,22 +1,51 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Button } from 'antd'
 
-const Container = styled.div`
+import { cssFontH4 } from 'common/styles/style-base'
+
+const colorWhite = '#fff'
+
+const cssLandingPageButton = css`
   .ant-btn {
-    color: #1bcfb9;
-    font-weight: 400;
-    background-color: #fff;
-    border-color: #fff;
+    ${cssFontH4}
+    color: #6acec9;
+    background-color: ${colorWhite};
+    border-color: ${colorWhite};
     border-radius: 50px;
   }
 `
+const cssLandingPageLargeButton = css`
+  .ant-btn {
+    ${cssFontH4}
+    color: #6acec9;
+    background-color: ${colorWhite};
+    border-color: transparent;
+    width: 12.5rem;
+    height: 2.8125rem;
+    transition: all 0.5s;
+
+    &:hover {
+      ${cssFontH4}
+      color: #84e7e2;
+      background-color: ${colorWhite};
+      border-color: #84e7e2;
+      width: 12.5rem;
+      height: 2.8125rem;
+    }
+  }
+`
+
+const Container = styled.div`
+  ${props => props.landingPage && cssLandingPageButton}
+  ${props => props.landingPage && props.large && cssLandingPageLargeButton}
+`
 class CustomButton extends Component {
   render() {
-    const { value, onClick } = this.props
+    const { value, onClick, landingPage, large } = this.props
 
       return (
-        <Container>
+        <Container landingPage={landingPage} large={large}>
           <Button onClick={onClick}>{value}</Button>
         </Container>
       )
