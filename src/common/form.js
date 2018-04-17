@@ -1,7 +1,9 @@
 import _ from 'lodash'
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { Form, Input, Select, DatePicker, Button } from 'antd'
+import { Form, Input, Select, Button } from 'antd'
+
+import { DatePicker } from 'common'
 
 const cssFontInput = css`
   // font-size: 20px;
@@ -60,7 +62,7 @@ const getOptions = (options) => {
 
 const getInputItem = ({ date, textarea, options }) => {
   if (date) {
-    return <DatePicker placeholder='' />
+    return <DatePicker value={date} />
   } else if (textarea) {
     return <Input.TextArea row={4} />
   } else if (options) {
