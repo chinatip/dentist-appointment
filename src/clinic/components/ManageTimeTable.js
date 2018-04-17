@@ -9,9 +9,7 @@ import { formatTimetable } from '../util'
 const ManageTimeTable = ({ clinics, dentistTimeslots, date, updateDate }) => {
   const clinic = clinics[0]
   const { dataSource, columns } = formatTimetable({ clinic, date, dentistTimeslots })
-  console.log(dataSource, columns)
 
-  // return <Table columns={columns} dataSource={dataSource} />
   return (
     <div>
       <DatePicker value={date} onChange={updateDate}/>

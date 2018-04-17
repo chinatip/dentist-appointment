@@ -96,10 +96,6 @@ export const formatStatus = ({ appointments, editable }) => {
 
 // --------------------------------- Manage TimeTable ---------------------------------
 
-const updateSlotToTimetable = ({ dentist, slot, availableSlot }) => {
-  console.log(dentist, slot, availableSlot)
-}
-
 const SlotContainer = styled.div`
   display: flex
 
@@ -151,7 +147,7 @@ const formatTimetableData = ({ clinic, date, dentistTimeslots }) => {
     const dentistSlots = _.filter(clinicSlots, (slot) => {
       const { dentist, startTime, endTime } = slot
       const sDate = stringToMoment(startTime)
-      const isDentistSlot = dentist._id === dent._id && sDate.diff(date, 'days') === 0
+      const isDentistSlot = dentist._id === dent._id && sDate.isSame(date, 'days')
 
       if (isDentistSlot) {
         const time = sDate.format(TIME_FORMAT)
