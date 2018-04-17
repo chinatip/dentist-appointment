@@ -1,5 +1,20 @@
-import Appointment from './components/Appointment';
-import Contact from './components/Contact';
-import Home from './components/Home';
+import React, { Component } from 'react'
+import styled from 'styled-components'
 
-export { Appointment, Contact, Home };
+import { Section1 } from './components'
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  background: #fff;
+`
+
+export default () => {
+  return (
+    <Container>
+      <Section1 />
+    </Container>
+  )
+}
+
+

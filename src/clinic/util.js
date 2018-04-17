@@ -9,7 +9,7 @@ import { stringToMoment, momentToString } from 'common/utils'
 import { POST, APPOINTMENT, DENTIST_TIMESLOT, CREATE, UPDATE, DELETE } from 'services'
 
 const DATE_FORMAT = 'DD MMM YYYY'
-const TIME_FORMAT = 'HH:mm'
+const TIME_FORMAT = 'H:mm'
 
 // --------------------------------- Appointment Status ---------------------------------
 const APPOINTMENT_STATUS = [
