@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
+import { cssFontH2, cssFontH3, cssFontP, colorBlue, colorBlack, colorGrey } from 'common/styles/style-base'
+
 const Container = styled.div`
   width: 100%;
   height: auto;
@@ -14,9 +16,9 @@ const InnerContainer = styled.div`
 `
 const Header = styled.div`
   text-align: center;
-`
-const Subheader = styled.div`
-  text-align: center;
+  ${cssFontH2}
+  color: ${colorBlack};
+  margin-bottom: 100px;
 `
 const ItemListContainer = styled.div`
   display: flex;
@@ -28,19 +30,28 @@ const ItemContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `
+const ItemImage = styled.div`
+  width: 100%;
+  height: 80px;
+  margin-bottom: 20px;
+`
 const ItemTitle = styled.div`
-
+  ${cssFontH3}
+  color: ${colorBlack};
+  margin-bottom: 0.7rem;
 `
 const ItemSubtitle = styled.div`
-
+  ${cssFontP}
+  color: ${colorGrey};
 `
 
 const Item = ({ title, text, children }) => {
   return (
     <ItemContainer>
       {children}
+      <ItemImage />
       <ItemTitle>title</ItemTitle>
-      <ItemSubtitle>text text text text text texttexttexttexttext </ItemSubtitle>
+      <ItemSubtitle>text text text text text textt exttex texttext </ItemSubtitle>
     </ItemContainer>
   )
 }
@@ -50,7 +61,6 @@ export default () => {
     <Container>
       <InnerContainer>
         <Header>Header</Header>
-        <Subheader>Subheader</Subheader>
         <ItemListContainer> 
           <Item /> 
           <Item />       
