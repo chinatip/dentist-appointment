@@ -103,6 +103,15 @@ const SlotContainer = styled.div`
     font-weight: bold
   }
 `
+const SlotButton = styled.div`
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  background: grey;
+
+  ${props => props.active && 'background: green'};
+`
 
 const enhanceSlotController = compose(
   withPropsOnChange(['slots'], ({ slots }) => {
@@ -127,12 +136,13 @@ const enhanceSlotController = compose(
 
 const SlotController = enhanceSlotController(
   ({ slots: { full, half }, fullSlot, halfSlot, updateSlot }) => {
+    console.log(fullSlot.value, halfSlot.value)
     return (
       <div>
         <div>{full.label}</div>
-        <button onClick={() => updateSlot(fullSlot)}>{fullSlot.value? 1: 0}</button>
+        <SlotButton active={!!fullSlot.value} onClick={() => updateSlot(fullSlot)} />
         <div>{half.label}</div>
-        <button onClick={() => updateSlot(halfSlot)}>{halfSlot.value? 1: 0}</button>
+        <SlotButton active={!!halfSlot.value} onClick={() => updateSlot(halfSlot)} />
       </div>
     )
   }
@@ -152,7 +162,7 @@ const formatTimetableData = ({ clinic, date, dentistTimeslots }) => {
       if (isDentistSlot) {
         const time = sDate.format(TIME_FORMAT)
         timeslots[time] = {}
-        timeslots[time].id = slot._id
+        timeslots[time]._id = slot._id
         timeslots[time].value = true
         timeslots[time].time = { startTime, endTime }
       }

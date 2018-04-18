@@ -19,12 +19,12 @@ const NavigationContainer = styled.div`
   display: flex;
 `
 const FormButton = styled(Button)`
-  ${props => props.ghost? cssGhostButton: cssNormalButton}
+  // ${props => props.ghost? cssGhostButton: cssNormalButton}
 `
 export const NavigationButton = ({ onSubmit, onBackStep, last }) => {
   return (
     <NavigationContainer>
-      {onBackStep && <FormButton ghost onClick={onBackStep}>{'ย้อนกลับ'}</FormButton>}
+      {onBackStep && <FormButton onClick={onBackStep}>{'ย้อนกลับ'}</FormButton>}
       <FormButton onClick={onSubmit}>{ !last? 'ต่อไป': 'ตกลง'}</FormButton>
     </NavigationContainer>
   )
