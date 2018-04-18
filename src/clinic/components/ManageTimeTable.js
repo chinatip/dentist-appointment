@@ -5,6 +5,7 @@ import moment from 'moment'
 import { LOADER, FETCH, DENTIST_TIMESLOT, CLINIC, LIST } from 'services'
 import { Table, DatePicker, Button } from 'common'
 import { formatTimetable } from '../util'
+import PageHeader from './PageHeader'
 
 const ManageTimeTable = ({ clinics, dentistTimeslots, date, updateDate }) => {
   const clinic = clinics[0]
@@ -12,7 +13,9 @@ const ManageTimeTable = ({ clinics, dentistTimeslots, date, updateDate }) => {
 
   return (
     <div>
-      <DatePicker value={date} onChange={updateDate}/>
+      <PageHeader title={'ตารางเวลา'}>
+        <DatePicker value={date} onChange={updateDate}/>
+      </PageHeader>
       <Table columns={columns} dataSource={dataSource} />
     </div>
   )

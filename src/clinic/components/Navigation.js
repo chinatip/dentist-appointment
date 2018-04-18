@@ -22,15 +22,15 @@ export default ({ type }) => {
         forceSubMenuRender={true}
         inlineCollapsed={false}
       >
-        <Menu.SubMenu key='sub1' title={<span>นัดหมาย</span>}>
+        <Menu.SubMenu key='sub1' title={<span>จัดการคลินิค</span>}>
           <Menu.Item key='status'>
-            <Link to={`/clinic/status`}>สถานะ</Link>
+            <Link to={`/clinic/status`}>สถานะการนัดหมาย</Link>
           </Menu.Item>
           <Menu.Item key='timetable'>
             <Link to={`/clinic/timetable`}>ตารางเวลา</Link>
           </Menu.Item>
           <Menu.Item key='dentists'>
-            <Link to={`/clinic/dentists`}>หมอ</Link>
+            <Link to={`/clinic/dentists`}>หมอฟัน</Link>
           </Menu.Item>
           {/* <MenuItem key={1} path='status' label='สถานะ' />
           <MenuItem key={2} path='timetable' label='ตารางเวลา' />

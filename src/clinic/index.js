@@ -13,6 +13,8 @@ const Container = styled.div`
 `
 const InnerContainer = styled.div`
   width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
   height: 600px;
   padding: 20px;
 `
@@ -35,14 +37,13 @@ const ClinicDetail = ({ type }) => {
   return <AppointmentStatus />
 }
 
-export default (props) => {
-  const type = props.match.params.type
+export default ({ match }) => {
+  const type = match.params.type
 
   return (
     <Container>
       <Navigation type={type} />
       <InnerContainer>
-        {/* <Title>{type}</Title> */}
         <ClinicDetail type={type} />
       </InnerContainer>
   </Container>

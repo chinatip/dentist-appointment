@@ -6,10 +6,7 @@ import { Table, Button } from 'common'
 import { formatDoctor } from '../util'
 import ManageDentistModal from './ManageDentistModal'
 import { LOADER, FETCH, DENTIST_TIMESLOT, CLINIC, TREATMENT, LIST } from 'services'
-
-const Container = styled.div`
-
-`
+import PageHeader from './PageHeader'
 
 const ManageDentist = ({ clinics, treatments, data, modal, onUpdateModal }) => {
   const clinic = clinics[0]
@@ -17,11 +14,13 @@ const ManageDentist = ({ clinics, treatments, data, modal, onUpdateModal }) => {
   const { dataSource, columns } = formatDoctor({ clinic, dentists, onEdit: onUpdateModal })
   
   return (
-    <Container>
-      <Button onClick={onUpdateModal} value={'เพิ่มหมอฟัน'}/>
+    <div>
+      <PageHeader title={'หมอฟัน'}>
+        <Button onClick={onUpdateModal} value={'เพิ่มหมอฟัน'}/>
+      </PageHeader>
       <Table dataSource={dataSource} columns={columns} />
       <ManageDentistModal visible={modal} onOk={onUpdateModal} onCancel={onUpdateModal} treatments={treatments} clinic={clinic} data={data} />
-    </Container>
+    </div>
   )
 }
 
