@@ -6,7 +6,7 @@ import { compose, withHandlers, withStateHandlers, withPropsOnChange } from 'rec
 
 import { Select } from 'common'
 import { stringToMoment, momentToString } from 'common/utils'
-import { POST, APPOINTMENT, DENTIST_TIMESLOT, CREATE, UPDATE, DELETE } from 'services'
+import { POST, APPOINTMENT, CLINIC, DENTIST, DENTIST_TIMESLOT, CREATE, UPDATE, DELETE } from 'services'
 
 const DATE_FORMAT = 'DD MMM YYYY'
 const TIME_FORMAT = 'H:mm'
@@ -245,7 +245,20 @@ export const formatTimetable = (props) => {
 
 // --------------------------------- Manage Dentist ---------------------------------
 
-const formatDoctorTable = (dentists, onEdit) => {
+const DeleteButton = withHandlers(
+  { 
+    onDelete: ({ clinic, _id }) => () => {
+      POST(DENTIST, DELETE, { _id })
+      const dentists = clinic.dentists.filter((d) => d._id && d._id !== _id)
+      POST(CLINIC, UPDATE, { _id: clinic._id, dentists })
+    }
+  }
+)( 
+  ({ onDelete }) => <button onClick={onDelete}>X</button>
+)
+
+const formatDoctorTable = ({ dentists, clinic, onEdit }) => {
+  const DeleteButtonWithClinic = (props) => <DeleteButton clinic={clinic} {...props} />
   const EditButton = (props) => <button onClick={() => onEdit(props)}>edit</button>
 
   const columns = [
@@ -272,16 +285,22 @@ const formatDoctorTable = (dentists, onEdit) => {
       title: 'แก้ไข',
       dataIndex: '_id',
       key: 'edit',
-      render: (id, props) => <EditButton {...props} />
+      render: (id, props) => (
+        <div>
+          <EditButton {...props} />
+          <DeleteButtonWithClinic {...props} />
+        </div>
+      )
     }
   ]  
 
   return { dataSource: dentists, columns }
 }
 
-export const formatDoctor = ({ dentists, onEdit }) => {
+export const formatDoctor = (props) => {
+  const { dentists } = props
   if (dentists) {
-    return formatDoctorTable(dentists, onEdit)
+    return formatDoctorTable(props)
   }
 
   return { dataSource: [], columns: [] }

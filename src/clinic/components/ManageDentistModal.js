@@ -60,7 +60,7 @@ class ManageDentistForm extends Component {
     e.preventDefault()
     form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        if (!data) {
+        if (data._id) {
           const body = { _id: data._id, ...values }
           POST(DENTIST, UPDATE, body)
         } else {
