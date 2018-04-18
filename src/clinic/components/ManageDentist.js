@@ -18,8 +18,9 @@ const ManageDentist = ({ clinics, treatments, data, modal, onUpdateModal }) => {
   
   return (
     <Container>
+      <Button onClick={onUpdateModal} value={'เพิ่มหมอฟัน'}/>
       <Table dataSource={dataSource} columns={columns} />
-      <ManageDentistModal visible={modal} onOk={onUpdateModal} onCancel={onUpdateModal} treatments={treatments} data={data} />
+      <ManageDentistModal visible={modal} onOk={onUpdateModal} onCancel={onUpdateModal} treatments={treatments} clinic={clinic} data={data} />
     </Container>
   )
 }

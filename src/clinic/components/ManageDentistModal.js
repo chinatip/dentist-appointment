@@ -5,7 +5,7 @@ import { Form } from 'antd'
 
 import { Modal } from 'common'
 import { FormContainer, FormItem, NavigationButton } from 'common/form'
-import { POST, DENTIST, CREATE, UPDATE } from 'services'
+import { POST, DENTIST, CLINIC, CREATE, UPDATE } from 'services'
 
 const Container = styled.div`
 
@@ -55,13 +55,21 @@ class ManageDentistForm extends Component {
   }
 
   handleSubmit = (e) => {
-    const { form, onCancel, data: { _id } } = this.props
+    const { form, onCancel, clinic, data } = this.props
 
     e.preventDefault()
-    form.validateFieldsAndScroll((err, values) => {
+    form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        const body = { _id, ...values }
-        POST(DENTIST, UPDATE, body)
+        if (!data) {
+          const body = { _id: data._id, ...values }
+          POST(DENTIST, UPDATE, body)
+        } else {
+          const dentist = await POST(DENTIST, CREATE, values)
+          const dentists = clinic.dentists.map((d) => d._id)
+          dentists.push(dentist.data._id)
+
+          POST(CLINIC, UPDATE, { _id: clinic._id, dentists })
+        }
         onCancel()
       }
     })
@@ -86,12 +94,13 @@ const WrappedForm = Form.create()(ManageDentistForm)
 
 class ManageDentist extends Component {
   render() {
-    const { visible, onOk, onCancel } = this.props
+    const { visible, onOk, data, onCancel } = this.props
 
     return (
       <Container>
         <GlobalStyles />
         <Modal visible={visible} onOk={onOk} onCancel={onCancel} wrapClassName={'dentist-modal'}>
+          { data? 'เพิ่มหมอฟัน': 'แก้ไขหมอฟัน'}
           <WrappedForm {...this.props} />
         </Modal>
       </Container>
