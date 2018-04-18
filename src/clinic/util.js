@@ -4,7 +4,7 @@ import _ from 'lodash'
 import styled from 'styled-components'
 import { compose, withHandlers, withStateHandlers, withPropsOnChange } from 'recompose'
 
-import { Select } from 'common'
+import { Button, Select } from 'common'
 import { stringToMoment, momentToString } from 'common/utils'
 import { POST, APPOINTMENT, CLINIC, DENTIST, DENTIST_TIMESLOT, CREATE, UPDATE, DELETE } from 'services'
 
@@ -136,7 +136,6 @@ const enhanceSlotController = compose(
 
 const SlotController = enhanceSlotController(
   ({ slots: { full, half }, fullSlot, halfSlot, updateSlot }) => {
-    console.log(fullSlot.value, halfSlot.value)
     return (
       <div>
         <div>{full.label}</div>
@@ -254,12 +253,12 @@ const DeleteButton = withHandlers(
     }
   }
 )( 
-  ({ onDelete }) => <button onClick={onDelete}>X</button>
+  ({ onDelete }) => <Button onClick={onDelete} value={'X'} />
 )
 
 const formatDoctorTable = ({ dentists, clinic, onEdit }) => {
   const DeleteButtonWithClinic = (props) => <DeleteButton clinic={clinic} {...props} />
-  const EditButton = (props) => <button onClick={() => onEdit(props)}>edit</button>
+  const EditButton = (props) => <Button onClick={() => onEdit(props)} value={'แก้ไข'} />
 
   const columns = [
     {
@@ -286,7 +285,7 @@ const formatDoctorTable = ({ dentists, clinic, onEdit }) => {
       dataIndex: '_id',
       key: 'edit',
       render: (id, props) => (
-        <div>
+        <div style={{ display: 'flex' }}>
           <EditButton {...props} />
           <DeleteButtonWithClinic {...props} />
         </div>
