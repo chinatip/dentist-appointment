@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import { Loader } from 'common'
 
-export const API_URL = 'http://localhost:8080'
+export const API_URL = 'https://pacific-inlet-14356.herokuapp.com'
 
 export const LIST = 'list'
 export const CREATE = 'create'
