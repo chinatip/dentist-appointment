@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import FacebookLogin from 'react-facebook-login'
 
 // import { CREATE_USER } from 'services'
-// import { FB_APP_ID } from 'auth'
+import { FB_APP_ID } from 'auth'
 
 const FormItem = Form.Item
 const Container = styled.div`
@@ -116,14 +116,14 @@ class Login extends React.Component {
             </Select>
           )}
         </FormItem>
-        {/* <FacebookLogin
+        <FacebookLogin
           appId={FB_APP_ID}
           autoLoad={true}
           fields="name,email,picture"
           callback={this.applyFBData}
           cssClass="my-facebook-button-class"
           icon="fa-facebook"
-        /> */}
+        />
           <Button type="primary" htmlType="submit">
             Register
           </Button>

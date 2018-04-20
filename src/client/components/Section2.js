@@ -18,7 +18,7 @@ const Header = styled.div`
   text-align: center;
   ${cssFontH2}
   color: ${colorBlack};
-  margin-bottom: 100px;
+  margin-bottom: 4rem;
 `
 const ItemListContainer = styled.div`
   display: flex;
@@ -29,11 +29,12 @@ const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 `
 const ItemImage = styled.div`
   width: 100%;
   height: 80px;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 `
 const ItemTitle = styled.div`
   ${cssFontH3}
@@ -44,14 +45,25 @@ const ItemSubtitle = styled.div`
   ${cssFontP}
   color: ${colorGrey};
 `
+const TempCircle = styled.div`
+  width: 5.5rem;
+  height: 5.5rem;
+  background: linear-gradient(green,black);
+  position: absolute;
+  background: linear-gradient(109deg,rgba(255,255,255,0.15),rgba(177, 247, 230, 0.11) 40%,rgba(68, 211, 214, 0.08) 90%);
+  transform: translate(0%, 0%);
+  border-radius: 50%;
+`
+
 
 const Item = ({ title, text, children }) => {
   return (
     <ItemContainer>
       {children}
+      <TempCircle />
       <ItemImage />
-      <ItemTitle>title</ItemTitle>
-      <ItemSubtitle>text text text text text textt exttex texttext </ItemSubtitle>
+      <ItemTitle>{title}</ItemTitle>
+      <ItemSubtitle>{text}</ItemSubtitle>
     </ItemContainer>
   )
 }
@@ -60,11 +72,11 @@ export default () => {
   return (
     <Container>
       <InnerContainer>
-        <Header>Header</Header>
+        <Header>ฟีเจอร์ต่างๆ</Header>
         <ItemListContainer> 
-          <Item /> 
-          <Item />       
-          <Item />       
+          <Item title={'นัดหมาย'} text={'ให้คุณไม่พลาดทุกการนัดหมาย'} /> 
+          <Item title={'แจ้งเตือน'} text={'ให้คุณไม่พลาดทุกการนัดหมาย'} />       
+          <Item title={'แจ้งเตือน'} text={'ให้คุณไม่พลาดทุกการนัดหมาย'} />       
         </ItemListContainer>
       </InnerContainer>
     </Container>

@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import styled, { css } from 'styled-components'
 import { Form } from 'antd'
@@ -86,20 +87,21 @@ class Step2Form extends Component {
     if (dentist && date) {
       const selectedDateAppointments = appointments.filter((app) => {
         const appDate = stringToMoment(app.slot.startTime)
-        return appDate.diff(date, 'days') === 0
+        return appDate.isSame(date, 'days') && app.status !== 'cancel'
       })
 
       const dentistSlots = timeslots.filter((slot) => {
         const slotDate = stringToMoment(slot.startTime)
-        
-        return slot.dentist._id === dentist && slotDate.diff(date, 'days') === 0
+
+        return slot.dentist._id === dentist && slotDate.isSame(date, 'days')
       })
 
-      const availableTimeslots = dentistSlots.filter((slot) => 
+      let availableTimeslots = dentistSlots.filter((slot) => 
         !(selectedDateAppointments.filter((app) => {
           return app.slot._id === slot._id
         }).length === 1)
       )
+      availableTimeslots = _.sortBy(availableTimeslots, 'startTime')
 
       const timeslot = getFieldValue('slot')
 
@@ -107,7 +109,7 @@ class Step2Form extends Component {
         <TimetableContainer>
           { availableTimeslots.length > 0? 
             availableTimeslots.map((slot) => {
-              const date = stringToMoment(slot.startTime).format('HH:mm')
+              const date = stringToMoment(slot.startTime).format('H:mm')
 
               return (
                 <Timeslot select={slot._id === timeslot} onClick={this.handleTimeslot(slot._id)}>

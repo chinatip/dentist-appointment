@@ -2,17 +2,26 @@ import React, { Component } from 'react'
 import styled, { css } from 'styled-components'
 import { Button } from 'antd'
 
-import { cssFontH4 } from 'common/styles/style-base'
+import { cssFontH4, cssFontP } from 'common/styles/style-base'
 
 const colorWhite = '#fff'
-
+const colorFadeWhite = 'rgba(255, 255, 255, 0.95)'
 const cssLandingPageButton = css`
   .ant-btn {
-    ${cssFontH4}
-    color: #6acec9;
-    background-color: ${colorWhite};
+    ${cssFontP}
+    color: ${colorWhite};
+    background-color: transparent;
     border-color: ${colorWhite};
     border-radius: 50px;
+    border-width: 1.4px;
+    font-weight: 500;
+
+    &:hover {
+      ${cssFontP}
+      color: #42eeba;
+      background-color: ${colorFadeWhite};
+      border-color: #42eeba;
+    }
   }
 `
 const cssLandingPageLargeButton = css`

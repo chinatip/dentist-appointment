@@ -54,10 +54,33 @@ const Part1Subheader = styled.div`
   ${cssFontP}
   color: ${colorWhite};
   margin-bottom: 2.5rem;
+  line-height: 1.6rem;
 `
+
 const Part2 = styled.div`
   flex-basis: 60%;
   flex-overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+const Circle1 = styled.div`
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(146deg, rgba(255,255,255,0.66), #83F5D1 60%, #50F5B7);
+  position: absolute;
+  transform: translate(280%,-278%);
+  border-radius: 50%;
+`
+const Circle2 = styled.div`
+  width: 5.5rem;
+  height: 5.5rem;
+  background: linear-gradient(green,black);
+  position: absolute;
+  background: linear-gradient(109deg, rgba(255, 255, 255, 0.15),rgba(177, 247, 230, 0.28) 40%, rgba(68, 211, 214, 0.34) 90%);
+  transform: translate(-82%,138%);
+  border-radius: 50%;
 `
 
 class Index extends Component {
@@ -93,7 +116,10 @@ class Index extends Component {
               <Part1Subheader>สามารถเลือกคลินิคที่สะดวก จะนัดหรือยกเลิกเมื่อไหร่ก็ได้ และการแจ้งเตือนที่จะทำให้คุณไม่พลาดทุกการนัดหมาย</Part1Subheader>
               <Button onClick={this.handleModal('appointment')} value={'นัดหมาย'} landingPage large />
             </Part1>
-            <Part2 />
+            <Part2>
+              <Circle1 />
+              <Circle2 />
+            </Part2>
           </PartContainer>
           <AppointmentModal visible={modal.appointment} onOk={this.handleModal('appointment')} onCancel={this.handleModal('appointment')}/>
         </InnerContainer>
