@@ -20,23 +20,6 @@ const FormContainer = styled.div`
 `
 
 class Login extends React.Component {
-  applyFBData = (response) => {
-    const { form } = this.props
-    const names = response.name.split(' ')
-    const name = names? names[0]: ''
-    const lastname = names && names.length > 1? names[1]: ''
-
-    form.setFields({
-      name: {
-        value: name
-      },
-      lastname: {
-        value: lastname
-      }
-    })
-  }
-
-
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
@@ -119,8 +102,8 @@ class Login extends React.Component {
         <FacebookLogin
           appId={FB_APP_ID}
           autoLoad={true}
-          fields="name,email,picture"
-          callback={this.applyFBData}
+          fields="id,age_range,first_name,last_name,gender,email,link,picture"
+          callback={(res) => console.log(res)}
           cssClass="my-facebook-button-class"
           icon="fa-facebook"
         />

@@ -62,7 +62,7 @@ class Login extends React.Component {
         <FacebookLogin
           appId={FB_APP_ID}
           autoLoad={true}
-          fields="name,email,picture"
+          fields="id,age_range,first_name,last_name,gender,email,link,picture"
           callback={(res) => console.log(res)}
           cssClass="my-facebook-button-class"
           icon="fa-facebook"
