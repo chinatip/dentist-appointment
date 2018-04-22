@@ -2,12 +2,14 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import { compose } from 'recompose'
+import { connect } from 'react-redux'
 
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
 
 import { Modal } from 'common'
+import { getUser } from 'redux/user'
 import { LOADER, FETCH, POST, LIST, CREATE, CLINIC, DENTIST, DENTIST_TIMESLOT, APPOINTMENT } from 'services'
 
 const Container = styled.div``
@@ -54,10 +56,10 @@ class Index extends Component {
 
   createAppointment = async () => {
     const { data } = this.state
-    const { onCancel } = this.props
+    const { user: { _id }, onCancel } = this.props
     const body = { 
       ...data, 
-      patient: "5acb71503aaca540a6695c43",
+      patient: _id,
       status: 'waiting'
     }
 
@@ -120,4 +122,9 @@ class Index extends Component {
   }
 }
 
-export default enhance(Index)
+export default connect(
+  (state) => ({ 
+    user: getUser(state)
+  }),
+  { }
+)(enhance(Index))
