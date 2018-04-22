@@ -5,9 +5,9 @@ const REMOVE = head + 'REMOVE'
 export default (state = null, action = {}) => {
   switch (action.type) {
     case SET:
-      return { ...state, user: action.user  }
+      return action.user
     case REMOVE:
-      return { ...state, user: null  }
+      return null
     default: 
       return state
   }
