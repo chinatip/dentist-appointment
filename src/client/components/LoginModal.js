@@ -37,7 +37,7 @@ class LoginModal extends Component {
     const { setUser, onCancel } = this.props
     const { id } = data
     const patient = await POST(PATIENT, FIND_BY_FB_ID, { facebookId: id })
-    console.log('>>>', data, patient)
+
     if (patient) {
       removeUser()
       setUser(patient)

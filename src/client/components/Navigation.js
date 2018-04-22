@@ -42,10 +42,11 @@ const NavItemNormal = ({ onLogin }) => {
   )
 }
 
-const NavItemLoggedIn = () => {
+const NavItemLoggedIn = ({ user }) => {
+  const { firstname, lastname } = user
   return (
     <NavItemContainer>
-      {/* <Button value={'สมัคร'} landingPage /> */}
+      {`${firstname} ${lastname}`}
     </NavItemContainer>
   )
 }
@@ -56,7 +57,7 @@ const Navigation = ({ onLogin, user }) => {
   return (
     <Container>
       <Logo>MeetDent</Logo>
-      { user? <NavItemLoggedIn />: <NavItemNormal onLogin={onLogin} /> }
+      { user? <NavItemLoggedIn user={user} />: <NavItemNormal onLogin={onLogin} /> }
     </Container>
   )
 }
