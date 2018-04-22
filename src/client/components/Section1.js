@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 import { Modal } from 'antd'
 
 import Navigation from './Navigation'
-import { Button } from 'common'
 import AppointmentModal from './appointment/AppointmentModal'
+import LoginModal from './LoginModal'
+import { getUser, setUser } from 'redux/user'
+
+import { Button } from 'common'
 import { cssFontH1, cssFontP, colorWhite } from 'common/styles/style-base'
 
 const Container = styled.div`
@@ -89,6 +93,7 @@ class Index extends Component {
 
     this.state = {
       modal: { 
+        login: false,
         appointment: false
       } 
     }
@@ -109,7 +114,7 @@ class Index extends Component {
         <Background1 />
         <Background2 />
         <InnerContainer>
-          <Navigation />
+          <Navigation onLogin={this.handleModal('login')} />
           <PartContainer>
             <Part1>
               <Part1Header>ให้ทุกการนัดหมายเป็นเรื่องง่าย</Part1Header>
@@ -121,12 +126,18 @@ class Index extends Component {
               <Circle2 />
             </Part2>
           </PartContainer>
-          <AppointmentModal visible={modal.appointment} onOk={this.handleModal('appointment')} onCancel={this.handleModal('appointment')}/>
+          <AppointmentModal visible={modal.appointment} onOk={this.handleModal('appointment')} onCancel={this.handleModal('appointment')} />
+          <LoginModal visible={modal.login} onOk={this.handleModal('login')} onCancel={this.handleModal('login')} />
         </InnerContainer>
       </Container>
     )
   }
 }
 
-export default Index
+export default connect(
+  (state) => ({
+    user: getUser(state)
+  }),
+  { setUser }
+)(Index)
 

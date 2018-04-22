@@ -26,17 +26,19 @@ const NavItemContainer = styled.div`
 const Link = styled.div`
   ${cssFontP}
   color: white;
+  line-height: 2rem;
   text-decoration: underline;
   margin-left: 20px;
+  cursor: pointer;
 `
 
-export default () => {
+export default ({ onLogin }) => {
   return (
     <Container>
       <Logo>MeetDent</Logo>
       <NavItemContainer>
         <Button value={'สมัคร'} landingPage />
-        <Link>เข้าสู่ระบบ</Link>
+        <Link onClick={onLogin}>เข้าสู่ระบบ</Link>
       </NavItemContainer>
     </Container>
   )
