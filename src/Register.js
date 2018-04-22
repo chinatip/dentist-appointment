@@ -5,7 +5,7 @@ import FacebookLogin from 'react-facebook-login'
 
 import { FB_APP_ID } from 'auth'
 import { FormContainer, FormItem, NavigationButton } from 'common/form'
-import { POST, CREATE, PATIENT } from 'services'
+import { POST, PATIENT, CREATE, FIND_BY_FB_ID } from 'services'
 
 const Container = styled.div`
   width: 100%;
@@ -39,10 +39,18 @@ class Register extends React.Component {
     })
   }
 
-  handleFBLogin = (data) => {
-    console.log(data)
+  linkToHome = () => {
+    window.location.replace('https://dentist-appointment.herokuapp.com')
+  }
+
+  handleFBLogin = async (data) => {
     const { form } = this.props
     const { accessToken, first_name, last_name, gender, id } = data
+    const patient = await POST(PATIENT, FIND_BY_FB_ID, { facebookId: id })
+
+    if (patient) {
+      this.linkToHome()
+    }
 
     form.setFields({
       firstname: {
@@ -64,8 +72,8 @@ class Register extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         const res = await POST(PATIENT, CREATE, values)
-        console.log(res, { body: values})
-        window.location.replace('https://dentist-appointment.herokuapp.com/login')
+
+        this.linkToHome()
       }
     })
   }
@@ -78,7 +86,6 @@ class Register extends React.Component {
       <FormContainer width={700}>
         <FacebookLogin
           appId={FB_APP_ID}
-          autoLoad={true}
           fields="id,age_range,first_name,last_name,gender,email,link,picture"
           callback={this.handleFBLogin}
           cssClass="my-facebook-button-class"
