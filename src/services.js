@@ -37,6 +37,6 @@ export const FETCH = (table, action, body = null) => {
 
 export const POST = (table, action, body) => {
   const url = `${API_URL}/${table}/${action}`
-    
-  return axios.post(url, body)
+  
+  return axios.post(url, body).then(({ data }) => data)
 }

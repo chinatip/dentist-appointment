@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 import { Button } from 'common' 
+import { getUser } from 'redux/user'
 import { cssFontP } from 'common/styles/style-base'
 
 const Container = styled.div`
@@ -31,15 +33,37 @@ const Link = styled.div`
   margin-left: 20px;
   cursor: pointer;
 `
+const NavItemNormal = ({ onLogin }) => {
+  return (
+    <NavItemContainer>
+      <Button value={'สมัคร'} landingPage />
+      <Link onClick={onLogin}>เข้าสู่ระบบ</Link>
+    </NavItemContainer>
+  )
+}
 
-export default ({ onLogin }) => {
+const NavItemLoggedIn = () => {
+  return (
+    <NavItemContainer>
+      {/* <Button value={'สมัคร'} landingPage /> */}
+    </NavItemContainer>
+  )
+}
+
+const Navigation = ({ onLogin, user }) => {
+  console.log('navigation', user)
+
   return (
     <Container>
       <Logo>MeetDent</Logo>
-      <NavItemContainer>
-        <Button value={'สมัคร'} landingPage />
-        <Link onClick={onLogin}>เข้าสู่ระบบ</Link>
-      </NavItemContainer>
+      { user? <NavItemLoggedIn />: <NavItemNormal onLogin={onLogin} /> }
     </Container>
   )
 }
+
+export default connect(
+  (state) => ({ 
+    user: getUser(state)
+  }),
+  { }
+)(Navigation)

@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
 import { Modal } from 'antd'
 
 import Navigation from './Navigation'
 import AppointmentModal from './appointment/AppointmentModal'
 import LoginModal from './LoginModal'
-import { getUser, setUser } from 'redux/user'
 
 import { Button } from 'common'
 import { cssFontH1, cssFontP, colorWhite } from 'common/styles/style-base'
@@ -108,6 +106,7 @@ class Index extends Component {
 
   render() {
     const { modal } = this.state
+    const { user } = this.props
 
     return (
       <Container>
@@ -134,10 +133,5 @@ class Index extends Component {
   }
 }
 
-export default connect(
-  (state) => ({
-    user: getUser(state)
-  }),
-  { setUser }
-)(Index)
+export default Index
 
