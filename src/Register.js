@@ -3,125 +3,107 @@ import { Form, Icon, Input, Button, Checkbox, Select } from 'antd'
 import styled from 'styled-components'
 import FacebookLogin from 'react-facebook-login'
 
-// import { CREATE_USER } from 'services'
 import { FB_APP_ID } from 'auth'
+import { FormContainer, FormItem, NavigationButton } from 'common/form'
+import { POST, CREATE, PATIENT } from 'services'
 
-const FormItem = Form.Item
 const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  align-items: center;
+  justify-content: center;
 `
-const FormContainer = styled.div`
-  width: 100%;
-  max-width: 600px;
-  height: auto;
-  margin: auto;
-`
+const GENDER_OPTIONS = [
+  { label: 'ชาย', value: 'male' },
+  { label: 'หญิง', value: 'female' }
+]
 
-class Login extends React.Component {
+const ID_OPTIONS = [
+  { label: 'หมายเลขบัตรประจำตัวประชาชน', value: 'nation' },
+  { label: 'หมายเลขหนังสือเดินทาง', value: 'passport' }
+]
+const TITLE_ID_OPTIONS = {
+  ['nation']: 'หมายเลขบัตรประจำตัวประชาชน',
+  ['passport']: 'หมายเลขหนังสือเดินทาง'
+}
+
+class Register extends React.Component {
+  componentDidMount () {
+    const { form } = this.props
+
+    form.setFields({
+      ID_type: {
+        value: ID_OPTIONS[0].value,
+      }
+    })
+  }
+
+  handleFBLogin = (data) => {
+    console.log(data)
+    const { form } = this.props
+    const { accessToken, first_name, last_name, gender, id } = data
+
+    form.setFields({
+      firstname: {
+        value: first_name,
+      },
+      lastname: {
+        value: last_name,
+      },
+      gender: {
+        value: gender
+      },
+      facebookId: {
+        value: id
+      }
+    })
+  }
   handleSubmit = (e) => {
     e.preventDefault()
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
-
-        // CREATE_USER({ ...values, "deleted": false })
+        const res = await POST(PATIENT, CREATE, values)
+        console.log(res, { body: values})
+        window.location.replace('https://dentist-appointment.herokuapp.com/login')
       }
     })
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-      },
-    };
+    const { form } = this.props
+    const { getFieldDecorator, getFieldValue } = form
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <FormItem
-          {...formItemLayout}
-          label="Name"
-        >
-          {getFieldDecorator('name', {
-            rules: [{
-              required: true, message: 'Please input your name!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="Lastname"
-        >
-          {getFieldDecorator('lastname', {
-            rules: [{
-              required: true, message: 'Please input your lastname!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="ID Card number"
-        >
-          {getFieldDecorator('id_number', {
-            rules: [{
-              required: true, message: 'Please input your ID Card number!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-        <FormItem
-          label="Gender"
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 12 }}
-        >
-          {getFieldDecorator('gender', {
-            rules: [{ required: true, message: 'Please select your gender!' }],
-          })(
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={this.handleSelectChange}
-            >
-              <Select.Option value="M">male</Select.Option>
-              <Select.Option value="F">female</Select.Option>
-            </Select>
-          )}
-        </FormItem>
+      <FormContainer width={700}>
         <FacebookLogin
           appId={FB_APP_ID}
           autoLoad={true}
           fields="id,age_range,first_name,last_name,gender,email,link,picture"
-          callback={(res) => console.log(res)}
+          callback={this.handleFBLogin}
           cssClass="my-facebook-button-class"
           icon="fa-facebook"
         />
-          <Button type="primary" htmlType="submit">
-            Register
-          </Button>
-      </Form>
+        <FormItem label={'ชื่อ'} field={'firstname'} message={'กรุณากรอกชื่อ'} getFieldDecorator={getFieldDecorator} />
+        <FormItem label={'นามสกุล'} field={'lastname'} message={'กรุณากรอกนามสกุล'} getFieldDecorator={getFieldDecorator} />
+        <FormItem label={'เพศ'} field={'gender'} message={'กรุณาเลือกเพศ'} getFieldDecorator={getFieldDecorator} options={{ options: GENDER_OPTIONS }}/>
+        <FormItem label={'เบอร์โทร'} field={'phone'} message={'กรุณากรอกเบอร์โทร'} getFieldDecorator={getFieldDecorator} />
+        <FormItem label={'ประเภท'} field={'ID_type'} message={'กรุณาเลือกประเภท'} getFieldDecorator={getFieldDecorator} options={{ options: ID_OPTIONS }}/>
+        <FormItem label={TITLE_ID_OPTIONS[getFieldValue('ID_type')]} field={'ID'} message={'กรุณากรอก'} getFieldDecorator={getFieldDecorator} />
+        <FormItem label={'facebookId'} field={'facebookId'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} hidden />
+        <NavigationButton onSubmit={this.handleSubmit} />
+      </FormContainer>
     )
   }
 }
 
-const WrappedLogin = Form.create()(Login)
+const WrappedRegister = Form.create()(Register)
 
 export default () => {
   return (
     <Container>
       <FormContainer>
-        <WrappedLogin />
+        <WrappedRegister />
       </FormContainer>
     </Container>
   )

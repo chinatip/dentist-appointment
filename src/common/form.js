@@ -45,9 +45,13 @@ const formItemLayout = {
   },
 }
 
-const getOptions = (options) => {
-  const { list, label, mode } = options
+const getOptions = (opts) => {
+  const { list, label, mode, options } = opts
   const selectOptions = []
+
+  if (options) {
+    return { selectOptions: options }
+  }
 
   _.forEach(list, (l) => {
     if (label) {
@@ -148,7 +152,7 @@ const FormContainerWrapper = styled.div`
   }
 
   .has-error .ant-form-explain {
-    color: rgba(241, 220, 220, 0.37);
+    color: red;
   }
   
   ${Row} {
