@@ -28,16 +28,31 @@ const SelectStatus = withStateHandlers(
     }
   }
 )(({ select, updateStatus }) => {
-    return ( select === 'cancel'? 
+    return ( select === 'cancel' || select === 'done'? 
       <p>{select}</p>
       : <Select value={select || select} onChange={updateStatus} options={APPOINTMENT_STATUS} />
   )}
 )
 
-const formatStatusTable = (appointments, editable) => {
-  const columns = [
+const EstimateTime = withStateHandlers(
+  ({ time }) => ({ value: time }),
+  {
+    updateTime: ({ value }, { _id }) => (e) => {
+      POST(APPOINTMENT, UPDATE, { estimateTime: e.target.value, _id })
+
+      return { value: e.target.value }
+    }
+  }
+)(({ value, updateTime }) => {
+    
+    return <input value={value} onChange={updateTime} />
+  }
+)
+
+const formatStatusTable = (appointments, editable, updateTreatmentHistory) => {
+  let columns = [
     {
-      title: 'Time',
+      title: 'เวลา',
       dataIndex: 'slot',
       key: 'time',
       render: (slot) => {
@@ -53,42 +68,72 @@ const formatStatusTable = (appointments, editable) => {
         )
     }
     }, {
-      title: 'Dentist',
+      title: 'หมอ',
       dataIndex: 'slot.dentist',
       key: 'dentist',
       render: (dentist) => <p>{`${dentist.firstname} ${dentist.lastname}`}</p>
     }, {
-      title: 'Treatment',
+      title: 'การรักษา',
       dataIndex: 'treatment.name',
       key: 'treatment',
       render: (treatment) => <p>{treatment}</p>
     }, {
-      title: 'Patient',
+      title: 'คนไข้',
       dataIndex: 'patient',
       key: 'patient',
-      render: (patient) => <p>{`${patient.firstname} ${patient.lastname}`}</p>
+      render: (patient) => (
+        <div>
+          <p>{`${patient.firstname} ${patient.lastname}`}</p>
+          <p>{patient.phone}</p>
+        </div>
+      )
     }
   ]
 
+  const estTimeCol = {
+    title: 'เวลาที่ใช้',
+    dataIndex: 'estimateTime',
+    key: 'estimateTime'
+  }
   const statusCol = {
-    title: 'Status',
+    title: 'สถานะ',
     dataIndex: 'status',
     key: 'status',
+  }
+  const treatmentHistoryCol = {
+    title: 'ประวัติ',
+    dataIndex: 'report',
+    key: 'report',
   }
 
   if (editable) {
     statusCol.render = (status, { _id }) => <SelectStatus status={status} _id={_id} /> 
+    estTimeCol.render = (estTime, { _id }) => <EstimateTime time={estTime} _id={_id} />
   } else {
     statusCol.render = (status) => <p>{status}</p> 
+    estTimeCol.render = (estTime) => <p>{estTime}</p>
   }
-  columns.push(statusCol)
-  
+
+  treatmentHistoryCol.render = (report, { _id }) => {
+    if (report) {
+      return <Button value={'แก้ไข'} onClick={() => updateTreatmentHistory(report)} />
+    }
+
+    return <Button value={'เพิ่ม'} onClick={() => updateTreatmentHistory(report)} />
+  }
+
+  columns = columns.concat([
+    estTimeCol,
+    statusCol,
+    treatmentHistoryCol
+  ])
+
   return { dataSource: appointments, columns }
 }
 
-export const formatStatus = ({ appointments, editable }) => {
+export const formatStatus = ({ appointments, editable, updateTreatmentHistory }) => {
   if (appointments) {
-    return formatStatusTable(appointments, editable)
+    return formatStatusTable(appointments, editable, updateTreatmentHistory)
   }
 
   return { dataSource: [], columns: [] }
