@@ -18,6 +18,7 @@ export const DENTIST = 'dentists'
 export const DENTIST_TIMESLOT = 'dentistTimeslots'
 export const PATIENT = 'patients'
 export const TREATMENT = 'treatments'
+export const REPORT = 'reports'
 
 export const LOADER = client(Loader)
 
