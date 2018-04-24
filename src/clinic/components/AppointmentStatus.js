@@ -43,7 +43,7 @@ const enhance = compose(
   withStateHandlers(
     { 
       editable: false,
-      editTreatment: false,
+      editTreatment: true,
       treatmentData: {}
     },
     { 

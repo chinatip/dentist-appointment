@@ -6,6 +6,7 @@ import Select from './Select'
 import Modal from './Modal'
 import Loader from './Loader'
 import Switch from './Switch'
+import TeethQuadrants from './TeethQuadrants'
 
 export { 
   Calendar, 
@@ -15,5 +16,6 @@ export {
   Select,
   Modal,
   Loader,
-  Switch
+  Switch,
+  TeethQuadrants
 }
