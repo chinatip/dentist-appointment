@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import { Form } from 'antd'
 
-import { Modal, TeethQuadrants } from 'common'
+import { Modal, TeethList } from 'common'
 
 const Container = styled.div`
 
@@ -33,7 +33,7 @@ class TreatmentHistoryModal extends Component {
         <GlobalStyles />
         <Modal visible={visible} onOk={onOk} onCancel={onCancel} wrapClassName={'treatment-history-modal'}>
           TreatmentHistoryModal
-          <TeethQuadrants />
+          <TeethList />
         </Modal>
       </Container>
     )

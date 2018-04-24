@@ -6,6 +6,7 @@ import Select from './Select'
 import Modal from './Modal'
 import Loader from './Loader'
 import Switch from './Switch'
+import TeethList from './TeethList'
 import TeethQuadrants from './TeethQuadrants'
 
 export { 
@@ -17,5 +18,6 @@ export {
   Modal,
   Loader,
   Switch,
+  TeethList,
   TeethQuadrants
 }

@@ -45,16 +45,37 @@ const cssLandingPageLargeButton = css`
   }
 `
 
+const cssTeeth = css`
+  .ant-btn {
+
+    &:hover {
+
+    }
+  }
+`
+
+const cssSelectedTeeth = css`
+  .ant-btn {
+    color: red;
+
+    &:hover {
+
+    }
+  }
+`
+
 const Container = styled.div`
   ${props => props.landingPage && cssLandingPageButton}
   ${props => props.landingPage && props.large && cssLandingPageLargeButton}
+  ${props => props.teeth && cssTeeth}
+  ${props => props.teeth && props.selectedTooth && cssSelectedTeeth}
 `
 class CustomButton extends Component {
   render() {
-    const { value, onClick, landingPage, large } = this.props
+    const { value, onClick, landingPage, large, teeth, selectedTooth } = this.props
 
       return (
-        <Container landingPage={landingPage} large={large}>
+        <Container landingPage={landingPage} large={large} teeth={teeth} selectedTooth={selectedTooth}>
           <Button onClick={onClick}>{value}</Button>
         </Container>
       )

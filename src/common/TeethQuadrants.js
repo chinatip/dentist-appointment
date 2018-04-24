@@ -24,22 +24,37 @@ const TeethListContainer = styled.div`
   margin-bottom: 10px;
 `
 
-const quadrants = [1, 2, 4, 3]
-const primary = ['A', 'B', 'C', 'D', 'E']
-const permanent = [1, 2, 3, 4, 5, 6, 7, 8]
+const QUADRANTS = [1, 2, 4, 3]
+const PERMANENT = [1, 2, 3, 4, 5, 6, 7, 8]
+const PRIMARY = ['A', 'B', 'C', 'D', 'E']
+const PRIMARY_BY_NUMBER = {
+  'A': 1,
+  'B': 2,
+  'C': 3,
+  'D': 4,
+  'E': 5
+}
 
 class TeethQuadrants extends Component {
-  renderTeeth(teethList, q) {
-    const teeth = _.clone(teethList)
+  renderTeeth({ list, q, isPrimary = false }) {
+    const { selectedTeeth } = this.props    
+    const teeth = _.clone(list)
     const reverse = q === 1 || q === 4
     if (reverse) {
       teeth.reverse()
     }
-    
+
     return (
       <TeethListContainer reverse={reverse}>
         { teeth.map((t) => {
-          return <Button value={`${q}-${t}`} />
+          let isSeleted = selectedTeeth.includes(`${q}${t}`)
+
+          if (isPrimary) {
+            const tLabel = `${q+4}${PRIMARY_BY_NUMBER[t]}`
+            isSeleted = selectedTeeth.includes(tLabel) || isSeleted
+          }
+
+          return <Button value={t} teeth selectedTooth={isSeleted} />
         })}
       </TeethListContainer>
     )
@@ -48,7 +63,7 @@ class TeethQuadrants extends Component {
   renderQuadrants() {
     return (
       <QuadrantContainer>
-        { quadrants.map((q) => {
+        { QUADRANTS.map((q) => {
             const isTopQ = q === 1 || q === 2
             const isLeftQ = q === 1 || q === 4
 
@@ -56,12 +71,12 @@ class TeethQuadrants extends Component {
               <TeethQuadrantContainer top={isTopQ} left={isLeftQ}>
                 { isTopQ ?
                   <div>
-                    { this.renderTeeth(primary, q) }
-                    { this.renderTeeth(permanent, q) }
+                    { this.renderTeeth({ list: PRIMARY, q, isPrimary: true }) }
+                    { this.renderTeeth({ list: PERMANENT, q }) }
                   </div>: 
                   <div>
-                    { this.renderTeeth(permanent, q) }
-                    { this.renderTeeth(primary, q) }
+                    { this.renderTeeth({ list: PERMANENT, q }) }
+                    { this.renderTeeth({ list: PRIMARY, q, isPrimary: true }) }
                   </div>
                 }
               </TeethQuadrantContainer>
