@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import Button from './Button'
 import TeethQuadrants from './TeethQuadrants'
 
+import { POST, APPOINTMENT, REPORT, CREATE, UPDATE } from 'services'
+
 const Container = styled.div`
   width: 100%;
   height: 100;
@@ -28,17 +30,36 @@ class TeethList extends Component {
   constructor(props) {
     super()
 
-    this.state = {
-      data: []
-    }
-  }
+    let data = []
 
-  componentWillUpdate (nextProps, nextState) {
-    if (nextState.data !== this.state.data) {
-      
+    if (props.report) {
+      data = props.report.data
     }
+
+    this.state = { data }
   }
   
+  handleUpdateData = async () => {
+    const { data } = this.state
+    const { report, appointment, onSubmit } = this.props
+
+    if (report) {
+      const { _id } = report
+      const rep = await POST(REPORT, UPDATE, { _id, data })
+    } else {
+      const { patient, slot: { dentist, clinic } } = appointment
+      const rep = await POST(REPORT, CREATE, { 
+        clinic: clinic._id,
+        dentist: dentist._id,
+        patient: patient._id,
+        data
+      })
+      const res = await POST(APPOINTMENT, UPDATE, { _id: appointment._id, report: rep._id })
+    }
+
+    onSubmit()
+    window.location.reload()
+  }
 
   addTooth = () => {
     const updateData = this.state.data
@@ -116,6 +137,7 @@ class TeethList extends Component {
             )
           })}
         </ListContainer>
+        <Button value={'save'} onClick={this.handleUpdateData} />
       </Container>
     )
   }

@@ -43,8 +43,8 @@ const enhance = compose(
   withStateHandlers(
     { 
       editable: false,
-      editTreatment: true,
-      treatmentData: {}
+      editTreatment: false,
+      treatmentData: null
     },
     { 
       updateEdit: ({ editable }) => (e) => ({ 
@@ -55,7 +55,7 @@ const enhance = compose(
           return { editTreatment: !editTreatment, treatmentData }
         }
 
-        return { editTreatment: !editTreatment, treatmentData: {} }
+        return { editTreatment: !editTreatment, treatmentData: null }
       }
     }
   )

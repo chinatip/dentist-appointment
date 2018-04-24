@@ -114,12 +114,12 @@ const formatStatusTable = (appointments, editable, updateTreatmentHistory) => {
     estTimeCol.render = (estTime) => <p>{estTime}</p>
   }
 
-  treatmentHistoryCol.render = (report, { _id }) => {
+  treatmentHistoryCol.render = (report, props) => {
     if (report) {
-      return <Button value={'แก้ไข'} onClick={() => updateTreatmentHistory(report)} />
+      return <Button value={'แก้ไข'} onClick={() => updateTreatmentHistory({ report, appointment: props })} />
     }
 
-    return <Button value={'เพิ่ม'} onClick={() => updateTreatmentHistory(report)} />
+    return <Button value={'เพิ่ม'} onClick={() => updateTreatmentHistory({ report, appointment: props})} />
   }
 
   columns = columns.concat([

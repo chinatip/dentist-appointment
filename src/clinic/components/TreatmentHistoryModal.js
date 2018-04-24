@@ -27,13 +27,12 @@ const GlobalStyles = ({ theme }) => {
 class TreatmentHistoryModal extends Component {
   render() {
     const { data, visible, onOk, onCancel } = this.props
-    console.log('TreatmentHistoryModal', data)
+
     return (
       <Container>
         <GlobalStyles />
         <Modal visible={visible} onOk={onOk} onCancel={onCancel} wrapClassName={'treatment-history-modal'}>
-          TreatmentHistoryModal
-          <TeethList />
+          <TeethList onSubmit={onCancel} {...data} />
         </Modal>
       </Container>
     )
