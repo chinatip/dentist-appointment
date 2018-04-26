@@ -11,6 +11,7 @@ export const UPDATE = 'update'
 export const DELETE = 'delete'
 export const FIND_BY_ID = 'find'
 export const FIND_BY_FB_ID = 'findFB'
+export const FIND_BY_PATIENT_ID = 'findPatient'
 
 export const APPOINTMENT =  'appointments'
 export const CLINIC = 'clinics'
@@ -30,6 +31,14 @@ export const FETCH = (table, action, body = null) => {
       const actualBody = { _id: props[body.path]}
       
       return axios.post(url, actualBody).then(({ data }) => data)
+    } else if (action === FIND_BY_PATIENT_ID) {
+      if (props.report) {
+        const actualBody = { patient: props.report.patient }
+        
+        return axios.post(url, actualBody).then(({ data }) => data)
+      }
+
+      return
     }
 
     return axios.post(url, body).then(({ data }) => data)
