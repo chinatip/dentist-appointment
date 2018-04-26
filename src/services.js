@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Loader } from 'common'
 
 export const API_URL = 'https://pacific-inlet-14356.herokuapp.com'
+export const API_GET_FB_URL = 'https://colossal-penalty.glitch.me/getUserfacebookdata'
 
 export const LIST = 'list'
 export const CREATE = 'create'
@@ -49,4 +50,10 @@ export const POST = (table, action, body) => {
   const url = `${API_URL}/${table}/${action}`
   
   return axios.post(url, body).then(({ data }) => data)
+}
+
+export const GET_FB_DATA = (id) => {
+  const url = `${API_GET_FB_URL}`
+
+  return axios.post(url, { id }).then(({ data }) => data)
 }
