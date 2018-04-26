@@ -8,6 +8,7 @@ import Loader from './Loader'
 import Switch from './Switch'
 import TeethHistory from './TeethHistory'
 import TeethQuadrants from './TeethQuadrants'
+import ToothCard from './ToothCard'
 
 export { 
   Calendar, 
@@ -19,5 +20,6 @@ export {
   Loader,
   Switch,
   TeethHistory,
-  TeethQuadrants
+  TeethQuadrants,
+  ToothCard
 }

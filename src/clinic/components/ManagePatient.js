@@ -1,14 +1,50 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { compose, withStateHandlers } from 'recompose'
+import { compose } from 'recompose'
 
 import { formatPatients } from '../util'
 import PageHeader from './PageHeader'
-import TreatmentHistoryModal from './TreatmentHistoryModal'
+import ToothCard from 'common/ToothCard'
 
-import { Table, Button, Switch } from 'common'
+
+import { Table } from 'common'
+import { stringToMoment } from 'common/utils'
 import { LOADER, POST, FETCH, CLINIC, PATIENT, REPORT, APPOINTMENT, LIST } from 'services'
-import { cssFontH3, colorGrey } from 'common/styles/style-base'
+import { cssFontH3, cssFontH4, cssFontP } from 'common/styles/style-base'
+
+const AppContainer = styled.div`
+  display: flex;
+`
+const AppItemContainer = styled.div`
+  margin-right: 15px;
+`
+const AppDateLabel = styled.div`
+  ${cssFontH4}
+`
+const AppTimeLabel = styled.div`
+  ${cssFontP}
+`
+
+const Label = styled.div`
+  ${cssFontH3}
+`
+
+const AppItem = ({ slot, treatment, status }) => {
+  const { dentist, startTime } = slot
+  const time = stringToMoment(startTime)
+  const date = time.format('DD MMM YYYY')
+  const timeslot = time.format('H:mm')
+
+  return (
+    <AppItemContainer>
+      <AppDateLabel>{date}</AppDateLabel>
+      <AppTimeLabel>{timeslot}</AppTimeLabel>
+      <div>{ treatment.name }</div>
+      <div>{ status }</div>
+    </AppItemContainer>
+  )
+}
 
 class ManagePatient extends Component {
   constructor(props) {
@@ -46,10 +82,35 @@ class ManagePatient extends Component {
     })
   }
 
-  renderExpandedRowRender = (props) => {
-    console.log(props)
+  renderExpandedRowRender = ({ _id }) => {
+    const { reportsById, appointmentsById } = this.state
 
-    return <div></div>
+    return (
+      <div>
+        <AppContainer>
+          <Label>การนัดหมาย</Label>
+          { _.map(appointmentsById[_id], (app) => {
+              const { treatment, status, slot } = app
+              return <AppItem key={app._id} treatment={treatment} status={status} slot={slot} />
+            }) 
+          }
+        </AppContainer>
+        { reportsById[_id].map((rep) => {
+            const { data, note } = rep
+            return (
+              <div>
+                { rep._id }
+                <ToothCard 
+                  edit={false}
+                  data={data}
+                  note={note}
+                />
+              </div>
+            )
+          })
+        }
+      </div>
+    )
   }
   
   renderTable() {
