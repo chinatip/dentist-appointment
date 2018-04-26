@@ -1,12 +1,13 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { compose } from 'recompose'
 
 import Button from './Button'
 import ToothItem from './ToothItem'
 import TeethQuadrants from './TeethQuadrants'
 
-import { POST, APPOINTMENT, REPORT, CREATE, UPDATE } from 'services'
+import { LOADER, FETCH, POST, APPOINTMENT, REPORT, CREATE, UPDATE, FIND_BY_PATIENT_ID } from 'services'
 import { cssFontH3 } from './styles/style-base'
 
 const cssColorBlue = '#00bcce'
@@ -34,33 +35,61 @@ const HistoryLabel = styled.div`
   color: ${cssColorBlue};
 `
 
+const NoteContainer = styled.div`
+  
+`
+const NoteInput = styled.input`
+  ${props => props.disabled && 'pointer-events: none;'}
+`
+
+const enhance = compose(
+  LOADER,
+  FETCH(REPORT, FIND_BY_PATIENT_ID)
+)
+
 class TeethHistory extends Component {
   constructor(props) {
     super()
 
-    let data = []
-
-    if (props.report) {
-      data = props.report.data
+    this.state = this.initData(props)
+  }
+  
+  initData(props) {
+    let nData = []
+    let nReports = []
+    let nNote = ''
+    const { report, reports } = props
+    if (report) {
+      nData = report.data
+      nNote = report.note
     }
 
-    this.state = { data }
+    if (reports) {
+      if (report) {
+        nReports = _.filter(reports, (r) => r._id !== report._id)
+      } else {
+        nReports = reports
+      }
+    }
+
+    return { data: nData, reports: nReports, note: nNote }
   }
   
   handleUpdateData = async () => {
-    const { data } = this.state
+    const { data, note } = this.state
     const { report, appointment, onSubmit } = this.props
 
     if (report) {
       const { _id } = report
-      const rep = await POST(REPORT, UPDATE, { _id, data })
+      const rep = await POST(REPORT, UPDATE, { _id, data, note })
     } else {
       const { patient, slot: { dentist, clinic } } = appointment
       const rep = await POST(REPORT, CREATE, { 
         clinic: clinic._id,
         dentist: dentist._id,
         patient: patient._id,
-        data
+        data, 
+        note
       })
       const res = await POST(APPOINTMENT, UPDATE, { _id: appointment._id, report: rep._id })
     }
@@ -108,6 +137,10 @@ class TeethHistory extends Component {
     this.setState({ data: updateData })
   }
 
+  updateNote = (e) => {
+    this.setState({ note: e.target.value })
+  } 
+
   removeToothDetail = (index, listIndex) => () => {
     const { data } = this.state
     const updateData = data
@@ -116,38 +149,87 @@ class TeethHistory extends Component {
     this.setState({ data: updateData })
   }
 
+  renderCurrentTeeth() {
+    const { data, note } = this.state
+
+    return (
+      <Column left>
+        <Button value={'+'} onClick={this.addTooth} />
+        { data.map((d, dIdx) => {
+          const { name, list } = d
+
+          return (
+            <ToothItem 
+              name={name}
+              toothIndex={dIdx} 
+              historyList={list}
+              onUpdateTooth={this.updateTooth}
+              onRemoveTooth={this.removeTooth}
+              onUpdateToothDetail={this.updateToothDetail}
+              onRemoveToothDetail={this.removeToothDetail}
+              onAddToothDetail={this.addToothDetail}
+            />
+          )
+        })}
+        <NoteContainer>
+          <NoteInput value={note} onChange={this.updateNote} />
+        </NoteContainer>
+      </Column>
+    )
+  }
+
+  renderHistoryTeeth() {
+    const { reports } = this.state
+    
+    return (
+      <Column right>
+        <HistoryLabel>ประวัติการรักษา</HistoryLabel>
+        <HistoryContainer>
+          { reports.map((rep) => {
+              const { data, note } = rep
+              return (
+                <div>
+                  { rep._id }
+                  { data.map((d, dIdx) => {
+                    const { name, list } = d
+                    return (
+                      <ToothItem 
+                        edit={false}
+                        name={name}
+                        toothIndex={dIdx} 
+                        historyList={list}
+                        onUpdateTooth={this.updateTooth}
+                        onRemoveTooth={this.removeTooth}
+                        onUpdateToothDetail={this.updateToothDetail}
+                        onRemoveToothDetail={this.removeToothDetail}
+                        onAddToothDetail={this.addToothDetail}
+                      />
+                    )
+                  })}
+                  { note.length > 1 && 
+                    <NoteContainer>
+                      <NoteInput value={note} onChange={this.updateNote} disabled />
+                    </NoteContainer>
+                  }
+                </div>
+              )
+            })
+          }
+        </HistoryContainer>
+      </Column>
+    )
+  }
+
   render() {
-    const { data } = this.state
+    const { data, note, reports } = this.state
     const selectedTeeth = data.map((d) => d.name)
-    console.log(this.props)
+    console.log(this.state)
     return (
       <Container>
         <TeethQuadrants selectedTeeth={selectedTeeth}/>
         <ListContainer>
-          <Column left>
-            <Button value={'+'} onClick={this.addTooth} />
-            { data.map((d, dIdx) => {
-              const { name, list } = d
-              return (
-                <ToothItem 
-                  name={name}
-                  toothIndex={dIdx} 
-                  historyList={list}
-                  onUpdateTooth={this.updateTooth}
-                  onRemoveTooth={this.removeTooth}
-                  onUpdateToothDetail={this.updateToothDetail}
-                  onRemoveToothDetail={this.removeToothDetail}
-                  onAddToothDetail={this.addToothDetail}
-                />
-              )
-            })}
-          </Column>
-          <Column right>
-            <HistoryLabel>ประวัติการรักษา</HistoryLabel>
-            <HistoryContainer>
-
-            </HistoryContainer>
-          </Column>
+          { this.renderCurrentTeeth() }
+          { this.renderHistoryTeeth() }
         </ListContainer>
         <Button value={'save'} onClick={this.handleUpdateData} />
       </Container>
@@ -155,4 +237,4 @@ class TeethHistory extends Component {
   }
 }
 
-export default TeethHistory
+export default enhance(TeethHistory)

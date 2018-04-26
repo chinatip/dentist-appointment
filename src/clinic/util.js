@@ -119,7 +119,7 @@ const formatStatusTable = (appointments, editable, updateTreatmentHistory) => {
       return <Button value={'แก้ไข'} onClick={() => updateTreatmentHistory({ report, appointment: props })} />
     }
 
-    return <Button value={'เพิ่ม'} onClick={() => updateTreatmentHistory({ report, appointment: props})} />
+    return <Button value={'เพิ่ม'} onClick={() => updateTreatmentHistory({ report, appointment: props })} />
   }
 
   columns = columns.concat([
