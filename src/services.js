@@ -11,7 +11,7 @@ export const UPDATE = 'update'
 export const DELETE = 'delete'
 export const FIND_BY_ID = 'find'
 export const FIND_BY_FB_ID = 'findFB'
-export const FIND_BY_PATIENT_ID = 'findPatient'
+export const FIND_BY_PATIENT_ID = 'findByPatient'
 
 export const APPOINTMENT =  'appointments'
 export const CLINIC = 'clinics'
