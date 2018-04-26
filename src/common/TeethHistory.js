@@ -34,7 +34,7 @@ const HistoryLabel = styled.div`
   color: ${cssColorBlue};
 `
 
-class TeethList extends Component {
+class TeethHistory extends Component {
   constructor(props) {
     super()
 
@@ -155,4 +155,4 @@ class TeethList extends Component {
   }
 }
 
-export default TeethList
+export default TeethHistory
