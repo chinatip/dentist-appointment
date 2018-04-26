@@ -301,7 +301,7 @@ const DeleteButton = withHandlers(
   ({ onDelete }) => <Button onClick={onDelete} value={'X'} />
 )
 
-const formatDoctorTable = ({ dentists, clinic, onEdit }) => {
+const formatDentistsTable = ({ dentists, clinic, onEdit }) => {
   const DeleteButtonWithClinic = (props) => <DeleteButton clinic={clinic} {...props} />
   const EditButton = (props) => <Button onClick={() => onEdit(props)} value={'แก้ไข'} />
 
@@ -341,11 +341,37 @@ const formatDoctorTable = ({ dentists, clinic, onEdit }) => {
   return { dataSource: dentists, columns }
 }
 
-export const formatDoctor = (props) => {
+export const formatDentists = (props) => {
   const { dentists } = props
   if (dentists) {
-    return formatDoctorTable(props)
+    return formatDentistsTable(props)
   }
 
   return { dataSource: [], columns: [] }
+}
+
+// --------------------------------- Manage Patient ---------------------------------
+
+const formatPatientsTable = ({ patients }) => {
+  const columns = [
+    {
+      title: 'ชื่อ',
+      dataIndex: 'firstname',
+      key: 'firstname'
+    }, {
+      title: 'นามสกุล',
+      dataIndex: 'lastname',
+      key: 'lastname',
+    }, {
+      title: 'เบอร์โทร',
+      dataIndex: 'phone',
+      key: 'phone',
+    }
+  ]  
+
+  return { dataSource: patients, columns }
+}
+
+export const formatPatients = (props) => {
+  return formatPatientsTable(props)
 }

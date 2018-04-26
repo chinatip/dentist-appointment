@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { compose, withStateHandlers } from 'recompose'
 
 import { Table, Button } from 'common'
-import { formatDoctor } from '../util'
+import { formatDentists } from '../util'
 import ManageDentistModal from './ManageDentistModal'
 import { LOADER, FETCH, DENTIST_TIMESLOT, CLINIC, TREATMENT, LIST } from 'services'
 import PageHeader from './PageHeader'
@@ -11,7 +11,7 @@ import PageHeader from './PageHeader'
 const ManageDentist = ({ clinics, treatments, data, modal, onUpdateModal }) => {
   const clinic = clinics[0]
   const dentists = clinic.dentists  
-  const { dataSource, columns } = formatDoctor({ clinic, dentists, onEdit: onUpdateModal })
+  const { dataSource, columns } = formatDentists({ clinic, dentists, onEdit: onUpdateModal })
   
   return (
     <div>

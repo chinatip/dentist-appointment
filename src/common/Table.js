@@ -19,13 +19,14 @@ const Container = styled.div`
 
 class CustomTable extends Component {
   render() {
-    const { columns, dataSource, hideHead } = this.props;
+    const { columns, dataSource, hideHead, expandedRowRender } = this.props;
     
     return (
       <Container hideHead={hideHead}>
         <Table 
           columns={columns} 
           dataSource={dataSource} 
+          expandedRowRender={expandedRowRender}
           pagination={false} 
         />
       </Container>
