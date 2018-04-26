@@ -1,4 +1,4 @@
-const head = ''
+const head = 'user/'
 const SET = head + 'SET'
 const REMOVE = head + 'REMOVE' 
 

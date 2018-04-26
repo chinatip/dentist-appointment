@@ -1,4 +1,4 @@
-const head = ''
+const head = 'clinic/'
 const SET = head + 'SET'
 const REMOVE = head + 'REMOVE' 
 
