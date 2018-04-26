@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { compose } from 'recompose'
 
 import Button from './Button'
-import ToothItem from './ToothItem'
+import ToothCard from './ToothCard'
 import TeethQuadrants from './TeethQuadrants'
 
 import { LOADER, FETCH, POST, APPOINTMENT, REPORT, CREATE, UPDATE, FIND_BY_PATIENT_ID } from 'services'
@@ -35,12 +35,6 @@ const HistoryLabel = styled.div`
   color: ${cssColorBlue};
 `
 
-const NoteContainer = styled.div`
-  
-`
-const NoteInput = styled.input`
-  ${props => props.disabled && 'pointer-events: none;'}
-`
 
 const enhance = compose(
   LOADER,
@@ -155,25 +149,16 @@ class TeethHistory extends Component {
     return (
       <Column left>
         <Button value={'+'} onClick={this.addTooth} />
-        { data.map((d, dIdx) => {
-          const { name, list } = d
-
-          return (
-            <ToothItem 
-              name={name}
-              toothIndex={dIdx} 
-              historyList={list}
-              onUpdateTooth={this.updateTooth}
-              onRemoveTooth={this.removeTooth}
-              onUpdateToothDetail={this.updateToothDetail}
-              onRemoveToothDetail={this.removeToothDetail}
-              onAddToothDetail={this.addToothDetail}
-            />
-          )
-        })}
-        <NoteContainer>
-          <NoteInput value={note} onChange={this.updateNote} />
-        </NoteContainer>
+        <ToothCard 
+          data={data}
+          note={note} 
+          onUpdateTooth={this.updateTooth}
+          onRemoveTooth={this.removeTooth}
+          onUpdateToothDetail={this.updateToothDetail}
+          onRemoveToothDetail={this.removeToothDetail}
+          onAddToothDetail={this.addToothDetail}
+          onUpdateNote={this.updateNote}
+        />
       </Column>
     )
   }
@@ -190,27 +175,11 @@ class TeethHistory extends Component {
               return (
                 <div>
                   { rep._id }
-                  { data.map((d, dIdx) => {
-                    const { name, list } = d
-                    return (
-                      <ToothItem 
-                        edit={false}
-                        name={name}
-                        toothIndex={dIdx} 
-                        historyList={list}
-                        onUpdateTooth={this.updateTooth}
-                        onRemoveTooth={this.removeTooth}
-                        onUpdateToothDetail={this.updateToothDetail}
-                        onRemoveToothDetail={this.removeToothDetail}
-                        onAddToothDetail={this.addToothDetail}
-                      />
-                    )
-                  })}
-                  { note.length > 1 && 
-                    <NoteContainer>
-                      <NoteInput value={note} onChange={this.updateNote} disabled />
-                    </NoteContainer>
-                  }
+                  <ToothCard 
+                    edit={false}
+                    data={data}
+                    note={note}
+                  />
                 </div>
               )
             })
@@ -223,7 +192,7 @@ class TeethHistory extends Component {
   render() {
     const { data, note, reports } = this.state
     const selectedTeeth = data.map((d) => d.name)
-    console.log(this.state)
+
     return (
       <Container>
         <TeethQuadrants selectedTeeth={selectedTeeth}/>

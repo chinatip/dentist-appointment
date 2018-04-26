@@ -70,20 +70,20 @@ export default ({
   return (
     <Container edit={edit}>
       <Label>
-        <LabelInput value={name} onChange={(e) => onUpdateTooth(toothIndex, 'name', e.target.value)} edit={edit} />
+        <LabelInput value={name} onChange={onUpdateTooth? (e) => onUpdateTooth(toothIndex, 'name', e.target.value): null} edit={edit} />
       </Label>
       <DetailContainer>
         { _.map(historyList, (l, lIndex) => ( 
             <List edit={edit}>
-              <DetailInput value={l} onChange={(e) => onUpdateToothDetail(toothIndex, lIndex, e.target.value)} edit={edit} />
-              <Button value={'X'} onClick={onRemoveToothDetail(toothIndex, lIndex)} />
+              <DetailInput value={l} onChange={onUpdateToothDetail? (e) => onUpdateToothDetail(toothIndex, lIndex, e.target.value): null } edit={edit} />
+              <Button value={'X'} onClick={onRemoveToothDetail? onRemoveToothDetail(toothIndex, lIndex): null } />
             </List>
           )
         )}
-        <Button value={'+'} onClick={onAddToothDetail(toothIndex)} />
+        <Button value={'+'} onClick={onAddToothDetail? onAddToothDetail(toothIndex): null } />
       </DetailContainer>
       <div style={{ flex: 1 }} />
-      <Button value={'X'} onClick={onRemoveTooth(toothIndex)} />
+      <Button value={'X'} onClick={onRemoveTooth? onRemoveTooth(toothIndex): null } />
     </Container>
   )
 }
