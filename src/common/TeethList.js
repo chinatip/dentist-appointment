@@ -3,27 +3,35 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 import Button from './Button'
+import ToothItem from './ToothItem'
 import TeethQuadrants from './TeethQuadrants'
 
 import { POST, APPOINTMENT, REPORT, CREATE, UPDATE } from 'services'
+import { cssFontH3 } from './styles/style-base'
+
+const cssColorBlue = '#00bcce'
 
 const Container = styled.div`
   width: 100%;
   height: 100;
 `
 const ListContainer = styled.div`
-
-`
-const ListItemContainer = styled.div`
-  padding: 10px;
-  background: grey;
   display: flex;
+  flex: wrap;
+  margin-top: 30px;
 `
-const ItemContainer = styled.div`
+const Column = styled.div`
+  width: 50%;
+  ${props => props.left && 'padding-right: 15px;'}
+  ${props => props.right && 'padding-left: 15px;'}
+`
+
+const HistoryContainer = styled.div`
   
 `
-const List = styled.div`
-  display: flex;
+const HistoryLabel = styled.div`
+  ${cssFontH3}
+  color: ${cssColorBlue};
 `
 
 class TeethList extends Component {
@@ -111,31 +119,35 @@ class TeethList extends Component {
   render() {
     const { data } = this.state
     const selectedTeeth = data.map((d) => d.name)
-
+    console.log(this.props)
     return (
       <Container>
         <TeethQuadrants selectedTeeth={selectedTeeth}/>
         <ListContainer>
-          <Button value={'+'} onClick={this.addTooth} />
-          { data.map((d, dIdx) => {
-            const { name, list } = d
-            return (
-              <ListItemContainer>
-                <input value={name} onChange={(e) => this.updateTooth(dIdx, 'name', e.target.value)}/>
-                <Button value={'X'} onClick={this.removeTooth(dIdx)} />
-                <ItemContainer>
-                  <Button value={'+'} onClick={this.addToothDetail(dIdx)} />
-                  { _.map(list, (l, lIndex) => ( 
-                      <List>
-                        <input value={l} onChange={(e) => this.updateToothDetail(dIdx, lIndex, e.target.value)}/>
-                        <Button value={'X'} onClick={this.removeToothDetail(dIdx, lIndex)} />
-                      </List>
-                    )
-                  )}
-                </ItemContainer>
-              </ListItemContainer>
-            )
-          })}
+          <Column left>
+            <Button value={'+'} onClick={this.addTooth} />
+            { data.map((d, dIdx) => {
+              const { name, list } = d
+              return (
+                <ToothItem 
+                  name={name}
+                  toothIndex={dIdx} 
+                  historyList={list}
+                  onUpdateTooth={this.updateTooth}
+                  onRemoveTooth={this.removeTooth}
+                  onUpdateToothDetail={this.updateToothDetail}
+                  onRemoveToothDetail={this.removeToothDetail}
+                  onAddToothDetail={this.addToothDetail}
+                />
+              )
+            })}
+          </Column>
+          <Column right>
+            <HistoryLabel>ประวัติการรักษา</HistoryLabel>
+            <HistoryContainer>
+
+            </HistoryContainer>
+          </Column>
         </ListContainer>
         <Button value={'save'} onClick={this.handleUpdateData} />
       </Container>

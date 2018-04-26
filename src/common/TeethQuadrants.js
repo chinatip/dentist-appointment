@@ -10,10 +10,11 @@ const Container = styled.div`
 `
 const QuadrantContainer = styled.div`
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
 `
 const TeethQuadrantContainer = styled.div`
-  width: 50%;
+  flex: 1;
   
   ${props => props.top && 'padding-bottom: 20px;'}
   ${props => props.left && 'padding-right: 30px;'}
