@@ -11,12 +11,14 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  overflow-y: auto;
+  overflow-x: hidden;
 `
 const InnerContainer = styled.div`
   width: 100%;
+  height: 100%;
   max-width: 1000px;
   margin: 0 auto;
-  height: 600px;
   padding: 20px;
 `
 

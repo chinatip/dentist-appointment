@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { cssFontH1, colorBlue } from 'common/styles/style-base'
 
 const Container = styled.div`
-  height: 7rem;
   width: 100%;
+  height: 100%;
 `
 const Title = styled.div`
   ${cssFontH1}
@@ -16,6 +16,7 @@ const InnerContainer = styled.div`
   display: flex;
   align-items: flex-end;
   margin-bottom: 1rem;
+  margin: 2rem;
 `
 
 export default ({ title, children }) => {
