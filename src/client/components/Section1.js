@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Modal } from 'antd'
 
 import Navigation from './Navigation'
-import AppointmentModal from './appointment/AppointmentModal'
+// import AppointmentModal from './appointment/AppointmentModal'
 import LoginModal from './LoginModal'
 
 import { Button } from 'common'
@@ -125,7 +125,7 @@ class Index extends Component {
               <Circle2 />
             </Part2>
           </PartContainer>
-          <AppointmentModal visible={modal.appointment} onOk={this.handleModal('appointment')} onCancel={this.handleModal('appointment')} />
+          {/* <AppointmentModal visible={modal.appointment} onOk={this.handleModal('appointment')} onCancel={this.handleModal('appointment')} /> */}
           <LoginModal visible={modal.login} onOk={this.handleModal('login')} onCancel={this.handleModal('login')} />
         </InnerContainer>
       </Container>

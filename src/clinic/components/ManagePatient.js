@@ -8,7 +8,7 @@ import PageHeader from './PageHeader'
 import AddPatientModal from './AddPatientModal'
 
 import { Table, Button } from 'common'
-import ToothCard from 'common/ToothCard'
+import TreatmentCard from 'common/TreatmentCard'
 import { stringToMoment } from 'common/utils'
 import { LOADER, POST, FETCH, CLINIC, PATIENT, REPORT, APPOINTMENT, LIST } from 'services'
 import { cssFontH3, cssFontH4, cssFontP } from 'common/styles/style-base'
@@ -117,7 +117,7 @@ class ManagePatient extends Component {
                 return (
                   <RepContainer>
                     { rep._id }
-                    <ToothCard 
+                    <TreatmentCard 
                       edit={false}
                       data={data}
                       note={note}

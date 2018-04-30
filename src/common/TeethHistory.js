@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { compose } from 'recompose'
 
 import Button from './Button'
-import ToothCard from './ToothCard'
+import TreatmentCard from './TreatmentCard'
 import TeethQuadrants from './TeethQuadrants'
 
 import { LOADER, FETCH, POST, APPOINTMENT, REPORT, CREATE, UPDATE, FIND_BY_PATIENT_ID } from 'services'
@@ -149,7 +149,7 @@ class TeethHistory extends Component {
     return (
       <Column left>
         <Button value={'+'} onClick={this.addTooth} />
-        <ToothCard 
+        <TreatmentCard 
           data={data}
           note={note} 
           onUpdateTooth={this.updateTooth}
@@ -175,7 +175,7 @@ class TeethHistory extends Component {
               return (
                 <div>
                   { rep._id }
-                  <ToothCard 
+                  <TreatmentCard 
                     edit={false}
                     data={data}
                     note={note}

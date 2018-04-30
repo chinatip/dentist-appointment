@@ -4,6 +4,10 @@ import styled, { css } from 'styled-components'
 
 import ToothItem from './ToothItem'
 
+const Container = styled.div`
+  padding: 10px;
+  border: 1px solid blue;
+`
 const NoteContainer = styled.div`
   
 `
@@ -23,7 +27,7 @@ export default ({
   onUpdateNote
 }) => {
   return (
-    <div>
+    <Container>
       { data.map((d, dIdx) => {
         const { name, list } = d
 
@@ -44,6 +48,6 @@ export default ({
       <NoteContainer>
         <NoteInput value={note} onChange={onUpdateNote} />
       </NoteContainer>
-    </div>
+    </Container>
   )
 }
