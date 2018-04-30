@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import React from 'react'
-import { withStateHandlers } from 'recompose'
+import moment from 'moment'
+import { stringToMoment } from 'common/utils'
 
 import { Table, Button } from 'common'
 
@@ -10,29 +11,47 @@ const PERIODS = {
   "เย็น": [16, 17, 18, 19, 20]
 }
 
-const isSlotAvailable = (s) => {
-  return true
+const getSlot = (slot, availableSlots) => {
+  let slotAvailable = null
+  availableSlots.forEach((s) => {
+    if (stringToMoment(s.startTime).format('H:mm') === slot) {
+      slotAvailable = s
+    }
+  })
+
+  return slotAvailable
 }
 
-const formatData = (slots) => {
+const formatData = (slots, availableSlots) => {
   const timeslots = slots.map((s) => ([
-    { label: `${s}:00`, value: isSlotAvailable(`${s}:00`) },
-    { label: `${s}:30`, value: isSlotAvailable(`${s}:30`) }
+    { label: `${s}:00`, value: getSlot(`${s}:00`, availableSlots) },
+    { label: `${s}:30`, value: getSlot(`${s}:30`, availableSlots) }
   ]))
 
   return timeslots
 }
 
-const renderPeriodSlots = ({ timeslots, selectSlot, slot }) => {
+const renderPeriodSlots = ({ timeslots, updateSlot, slot }) => {
   return (
     <div>
       { _.map(timeslots, (t) => {
         return (
           <div style={{ display: 'flex'}}>
             {
-              t.map((s) => 
-                <Button value={slot === s.label? 'select': `${s.label} ${s.value}`} onClick={() => selectSlot(s.label)}/>
-              )
+              t.map((s) => {
+                let isSelect = false
+
+                if (typeof slot === 'object') {
+                  isSelect = slot && s.value? (slot._id === s.value._id): false
+                } else if (s.value) {
+                  isSelect = slot? (stringToMoment(s.value.startTime).format('H:mm') === slot): false
+                } else {
+                  isSelect = (slot === s.label)
+                }
+
+                const currentSlot = s.value || s.label 
+                return <Button value={isSelect? 'select': `${s.label} ${!!s.value}`} onClick={(s) => updateSlot(currentSlot)}/>
+              })
             }
           </div>
         )
@@ -41,11 +60,11 @@ const renderPeriodSlots = ({ timeslots, selectSlot, slot }) => {
   )
 }
 
-const formatTable = ({appointments = [], mobile = false, selectSlot, slot }) => {
-  const timeslotItem = (timeslots) => renderPeriodSlots({ timeslots, selectSlot, slot })
-  const p1 = formatData(PERIODS['เช้า'])
-  const p2 = formatData(PERIODS['บ่าย'])
-  const p3 = formatData(PERIODS['เย็น'])
+const formatTable = ({ availableSlots = [], mobile = false, updateSlot, slot }) => {
+  const timeslotItem = (timeslots) => renderPeriodSlots({ timeslots, updateSlot, slot })
+  const p1 = formatData(PERIODS['เช้า'], availableSlots)
+  const p2 = formatData(PERIODS['บ่าย'], availableSlots)
+  const p3 = formatData(PERIODS['เย็น'], availableSlots)
   
   const dataSourceMobile = [
     { period: 'เช้า', timeslots: p1 },
@@ -104,15 +123,8 @@ const formatTable = ({appointments = [], mobile = false, selectSlot, slot }) => 
   return { dataSource, columns }
 }
 
-export default withStateHandlers(
-  { slot: null },
-  { 
-    selectSlot: () => (slot) => {
-      return { slot }
-    }
-  }
-)((props) => {
+export default (props) => {
   const { dataSource, columns } = formatTable(props)
 
   return <Table dataSource={dataSource} columns={columns} />
-})
+}

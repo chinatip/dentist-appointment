@@ -1,12 +1,19 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Form } from 'antd'
 import moment from 'moment'
 
 import { TimeslotTable } from 'common'
+import { stringToMoment } from 'common/utils'
 import { FormContainer, FormItem, NavigationButton } from 'common/form'
+import { start } from 'pretty-error';
 
 class AppointmentForm extends Component {
+  state = {
+    slot: null
+  }
+
   componentDidMount () {
     this.initForm(this.props)
   }
@@ -28,9 +35,14 @@ class AppointmentForm extends Component {
     e.preventDefault()
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        onSubmit(values)
+        console.log('submit', values)
       }
     })
+  }
+
+  updateSlot = (slot) => {
+    console.log(slot)
+    this.setState({ slot })
   }
 
   getTreatmentsOptions() {
@@ -46,16 +58,59 @@ class AppointmentForm extends Component {
     return treatments
   }
 
+  getDentistOptions() {
+    const { clinic: { dentists }, form: { getFieldValue } } = this.props
+    const treatment = getFieldValue('treatment')
+
+    const dentistsOptions = dentists.filter((dent) => {
+      let haveTreatment = false
+      dent.treatments.forEach((t) => {
+        if (t._id === treatment) {
+          haveTreatment = true
+        }
+      })
+      return haveTreatment
+    })
+
+    return dentistsOptions
+  }
+
+  findAvailableSlots(dent, date) {
+    const { appointments, dentistTimeslots, clinic } = this.props
+    const availableSlots = []
+    const slotById = {}
+    dentistTimeslots.forEach((denSlot) => {
+      const { _id, startTime, dentist } = denSlot
+
+      if (dentist._id === dent) {
+        appointments.forEach((app) => {
+          const { slot, treatment, status } = app
+          
+          if (_id !== slot._id) {
+            if (stringToMoment(startTime).isSame(date, 'days') && status !== 'cancel' ){
+              slotById[_id] = denSlot
+            }
+          }
+        })
+      }
+
+    })
+
+    return _.toArray(slotById)
+  }
+
   renderTimeSlot() {
+    const { slot } = this.state
     const { form: { getFieldValue } } = this.props
     const dentist = getFieldValue('dentist')
     const date = getFieldValue('date')
-
+    
     if (dentist && date) {
-      return <TimeslotTable />
+      const availableSlots = this.findAvailableSlots(dentist, date)
+      return <TimeslotTable availableSlots={availableSlots} slot={slot} updateSlot={this.updateSlot} />
     }
 
-    return <TimeslotTable />
+    return <div />
   }
 
   render() {
@@ -68,10 +123,10 @@ class AppointmentForm extends Component {
         <FormItem label={'clinic'} field={'clinic'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} hidden />
         <FormItem label={'การรักษา'} field={'treatment'} message={'กรุณาการรักษา'} getFieldDecorator={getFieldDecorator} options={{ list: this.getTreatmentsOptions() }} />
         <FormItem label={'ทันตแพทย์'} field={'dentist'} message={'กรุณาทันตแพทย์'} getFieldDecorator={getFieldDecorator} 
-          options={{ list: clinic.dentists, label: (l) => `${l.firstname} ${l.lastname}` }} />
+          options={{ list: this.getDentistOptions(), label: (l) => `${l.firstname} ${l.lastname}` }} />
         <FormItem label={'วันที่นัดหมาย'} field={'date'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} date />
         {this.renderTimeSlot()}
-        {/* <NavigationButton onSubmit={this.handleSubmit} /> */}
+        <NavigationButton onSubmit={this.handleSubmit} last />
       </FormContainer>
     )
   }
