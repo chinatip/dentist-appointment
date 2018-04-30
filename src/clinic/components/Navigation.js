@@ -17,7 +17,7 @@ export default ({ type }) => {
     <Container>
       <Menu
         defaultSelectedKeys={[type]}
-        defaultOpenKeys={['sub1']}
+        defaultOpenKeys={['sub1', 'sub2']}
         mode='inline'
         forceSubMenuRender={true}
         inlineCollapsed={false}
@@ -29,14 +29,19 @@ export default ({ type }) => {
           <Menu.Item key='timetable'>
             <Link to={`/clinic/timetable`}>ตารางเวลา</Link>
           </Menu.Item>
-          <Menu.Item key='dentists'>
-            <Link to={`/clinic/dentists`}>หมอฟัน</Link>
-          </Menu.Item>
           <Menu.Item key='patients'>
             <Link to={`/clinic/patients`}>คนไข้</Link>
           </Menu.Item>
           <Menu.Item key='book'>
             <Link to={`/clinic/book`}>นัดหมาย</Link>
+          </Menu.Item>
+        </Menu.SubMenu>
+        <Menu.SubMenu key='sub1' title={<span>หมอฟัน</span>}>
+          <Menu.Item key='dentists'>
+            <Link to={`/clinic/dentists`}>ประวัติ</Link>
+          </Menu.Item>
+          <Menu.Item key='dentistsWorks'>
+            <Link to={`/clinic/dentistsWorks`}>ตารางงาน</Link>
           </Menu.Item>
         </Menu.SubMenu>
       </Menu>

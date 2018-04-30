@@ -9,6 +9,7 @@ import Routes from './Routes'
 import reducer from 'redux/reducers'
 import registerServiceWorker from './registerServiceWorker'
 import 'antd/dist/antd.css'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { media, mediaExceed } from 'common/styles/media-style'
 
 const middlewares = [thunk]
