@@ -9,6 +9,7 @@ import Switch from './Switch'
 import TeethHistory from './TeethHistory'
 import TeethQuadrants from './TeethQuadrants'
 import TreatmentCard from './TreatmentCard'
+import TimeslotTable from './TimeslotTable'
 
 export { 
   Calendar, 
@@ -21,5 +22,6 @@ export {
   Switch,
   TeethHistory,
   TeethQuadrants,
-  TreatmentCard
+  TreatmentCard,
+  TimeslotTable
 }

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Form } from 'antd'
+import moment from 'moment'
 
+import { TimeslotTable } from 'common'
 import { FormContainer, FormItem, NavigationButton } from 'common/form'
 
 class AppointmentForm extends Component {
@@ -13,6 +15,9 @@ class AppointmentForm extends Component {
     form.setFields({
       clinic: {
         value: clinic,
+      },
+      date: {
+        value: moment()
       }
     })
   }
@@ -44,12 +49,13 @@ class AppointmentForm extends Component {
   renderTimeSlot() {
     const { form: { getFieldValue } } = this.props
     const dentist = getFieldValue('dentist')
+    const date = getFieldValue('date')
 
-    if (dentist) {
-      return 'have'
+    if (dentist && date) {
+      return <TimeslotTable />
     }
 
-    return 'nooooooooooo'
+    return <TimeslotTable mobile/>
   }
 
   render() {
@@ -61,6 +67,7 @@ class AppointmentForm extends Component {
         <FormItem label={'การรักษา'} field={'treatment'} message={'กรุณาการรักษา'} getFieldDecorator={getFieldDecorator} options={{ list: this.getTreatmentsOptions() }} />
         <FormItem label={'ทันตแพทย์'} field={'dentist'} message={'กรุณาทันตแพทย์'} getFieldDecorator={getFieldDecorator} 
           options={{ list: clinic.dentists, label: (l) => `${l.firstname} ${l.lastname}` }} />
+        <FormItem label={'วันที่นัดหมาย'} field={'date'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} date />
         {this.renderTimeSlot()}
         {/* <NavigationButton onSubmit={this.handleSubmit} /> */}
       </FormContainer>
