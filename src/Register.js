@@ -47,7 +47,6 @@ class RegisterForm extends React.Component {
     const { id, setUser, removeUser } = this.props
 
     if (id !== 'new') {
-      const data = await GET_FB_DATA(id)
       const patient = await POST(PATIENT, FIND_BY_FB_ID, { facebookId: id })
       
       if (patient && typeof patient === 'object') {
@@ -56,6 +55,7 @@ class RegisterForm extends React.Component {
         this.redirectToLogin()
       }
   
+      const data = await GET_FB_DATA(id)
       this.setState({ 
         loading: false,
         data

@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 
-import Step1 from '../appointment/Step1'
-import Step2 from '../appointment/Step2'
-import Step3 from '../appointment/Step3'
+import Step1 from './Step1'
+import Step2 from './Step2'
+import Step3 from './Step3'
 
 import { getUser } from 'redux/user'
 import { LOADER, FETCH, POST, LIST, CREATE, CLINIC, DENTIST, DENTIST_TIMESLOT, APPOINTMENT } from 'services'
@@ -92,7 +92,7 @@ class Index extends Component {
       return <Step3 onSubmit={this.createAppointment} onBackStep={this.handleUpdateStep(step - 1)} data={data} />
     }
 
-    return <Step1 />
+    return <Step1 onSubmit={this.handleSubmit} clinics={clinics} data={data} />
   }
 
   render() {

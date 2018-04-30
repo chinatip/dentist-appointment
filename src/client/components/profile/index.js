@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import { getUser, setUser, removeUser } from 'redux/user'
-import { POST, PATIENT, CREATE, FIND_BY_FB_ID, GET_FB_DATA } from 'services'
+import { POST, PATIENT, CREATE, FIND_BY_FB_ID } from 'services'
 import Navigation from './Navigation'
-import BookAppointment from './BookAppointment'
+import BookAppointment from '../appointment'
 import Appointment from './Appointment'
 import History from './History'
 
@@ -35,22 +35,15 @@ class WithPatientAutoLogin extends React.Component {
   }
 
   async loadData() {
-    const { match, setUser, removeUser } = this.props
-    const id = match.params.id
-    const data = await GET_FB_DATA(id)
-
-    if (data.id) {
-      const patient = await POST(PATIENT, FIND_BY_FB_ID, { facebookId: id })
+    const { id, match, setUser, removeUser, history } = this.props
+    const patient = await POST(PATIENT, FIND_BY_FB_ID, { facebookId: id })
       
-      if (patient && typeof patient === 'object') {
-        removeUser()
-        setUser(patient)
-        this.props.history.push(`/profile`)
-      } else {
-        this.props.history.push(`/register/${id}`)
-      }
+    if (patient && typeof patient === 'object') {
+      removeUser()
+      setUser(patient)
+      history.push(`/profile/history`)
     } else {
-      this.props.history.push(`/register/${id}`)
+      history.push(`/register/${id}`)
     }
   }
 
@@ -75,7 +68,7 @@ const ProfileDetail = ({ type }) => {
     return <History />
   } 
 
-  return <PatientAutoLogin />
+  return <PatientAutoLogin id={type} />
 }
 
 export default ({ match }) => {
