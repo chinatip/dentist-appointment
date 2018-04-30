@@ -71,7 +71,7 @@ class Index extends Component {
     const { step, clinic, patients } = this.state
     const { appointments, dentistTimeslots } = this.props
 
-    return <BookAppointmentForm clinic={clinic} patients={patients} />
+    return <BookAppointmentForm clinic={clinic} patients={patients} appointments={appointments} dentistTimeslots={dentistTimeslots} />
   }
 
   render() {

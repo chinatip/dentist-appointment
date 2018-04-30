@@ -52,7 +52,7 @@ class Step3Form extends Component {
         <FormItem label={'คลินิค'} field={'sumClinic'} getFieldDecorator={getFieldDecorator} required={false} />
         <FormItem label={'การรักษา'} field={'sumTreatment'} getFieldDecorator={getFieldDecorator} required={false} />
         <FormItem label={'วันเวลาที่นัดหมาย'} field={'sumTimeslot'} getFieldDecorator={getFieldDecorator} required={false} />
-        <NavigationButton onSubmit={onSubmit} onBackStep={onBackStep} />
+        <NavigationButton onSubmit={onSubmit} onBackStep={onBackStep} last />
       </FormContainer>
     )
   }
