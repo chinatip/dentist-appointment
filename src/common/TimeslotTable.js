@@ -6,7 +6,8 @@ import { Table, Button } from 'common'
 
 const PERIODS = {
   "เช้า": [8, 9, 10, 11], 
-  "บ่าย": [12, 13, 14, 15, 16, 17, 18, 19, 20]
+  "บ่าย": [12, 13, 14, 15],
+  "เย็น": [16, 17, 18, 19, 20]
 }
 
 const isSlotAvailable = (s) => {
@@ -44,13 +45,15 @@ const formatTable = ({appointments = [], mobile = false, selectSlot, slot }) => 
   const timeslotItem = (timeslots) => renderPeriodSlots({ timeslots, selectSlot, slot })
   const p1 = formatData(PERIODS['เช้า'])
   const p2 = formatData(PERIODS['บ่าย'])
+  const p3 = formatData(PERIODS['เย็น'])
   
   const dataSourceMobile = [
     { period: 'เช้า', timeslots: p1 },
     { period: 'บ่าย', timeslots: p2 },
+    { period: 'เย็น', timeslots: p2 },
   ]
 
-  const dataSource = [{ timeslots: p1, timeslots2: p2}]
+  const dataSource = [{ timeslots: p1, timeslots2: p2, timeslots3: p3 }]
 
   const columnsMobile = [
     {
@@ -81,6 +84,13 @@ const formatTable = ({appointments = [], mobile = false, selectSlot, slot }) => 
       title: 'ช่วงบ่าย',
       dataIndex: 'timeslots2',
       key: 'timeslots2',
+      render: (timeslots) => {
+        return timeslotItem(timeslots)
+      }
+    },{
+      title: 'ช่วงเย็น',
+      dataIndex: 'timeslots3',
+      key: 'timeslots3',
       render: (timeslots) => {
         return timeslotItem(timeslots)
       }

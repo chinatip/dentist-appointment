@@ -32,7 +32,9 @@ const AppointmentStatus = (props) => {
         </EditContainer>
       </PageHeader>
       <Table columns={columns} dataSource={dataSource} />
-      <TreatmentHistoryModal data={treatmentData} visible={editTreatment} onOk={updateTreatmentHistory} onCancel={updateTreatmentHistory} />
+      { editTreatment &&  
+        <TreatmentHistoryModal data={treatmentData} visible={editTreatment} onOk={updateTreatmentHistory} onCancel={updateTreatmentHistory} />
+      }
     </div>
   )
 }

@@ -5,14 +5,13 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 
 import BookAppointmentForm from './BookAppointmentForm'
-import { LOADER, FETCH, POST, LIST, CREATE, CLINIC, DENTIST, DENTIST_TIMESLOT, APPOINTMENT, PATIENT } from 'services'
+import { LOADER, FETCH, POST, LIST, CREATE, CLINIC, DENTIST_TIMESLOT, APPOINTMENT, PATIENT } from 'services'
 
 const Container = styled.div``
 
 const enhance = compose(
   LOADER,
   FETCH(CLINIC, LIST),
-  FETCH(DENTIST, LIST),
   FETCH(APPOINTMENT, LIST),
   FETCH(DENTIST_TIMESLOT, LIST),
 )
@@ -72,11 +71,15 @@ class Index extends Component {
     const { step, clinic, patients } = this.state
     const { appointments, dentistTimeslots } = this.props
 
-    return <BookAppointmentForm clinic={clinic} />
+    return <BookAppointmentForm clinic={clinic} patients={patients} />
   }
 
   render() {
-    const { visible, onOk, onCancel } = this.props
+    const { loading } = this.state
+
+    if (loading) {
+      return <div>loading</div>
+    }
 
     return (
       <Container>

@@ -55,14 +55,16 @@ class AppointmentForm extends Component {
       return <TimeslotTable />
     }
 
-    return <TimeslotTable mobile/>
+    return <TimeslotTable />
   }
 
   render() {
-    const { clinic, form: { getFieldDecorator } } = this.props
+    const { clinic, patients, form: { getFieldDecorator } } = this.props
 
     return (
       <FormContainer width={700}>
+        <FormItem label={'คนไข้'} field={'patient'} message={'กรุณาเลือกคนไข้'} getFieldDecorator={getFieldDecorator} 
+          options={{ list: patients, label: (p) => `${p.firstname} ${p.lastname}`, value: (p) => p._id }} />
         <FormItem label={'clinic'} field={'clinic'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} hidden />
         <FormItem label={'การรักษา'} field={'treatment'} message={'กรุณาการรักษา'} getFieldDecorator={getFieldDecorator} options={{ list: this.getTreatmentsOptions() }} />
         <FormItem label={'ทันตแพทย์'} field={'dentist'} message={'กรุณาทันตแพทย์'} getFieldDecorator={getFieldDecorator} 
