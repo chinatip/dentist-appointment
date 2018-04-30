@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Form } from 'antd'
 import styled, { injectGlobal } from 'styled-components'
-import { withRouter } from 'react-router-dom'
 
 import { Modal } from 'common'
 import { FormContainer, FormItem, NavigationButton } from 'common/form'
@@ -37,13 +36,15 @@ const GlobalStyles = ({ theme }) => {
 
 class AddPatientForm extends Component {
   handleSubmit = (e) => {
-    const { form, history, onSubmit } = this.props
+    const { form, onSubmit, clinic } = this.props
 
     e.preventDefault()
     form.validateFields(async (err, values) => {
       if (!err) {
-        const patient = await POST(PATIENT, CREATE, values)
-        history.push(`/clinic/patients`)
+        const patient = await POST(PATIENT, CREATE, { 
+          ...values,
+          fileByClinic: { [clinic._id]: "000" }
+        })
         onSubmit()
       }
     })
@@ -66,15 +67,20 @@ class AddPatientForm extends Component {
 
 const WrappedRegister = Form.create()(AddPatientForm)
 
-export default withRouter(({ visible, onClose, history }) => {
+export default ({ visible, onClose, clinic, history }) => {
+  const onSubmit = () => {
+    onClose()
+    history.push('/clinic/patients')
+  } 
+
   return (
     <Container>
       <Modal visible={visible} onOk={onClose} onCancel={onClose} wrapClassName={'add-patient-modal'}>
         <FormContainer>
           <GlobalStyles />
-          <WrappedRegister history={history} onSubmit={onClose}/>
+          <WrappedRegister onSubmit={onSubmit} clinic={clinic} />
         </FormContainer>
       </Modal>
     </Container>
   )
-})
+}

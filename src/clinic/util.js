@@ -49,7 +49,7 @@ const EstimateTime = withStateHandlers(
   }
 )
 
-const formatStatusTable = (appointments, editable, updateTreatmentHistory) => {
+const formatStatusTable = ({ appointments, editable, updateTreatmentHistory, clinic }) => {
   let columns = [
     {
       title: 'เวลา',
@@ -127,13 +127,15 @@ const formatStatusTable = (appointments, editable, updateTreatmentHistory) => {
     statusCol,
     treatmentHistoryCol
   ])
+  
+  const dataSource = appointments.filter((app) => app.slot.clinic._id === clinic._id)
 
-  return { dataSource: appointments, columns }
+  return { dataSource, columns }
 }
 
-export const formatStatus = ({ appointments, editable, updateTreatmentHistory }) => {
-  if (appointments) {
-    return formatStatusTable(appointments, editable, updateTreatmentHistory)
+export const formatStatus = (props) => {
+  if (props.appointments) {
+    return formatStatusTable(props)
   }
 
   return { dataSource: [], columns: [] }

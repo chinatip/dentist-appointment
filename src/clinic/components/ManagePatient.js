@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { compose } from 'recompose'
+import { withRouter } from 'react-router-dom'
 
 import { formatPatients } from '../util'
 import PageHeader from './PageHeader'
@@ -10,7 +10,7 @@ import AddPatientModal from './AddPatientModal'
 import { Table, Button } from 'common'
 import TreatmentCard from 'common/TreatmentCard'
 import { stringToMoment } from 'common/utils'
-import { LOADER, POST, FETCH, CLINIC, PATIENT, REPORT, APPOINTMENT, LIST } from 'services'
+import { POST, CLINIC, PATIENT, REPORT, APPOINTMENT, LIST } from 'services'
 import { cssFontH3, cssFontH4, cssFontP } from 'common/styles/style-base'
 
 const AppContainer = styled.div`
@@ -56,7 +56,6 @@ class ManagePatient extends Component {
     super()
 
     this.state = {
-      clinic: props.clinics[0],
       loading: true,
       patients: [],
       addPatient: false
@@ -68,7 +67,7 @@ class ManagePatient extends Component {
   }
 
   async loadPatients() {
-    const { clinic } = this.state
+    const { clinic } = this.props
     const reportsById = {}
     const appointmentsById = {}
 
@@ -143,21 +142,18 @@ class ManagePatient extends Component {
   }
 
   render() {
+    const { clinic, history } = this.props
     const { loading, patients, addPatient } = this.state
+
     return (
       <div>
         <PageHeader title={'คนไข้'} />
         <Button value='เพิ่มคนไข้' onClick={this.handleAddPatient}/>
         { loading? 'loading': this.renderTable()}
-        <AddPatientModal visible={addPatient} onClose={this.handleAddPatient}/>
+        <AddPatientModal visible={addPatient} onClose={this.handleAddPatient} clinic={clinic} history={history} />
       </div>
     )
   }
 }
 
-const enhance = compose(
-  LOADER,
-  FETCH(CLINIC, LIST)
-)
-
-export default enhance(ManagePatient)
+export default withRouter(ManagePatient)

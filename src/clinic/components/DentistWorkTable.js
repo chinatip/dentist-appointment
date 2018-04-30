@@ -3,7 +3,7 @@ import { compose, withStateHandlers } from 'recompose'
 import moment from 'moment'
 import BigCalendar from 'react-big-calendar'
 
-import { LOADER, FETCH, DENTIST_TIMESLOT, APPOINTMENT, CLINIC, LIST } from 'services'
+import { LOADER, FETCH, DENTIST_TIMESLOT, APPOINTMENT, LIST } from 'services'
 import { Table, DatePicker, Button } from 'common'
 import { formatTimetable } from '../util'
 import PageHeader from './PageHeader'
@@ -73,12 +73,11 @@ class DentistWorkTable extends Component {
     this.state = {
       data: [],
       loading: true, 
-      clinic: props.clinics[0]
     }
   }
 
   componentDidMount() {
-    const { clinic } = this.state
+    const { clinic } = this.props
     const { dentistTimeslots, appointments } = this.props
     // const events = []
     // dentistTimeslots.forEach((slot) => {
@@ -103,7 +102,7 @@ class DentistWorkTable extends Component {
   render() {
     return (
       <div>
-        <PageHeader title={'ตารางเวลา'} />
+        <PageHeader title={'ตารางงาน'} />
         <WorkCalendar />
       </div>
     )
@@ -112,7 +111,6 @@ class DentistWorkTable extends Component {
 
 const enhance = compose(
   LOADER,
-  FETCH(CLINIC, LIST),
   FETCH(APPOINTMENT, LIST),
   FETCH(DENTIST_TIMESLOT, LIST)
 )

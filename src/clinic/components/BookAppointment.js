@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 
+import PageHeader from './PageHeader'
 import BookAppointmentForm from './BookAppointmentForm'
 import { LOADER, FETCH, POST, LIST, CREATE, CLINIC, DENTIST_TIMESLOT, APPOINTMENT, PATIENT } from 'services'
 
@@ -11,7 +12,6 @@ const Container = styled.div``
 
 const enhance = compose(
   LOADER,
-  FETCH(CLINIC, LIST),
   FETCH(APPOINTMENT, LIST),
   FETCH(DENTIST_TIMESLOT, LIST),
 )
@@ -21,7 +21,6 @@ class Index extends Component {
     super()
 
     this.state = { 
-      clinic: props.clinics[0],
       patients: [],
       loading: true,
     }
@@ -32,7 +31,7 @@ class Index extends Component {
   }
 
   async loadPatients() {
-    const { clinic } = this.state
+    const { clinic } = this.props
     const patients = await POST(CLINIC, PATIENT, { _id: clinic._id })
 
     this.setState({ loading: false, patients })
@@ -51,8 +50,8 @@ class Index extends Component {
   }
 
   findDentistsByTreatment() {
-    const { clinic, data } = this.state
-    const { dentists } = this.props
+    const { data } = this.state
+    const { clinic, dentists } = this.props
     const matchDentists = _.filter(clinic.dentists, (dent) => {
       let match = false
       dent.treatments.forEach((t) => {
@@ -68,8 +67,8 @@ class Index extends Component {
   }
   
   renderForm() {
-    const { step, clinic, patients } = this.state
-    const { appointments, dentistTimeslots } = this.props
+    const { step, patients } = this.state
+    const { appointments, dentistTimeslots, clinic } = this.props
 
     return <BookAppointmentForm clinic={clinic} patients={patients} appointments={appointments} dentistTimeslots={dentistTimeslots} />
   }
@@ -83,6 +82,7 @@ class Index extends Component {
 
     return (
       <Container>
+        <PageHeader title={'นัดหมาย'} />
         {this.renderForm()}
       </Container>
     )

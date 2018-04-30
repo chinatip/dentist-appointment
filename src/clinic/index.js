@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { compose } from 'recompose'
 
 import Navigation from './components/Navigation'
 import AppointmentStatus from './components/AppointmentStatus'
@@ -9,12 +10,17 @@ import ManagePatient from './components/ManagePatient'
 import BookAppointment from './components/BookAppointment'
 import DentistWorkTable from './components/DentistWorkTable'
 
+import { LOADER, FETCH, CLINIC, LIST } from 'services'
+import Loader from '../common';
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  display: flex;
   overflow-y: auto;
   overflow-x: hidden;
+`
+const  ContentContainer = styled.div`
+  display: flex;
 `
 const InnerContainer = styled.div`
   width: 100%;
@@ -30,33 +36,41 @@ const Title = styled.div`
   margin-bottom: 20px;
 `
 
-const ClinicDetail = ({ type }) => {
+const enhance = compose(
+  LOADER,
+  FETCH(CLINIC, LIST)
+)
+
+const ClinicDetail = ({ type, clinic }) => {
   if (type === 'status') {
-    return <AppointmentStatus />
+    return <AppointmentStatus clinic={clinic} />
   } else if (type === 'timetable') {
-    return <ManageTimeTable />
+    return <ManageTimeTable clinic={clinic} />
   } else if (type === 'dentists') {
-    return <ManageDentist />
+    return <ManageDentist clinic={clinic} />
   } else if (type === 'patients') {
-    return <ManagePatient />
+    return <ManagePatient clinic={clinic} />
   } else if (type === 'book') {
-    return <BookAppointment />
+    return <BookAppointment clinic={clinic} />
   } else if (type === 'dentistsWorks') {
-    return <DentistWorkTable />
+    return <DentistWorkTable clinic={clinic} />
   }
 
-  return <AppointmentStatus />
+  return <AppointmentStatus clinic={clinic} />
 }
 
-export default ({ match }) => {
+export default enhance(({ match, clinics }) => {
   const type = match.params.type
+  const clinic = clinics[0]
 
   return (
     <Container>
-      <Navigation type={type} />
-      <InnerContainer>
-        <ClinicDetail type={type} />
-      </InnerContainer>
+      <ContentContainer>
+        <Navigation type={type} />
+        <InnerContainer>
+          <ClinicDetail type={type} clinic={clinic} />
+        </InnerContainer>
+    </ContentContainer>
   </Container>
   )
-}
+})
