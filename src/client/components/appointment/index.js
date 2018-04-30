@@ -52,7 +52,6 @@ class Index extends Component {
 
     const res = await POST(APPOINTMENT, CREATE, body)
     this.setState(this.initState())
-    onCancel()
   }
 
   handleUpdateStep = (step) => () => {
@@ -96,8 +95,6 @@ class Index extends Component {
   }
 
   render() {
-    const { visible, onOk, onCancel } = this.props
-
     return (
       <Container>
           {this.renderStep()}
