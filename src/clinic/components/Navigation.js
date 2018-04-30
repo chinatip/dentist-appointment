@@ -35,9 +35,9 @@ export default ({ type }) => {
           <Menu.Item key='patients'>
             <Link to={`/clinic/patients`}>คนไข้</Link>
           </Menu.Item>
-          {/* <MenuItem key={1} path='status' label='สถานะ' />
-          <MenuItem key={2} path='timetable' label='ตารางเวลา' />
-          <MenuItem key={3} path='edit' label='แก้ไข' /> */}
+          <Menu.Item key='book'>
+            <Link to={`/clinic/book`}>นัดหมาย</Link>
+          </Menu.Item>
         </Menu.SubMenu>
       </Menu>
     </Container>

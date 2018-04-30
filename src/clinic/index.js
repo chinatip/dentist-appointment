@@ -6,6 +6,7 @@ import AppointmentStatus from './components/AppointmentStatus'
 import ManageDentist from './components/ManageDentist'
 import ManageTimeTable from './components/ManageTimeTable'
 import ManagePatient from './components/ManagePatient'
+import BookAppointment from './components/BookAppointment'
 
 const Container = styled.div`
   width: 100%;
@@ -37,6 +38,8 @@ const ClinicDetail = ({ type }) => {
     return <ManageDentist />
   } else if (type === 'patients') {
     return <ManagePatient />
+  } else if (type === 'book') {
+    return <BookAppointment />
   }
 
   return <AppointmentStatus />
