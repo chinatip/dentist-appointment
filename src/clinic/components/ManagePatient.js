@@ -5,18 +5,15 @@ import { compose } from 'recompose'
 
 import { formatPatients } from '../util'
 import PageHeader from './PageHeader'
+import AddPatientModal from './AddPatientModal'
+
+import { Table, Button } from 'common'
 import ToothCard from 'common/ToothCard'
-
-
-import { Table } from 'common'
 import { stringToMoment } from 'common/utils'
 import { LOADER, POST, FETCH, CLINIC, PATIENT, REPORT, APPOINTMENT, LIST } from 'services'
 import { cssFontH3, cssFontH4, cssFontP } from 'common/styles/style-base'
 
 const AppContainer = styled.div`
-  display: flex;
-`
-const AppItemContainer = styled.div`
   margin-right: 15px;
 `
 const AppDateLabel = styled.div`
@@ -26,8 +23,16 @@ const AppTimeLabel = styled.div`
   ${cssFontP}
 `
 
+const RepContainer = styled.div`
+  margin-right: 15px;
+`
+
 const Label = styled.div`
   ${cssFontH3}
+`
+const Flex = styled.div`
+  display: flex;
+  margin-bottom: 30px;
 `
 
 const AppItem = ({ slot, treatment, status }) => {
@@ -37,12 +42,12 @@ const AppItem = ({ slot, treatment, status }) => {
   const timeslot = time.format('H:mm')
 
   return (
-    <AppItemContainer>
+    <AppContainer>
       <AppDateLabel>{date}</AppDateLabel>
       <AppTimeLabel>{timeslot}</AppTimeLabel>
       <div>{ treatment.name }</div>
       <div>{ status }</div>
-    </AppItemContainer>
+    </AppContainer>
   )
 }
 
@@ -53,7 +58,8 @@ class ManagePatient extends Component {
     this.state = {
       clinic: props.clinics[0],
       loading: true,
-      patients: []
+      patients: [],
+      addPatient: false
     }
   }
 
@@ -67,12 +73,13 @@ class ManagePatient extends Component {
     const appointmentsById = {}
 
     const patients = await POST(CLINIC, PATIENT, { _id: clinic._id })
-    patients.forEach(async (p) => {
+    
+    for (let p of patients) {
       const reports = await POST(PATIENT, REPORT, { _id: p._id })
       reportsById[p._id] = reports
       const appointments = await POST(PATIENT, APPOINTMENT, { _id: p._id })
       appointmentsById[p._id] = appointments
-    })
+    }
 
     this.setState({
       loading: false,
@@ -82,33 +89,44 @@ class ManagePatient extends Component {
     })
   }
 
+  handleAddPatient = () => {
+    const { addPatient } = this.state
+    
+    this.setState({
+      addPatient: !addPatient
+    })
+  }
+
   renderExpandedRowRender = ({ _id }) => {
     const { reportsById, appointmentsById } = this.state
 
     return (
       <div>
-        <AppContainer>
           <Label>การนัดหมาย</Label>
-          { _.map(appointmentsById[_id], (app) => {
-              const { treatment, status, slot } = app
-              return <AppItem key={app._id} treatment={treatment} status={status} slot={slot} />
-            }) 
-          }
-        </AppContainer>
-        { reportsById[_id].map((rep) => {
-            const { data, note } = rep
-            return (
-              <div>
-                { rep._id }
-                <ToothCard 
-                  edit={false}
-                  data={data}
-                  note={note}
-                />
-              </div>
-            )
-          })
-        }
+          <Flex>
+            { appointmentsById[_id] && _.map(appointmentsById[_id], (app) => {
+                const { treatment, status, slot } = app
+                return <AppItem key={app._id} treatment={treatment} status={status} slot={slot} />
+              }) 
+            }
+          </Flex>
+          <Label>ประวัติการรักษา</Label>
+          <Flex>
+            { reportsById[_id] && reportsById[_id].map((rep) => {
+                const { data, note } = rep
+                return (
+                  <RepContainer>
+                    { rep._id }
+                    <ToothCard 
+                      edit={false}
+                      data={data}
+                      note={note}
+                    />
+                  </RepContainer>
+                )
+              })
+            }
+          </Flex>
       </div>
     )
   }
@@ -125,12 +143,13 @@ class ManagePatient extends Component {
   }
 
   render() {
-    const { loading, patients } = this.state
-    console.log(this.state)
+    const { loading, patients, addPatient } = this.state
     return (
       <div>
         <PageHeader title={'คนไข้'} />
+        <Button value='เพิ่มคนไข้' onClick={this.handleAddPatient}/>
         { loading? 'loading': this.renderTable()}
+        <AddPatientModal visible={addPatient} onClose={this.handleAddPatient}/>
       </div>
     )
   }
