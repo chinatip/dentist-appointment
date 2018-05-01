@@ -79,7 +79,7 @@ const cssClose = `
     background: none;
     border: none;
     font-size: 1.2rem;
-    &:hover {
+    &:hover, &:focus {
       background: none;
       border: none;
       font-size: 1.2rem;

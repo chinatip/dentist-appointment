@@ -3,8 +3,6 @@ import React, { Component } from 'react'
 import styled, { css } from 'styled-components'
 
 import Button from './Button'
-import TeethQuadrants from './TeethQuadrants'
-
 import { POST, APPOINTMENT, REPORT, CREATE, UPDATE } from 'services'
 import { cssFontH3, cssFontP } from './styles/style-base'
 

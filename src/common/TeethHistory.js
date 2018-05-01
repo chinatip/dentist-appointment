@@ -105,10 +105,10 @@ class TeethHistory extends Component {
     onSubmit(newReport)
   }
 
-  addTooth = () => {
+  addTooth = (value = '??') => {
     const updateData = this.state.data
     updateData.push({
-      name: '??',
+      name: value,
       list: []
     })
 
@@ -210,7 +210,7 @@ class TeethHistory extends Component {
 
     return (
       <Container>
-        <TeethQuadrants selectedTeeth={selectedTeeth}/>
+        <TeethQuadrants selectedTeeth={selectedTeeth} onClick={this.addTooth} />
         <ListContainer>
           { this.renderCurrentTeeth() }
           { this.renderHistoryTeeth() }

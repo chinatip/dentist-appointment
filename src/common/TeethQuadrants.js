@@ -38,7 +38,7 @@ const PRIMARY_BY_NUMBER = {
 
 class TeethQuadrants extends Component {
   renderTeeth({ list, q, isPrimary = false }) {
-    const { selectedTeeth } = this.props    
+    const { selectedTeeth, onClick } = this.props    
     const teeth = _.clone(list)
     const reverse = q === 1 || q === 4
     if (reverse) {
@@ -55,7 +55,7 @@ class TeethQuadrants extends Component {
             isSeleted = selectedTeeth.includes(tLabel) || isSeleted
           }
 
-          return <Button value={t} teeth selectedTooth={isSeleted} />
+          return <Button value={t} teeth selectedTooth={isSeleted} onClick={!isSeleted && (() => onClick(`${q}${t}`))} />
         })}
       </TeethListContainer>
     )
