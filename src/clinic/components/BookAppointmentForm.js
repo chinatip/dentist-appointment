@@ -1,13 +1,13 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Form } from 'antd'
+import { Form, Tag, message } from 'antd'
 import moment from 'moment'
 
 import { TimeslotTable } from 'common'
 import { stringToMoment } from 'common/utils'
 import { FormContainer, FormItem, NavigationButton } from 'common/form'
-import { start } from 'pretty-error';
+import { POST, CREATE, APPOINTMENT } from 'services'
 
 class AppointmentForm extends Component {
   state = {
@@ -33,15 +33,33 @@ class AppointmentForm extends Component {
     const { form, onSubmit } = this.props
 
     e.preventDefault()
-    form.validateFieldsAndScroll((err, values) => {
+    form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        console.log('submit', values)
+        const body = { 
+          ...values, 
+          status: 'waiting'
+        }
+        this.setState({ appointmentStatus: 'loading', appointmentErr: null })
+        try {
+          const res = await POST(APPOINTMENT, CREATE, body)
+          this.setState({ appointmentStatus: 'success', appointmentErr: null })
+          message.success('นัดหมายสำเร็จ')
+        } catch (err) {
+          this.setState({ appointmentStatus: 'error', appointmentErr: err })
+          message.error(err.message)
+        }
       }
     })
   }
 
   updateSlot = (slot) => {
-    console.log(slot)
+    const { form: { setFields }} = this.props
+
+    setFields({
+      slot: {
+        value: slot? slot._id: slot,
+      }
+    })
     this.setState({ slot })
   }
 
@@ -107,6 +125,7 @@ class AppointmentForm extends Component {
     
     if (dentist && date) {
       const availableSlots = this.findAvailableSlots(dentist, date)
+
       return <TimeslotTable availableSlots={availableSlots} slot={slot} updateSlot={this.updateSlot} />
     }
 
@@ -114,6 +133,7 @@ class AppointmentForm extends Component {
   }
 
   render() {
+    const { appointmentStatus } = this.state
     const { clinic, patients, form: { getFieldDecorator } } = this.props
 
     return (
@@ -125,8 +145,11 @@ class AppointmentForm extends Component {
         <FormItem label={'ทันตแพทย์'} field={'dentist'} message={'กรุณาทันตแพทย์'} getFieldDecorator={getFieldDecorator} 
           options={{ list: this.getDentistOptions(), label: (l) => `${l.firstname} ${l.lastname}` }} />
         <FormItem label={'วันที่นัดหมาย'} field={'date'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} date />
+        <FormItem label={'วันที่นัดหมาย'} field={'slot'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} hidden />
         {this.renderTimeSlot()}
-        <NavigationButton onSubmit={this.handleSubmit} last />
+        <NavigationButton onSubmit={this.handleSubmit} last loading={appointmentStatus === 'loading'}/>
+        { appointmentStatus === 'success' && <Tag color="green">Success</Tag>}
+        { appointmentStatus === 'error' && <Tag color="red">Error</Tag>}
       </FormContainer>
     )
   }

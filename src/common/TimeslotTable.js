@@ -50,7 +50,7 @@ const renderPeriodSlots = ({ timeslots, updateSlot, slot }) => {
                 }
 
                 const currentSlot = s.value || s.label 
-                return <Button value={isSelect? 'select': `${s.label} ${!!s.value}`} onClick={(s) => updateSlot(currentSlot)}/>
+                return <button onClick={!!s.value && ((s) => updateSlot(currentSlot))} style={{ color: (isSelect? 'blue': (!!s.value? 'green':'grey'))}}>{s.label}</button>
               })
             }
           </div>

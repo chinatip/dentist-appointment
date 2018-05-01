@@ -21,11 +21,11 @@ const NavigationContainer = styled.div`
 const FormButton = styled(Button)`
   // ${props => props.ghost? cssGhostButton: cssNormalButton}
 `
-export const NavigationButton = ({ onSubmit, onBackStep, last }) => {
+export const NavigationButton = ({ onSubmit, onBackStep, last, loading = false }) => {
   return (
     <NavigationContainer>
       {onBackStep && <FormButton onClick={onBackStep}>{'ย้อนกลับ'}</FormButton>}
-      <FormButton onClick={onSubmit}>{ !last? 'ต่อไป': 'ตกลง'}</FormButton>
+      <FormButton loading={loading} onClick={onSubmit}>{ !last? 'ต่อไป': 'ตกลง'}</FormButton>
     </NavigationContainer>
   )
 }
