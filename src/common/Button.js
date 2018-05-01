@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled, { css } from 'styled-components'
 import { Button } from 'antd'
 
-import { cssFontH4, cssFontP } from 'common/styles/style-base'
+import { cssFontH4, cssFontP, colorBlue2 } from 'common/styles/style-base'
 
 const colorWhite = '#fff'
 const colorFadeWhite = 'rgba(255, 255, 255, 0.95)'
@@ -47,7 +47,13 @@ const cssLandingPageLargeButton = css`
 
 const cssTeeth = css`
   .ant-btn {
-
+    ${cssFontP}
+    width: 42px;
+    margin-right: 5px;
+    color: #d3d6d6;
+    border-color: #d3d6d6;
+    font-size: 0.9rem;
+    
     &:hover {
 
     }
@@ -56,10 +62,28 @@ const cssTeeth = css`
 
 const cssSelectedTeeth = css`
   .ant-btn {
-    color: red;
+    color: #fff;
+    background: ${colorBlue2};
+    border: none;
 
     &:hover {
+      color: ${colorBlue2};
+      border: 1px solid ${colorBlue2};
+      background: #fff;
+    }
+  }
+`
 
+const cssClose = `
+  .ant-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    &:hover {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: rgba(0, 0, 0, 0.30);
     }
   }
 `
@@ -69,13 +93,14 @@ const Container = styled.div`
   ${props => props.landingPage && props.large && cssLandingPageLargeButton}
   ${props => props.teeth && cssTeeth}
   ${props => props.teeth && props.selectedTooth && cssSelectedTeeth}
+  ${props => props.close && cssClose}
 `
 class CustomButton extends Component {
   render() {
-    const { value, onClick, landingPage, large, teeth, selectedTooth } = this.props
+    const { value, onClick, landingPage, large, teeth, selectedTooth, close } = this.props
 
       return (
-        <Container landingPage={landingPage} large={large} teeth={teeth} selectedTooth={selectedTooth}>
+        <Container landingPage={landingPage} large={large} teeth={teeth} selectedTooth={selectedTooth} close={close}>
           <Button onClick={onClick}>{value}</Button>
         </Container>
       )

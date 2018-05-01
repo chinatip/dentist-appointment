@@ -6,13 +6,18 @@ import ToothItem from './ToothItem'
 
 const Container = styled.div`
   padding: 10px;
-  border: 1px solid blue;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border-radius: 4px;
 `
 const NoteContainer = styled.div`
   
 `
 const NoteInput = styled.input`
   ${props => props.disabled && 'pointer-events: none;'}
+  border: 1px solid rgb(105, 215, 226);
+  border-radius: 2px;
+  padding-left: 10px;
+  height: 30px;
 `
 
 export default ({ 

@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components'
 
 export const colorBlue = '#00bcce'
+export const colorBlue2 = 'rgba(0, 188, 206, 0.59)'
 export const colorBlack = '#252c3c'
 export const colorGrey = '#9aadbc'
 export const colorWhite = '#fff'

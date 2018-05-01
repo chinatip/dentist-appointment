@@ -20,6 +20,7 @@ const ListContainer = styled.div`
   display: flex;
   flex: wrap;
   margin-top: 30px;
+  margin-bottom: 40px;
 `
 const Column = styled.div`
   width: 50%;
@@ -31,6 +32,17 @@ const HistoryContainer = styled.div`
   
 `
 const HistoryLabel = styled.div`
+  ${cssFontH3}
+  color: ${cssColorBlue};
+  margin-bottom: 28px;
+`
+const AddToothContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+`
+const AddToothLabel = styled.div`
+  margin-left: 15px;
   ${cssFontH3}
   color: ${cssColorBlue};
 `
@@ -148,7 +160,10 @@ class TeethHistory extends Component {
 
     return (
       <Column left>
-        <Button value={'+'} onClick={this.addTooth} />
+        <AddToothContainer>
+          <Button value={'+'} onClick={this.addTooth} />
+          <AddToothLabel>เพิ่มฟัน</AddToothLabel>
+        </AddToothContainer>
         <TreatmentCard 
           data={data}
           note={note} 
@@ -174,7 +189,6 @@ class TeethHistory extends Component {
               const { data, note } = rep
               return (
                 <div>
-                  { rep._id }
                   <TreatmentCard 
                     edit={false}
                     data={data}
