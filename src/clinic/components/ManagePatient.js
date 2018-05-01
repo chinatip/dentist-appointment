@@ -10,7 +10,7 @@ import AddPatientModal from './AddPatientModal'
 import { Table, Button } from 'common'
 import TreatmentCard from 'common/TreatmentCard'
 import { stringToMoment } from 'common/utils'
-import { POST, CLINIC, PATIENT, REPORT, APPOINTMENT, LIST } from 'services'
+import { POST, CLINIC, PATIENT, REPORT, APPOINTMENT, LIST, CREATE } from 'services'
 import { cssFontH3, cssFontH4, cssFontP } from 'common/styles/style-base'
 
 const AppContainer = styled.div`
@@ -96,6 +96,18 @@ class ManagePatient extends Component {
     })
   }
 
+  handleCreatePatient = async (values) => {
+    const { clinic } = this.props
+    const { patients } = this.state
+    const patient = await POST(PATIENT, CREATE, { 
+      ...values,
+      fileByClinic: { [clinic._id]: "000" }
+    })
+    const newPatients = patients
+    newPatients.push(patient)
+    this.setState({ patients: newPatients })
+  }
+
   renderExpandedRowRender = ({ _id }) => {
     const { reportsById, appointmentsById } = this.state
 
@@ -150,7 +162,7 @@ class ManagePatient extends Component {
         <PageHeader title={'คนไข้'} />
         <Button value='เพิ่มคนไข้' onClick={this.handleAddPatient}/>
         { loading? 'loading': this.renderTable()}
-        <AddPatientModal visible={addPatient} onClose={this.handleAddPatient} clinic={clinic} history={history} />
+        <AddPatientModal visible={addPatient} onClose={this.handleAddPatient} onSubmit={this.handleCreatePatient} />
       </div>
     )
   }

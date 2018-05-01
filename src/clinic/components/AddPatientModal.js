@@ -4,7 +4,6 @@ import styled, { injectGlobal } from 'styled-components'
 
 import { Modal } from 'common'
 import { FormContainer, FormItem, NavigationButton } from 'common/form'
-import { POST, PATIENT, CREATE } from 'services'
 
 const Container = styled.div`
   width: 100%;
@@ -36,16 +35,13 @@ const GlobalStyles = ({ theme }) => {
 
 class AddPatientForm extends Component {
   handleSubmit = (e) => {
-    const { form, onSubmit, clinic } = this.props
+    const { form, onSubmit, onClose } = this.props
 
     e.preventDefault()
     form.validateFields(async (err, values) => {
       if (!err) {
-        const patient = await POST(PATIENT, CREATE, { 
-          ...values,
-          fileByClinic: { [clinic._id]: "000" }
-        })
-        onSubmit()
+        onSubmit(values)
+        onClose()
       }
     })
   }
@@ -59,7 +55,7 @@ class AddPatientForm extends Component {
         <FormItem label={'นามสกุล'} field={'lastname'} message={'กรุณากรอกนามสกุล'} getFieldDecorator={getFieldDecorator} />
         <FormItem label={'เพศ'} field={'gender'} message={'กรุณาเลือกเพศ'} getFieldDecorator={getFieldDecorator} options={{ options: GENDER_OPTIONS }}/>
         <FormItem label={'เบอร์โทร'} field={'phone'} message={'กรุณากรอกเบอร์โทร'} getFieldDecorator={getFieldDecorator} />
-        <NavigationButton onSubmit={this.handleSubmit} />
+        <NavigationButton onSubmit={this.handleSubmit} last />
       </FormContainer>
     )
   }
@@ -67,18 +63,13 @@ class AddPatientForm extends Component {
 
 const WrappedRegister = Form.create()(AddPatientForm)
 
-export default ({ visible, onClose, clinic, history }) => {
-  const onSubmit = () => {
-    onClose()
-    history.push('/clinic/patients')
-  } 
-
+export default ({ visible, onClose, onSubmit }) => {
   return (
     <Container>
       <Modal visible={visible} onOk={onClose} onCancel={onClose} wrapClassName={'add-patient-modal'}>
         <FormContainer>
           <GlobalStyles />
-          <WrappedRegister onSubmit={onSubmit} clinic={clinic} />
+          <WrappedRegister onSubmit={onSubmit} onClose={onClose} />
         </FormContainer>
       </Modal>
     </Container>
