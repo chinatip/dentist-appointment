@@ -15,8 +15,7 @@ const Title = styled.div`
 const InnerContainer = styled.div`
   display: flex;
   align-items: flex-end;
-  margin-bottom: 1rem;
-  margin: 2rem;
+  margin: 2rem 0 ;
 `
 
 export default ({ title, children }) => {

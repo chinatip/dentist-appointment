@@ -35,6 +35,32 @@ const GlobalStyles = ({theme}) => {
     ${media.small`html { font-size: 16px; }`}
 
     @import url('https://fonts.googleapis.com/css?family=Prompt:300,400,500,600,700,800,900');
+
+    .ant-menu-submenu-title {
+      font-weight: 500 !important;
+      font-size: 1rem !important;
+      line-height: 2.5rem !important;
+      color: #00bcce !important;
+    }
+    .ant-menu-item {
+      a {
+        color: rgb(110, 133, 136) !important;
+
+        &:hover {
+          color: rgba(0, 188, 206, 0.9) !important;
+        }
+      }
+    }
+    .ant-menu-item-selected {
+      background: rgba(69, 239, 255, 0.04) !important;
+
+      &::after {
+        border-right: 3px solid rgba(12, 158, 181, 0.23) !important
+      }
+      a {
+        color: rgba(0, 188, 206, 0.87) !important;
+      }
+    }
   `
   return null
 }

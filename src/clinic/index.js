@@ -19,7 +19,13 @@ const Container = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
 `
-const  ContentContainer = styled.div`
+const Header = styled.div`
+  width: 100%;
+  height: 50px;
+  box-shadow: 0 4px 12px rgba(0, 188, 206, 0.14);
+  margin-bottom: 10px;
+`
+const ContentContainer = styled.div`
   display: flex;
 `
 const InnerContainer = styled.div`
@@ -65,6 +71,8 @@ export default enhance(({ match, clinics }) => {
 
   return (
     <Container>
+      <Header>
+      </Header>
       <ContentContainer>
         <Navigation type={type} />
         <InnerContainer>
