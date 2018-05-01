@@ -7,8 +7,8 @@ import { Table, DatePicker, Button } from 'common'
 import { formatTimetable } from '../util'
 import PageHeader from './PageHeader'
 
-const ManageTimeTable = ({ clinic, dentistTimeslots, date, updateDate }) => {
-  const { dataSource, columns } = formatTimetable({ clinic, date, dentistTimeslots })
+const ManageTimeTable = ({ clinic, dentistTimeslots, date, updateDate, updateDTSlots }) => {
+  const { dataSource, columns } = formatTimetable({ clinic, date, dentistTimeslots, updateDTSlots: (dtslots) => updateDTSlots(dtslots) })
 
   return (
     <div>
@@ -24,9 +24,10 @@ const enhance = compose(
   LOADER,
   FETCH(DENTIST_TIMESLOT, LIST),
   withStateHandlers(
-    { date: new moment() },
+    ({ clinic, dentistTimeslots, updateDate }) => ({ date: new moment(), clinic, dentistTimeslots, updateDate }),
     {
-      updateDate: () => (date) => ({ date })
+      updateDate: () => (date) => ({ date }),
+      updateDTSlots: () => (dentistTimeslots) => ({ dentistTimeslots })
     }
   )
 )

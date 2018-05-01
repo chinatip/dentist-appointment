@@ -6,7 +6,7 @@ import { compose, withHandlers, withStateHandlers, withPropsOnChange } from 'rec
 
 import { Button, Select } from 'common'
 import { stringToMoment, momentToString } from 'common/utils'
-import { POST, APPOINTMENT, CLINIC, DENTIST, DENTIST_TIMESLOT, CREATE, UPDATE, DELETE } from 'services'
+import { FETCH, POST, APPOINTMENT, CLINIC, DENTIST, DENTIST_TIMESLOT, CREATE, UPDATE, DELETE, LIST } from 'services'
 
 const DATE_FORMAT = 'DD MMM YYYY'
 const TIME_FORMAT = 'H:mm'
@@ -167,28 +167,31 @@ const enhanceSlotController = compose(
   }),
   withHandlers(
     {
-      updateSlot: () => (slot) => {
+      updateSlot: () => async (slot, updateDTSlots) => {
         const { _id, value, clinic, dentist, time: { startTime, endTime } } = slot
 
         if(slot._id && slot.value) {
-          POST(DENTIST_TIMESLOT, DELETE, { _id })
+          await POST(DENTIST_TIMESLOT, DELETE, { _id })
         } else {
           const body = { clinic, dentist, startTime: momentToString(startTime), endTime: momentToString(endTime) }
-          POST(DENTIST_TIMESLOT, CREATE, body)
+          await POST(DENTIST_TIMESLOT, CREATE, body)
         }
+        const dtslots = await POST(DENTIST_TIMESLOT, LIST)
+
+        updateDTSlots(dtslots)
       }
     },
   ) 
 )
 
 const SlotController = enhanceSlotController(
-  ({ slots: { full, half }, fullSlot, halfSlot, updateSlot }) => {
+  ({ slots: { full, half }, fullSlot, halfSlot, updateSlot, updateDTSlots }) => {
     return (
       <div>
         <div>{full.label}</div>
-        <SlotButton active={!!fullSlot.value} onClick={() => updateSlot(fullSlot)} />
+        <SlotButton active={!!fullSlot.value} onClick={() => updateSlot(fullSlot, updateDTSlots)} />
         <div>{half.label}</div>
-        <SlotButton active={!!halfSlot.value} onClick={() => updateSlot(halfSlot)} />
+        <SlotButton active={!!halfSlot.value} onClick={() => updateSlot(halfSlot, updateDTSlots)} />
       </div>
     )
   }
@@ -236,7 +239,7 @@ const formatTimetableData = ({ clinic, date, dentistTimeslots }) => {
   })
 }
 
-const formatTimetableTable = (dentists, clinic) => {
+const formatTimetableTable = (dentists, clinic, { updateDTSlots }) => {
   const columns = [{
     title: 'Dentist',
     key: 'dentist',
@@ -246,8 +249,7 @@ const formatTimetableTable = (dentists, clinic) => {
     }
   }]
 
-
-  const getSlotController = ({ _id, slots }) => <SlotController slots={slots} />
+  const getSlotController = ({ _id, slots }) => <SlotController slots={slots} updateDTSlots={updateDTSlots} />
   _.range(8, 20).forEach((hour) => {
     const full = `${hour}:00`
     const half = `${hour}:30`
@@ -282,7 +284,7 @@ export const formatTimetable = (props) => {
   if (clinic && date && dentistTimeslots) {
     const dentists = formatTimetableData(props)
 
-    return formatTimetableTable(dentists, clinic)
+    return formatTimetableTable(dentists, clinic, props)
     return { dataSource: [], columns: [] }
   }
 
