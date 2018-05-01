@@ -1,45 +1,17 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import { compose, withStateHandlers } from 'recompose'
 import moment from 'moment'
 import BigCalendar from 'react-big-calendar'
+import { stringToMoment } from 'common/utils'
 
-import { LOADER, FETCH, DENTIST_TIMESLOT, APPOINTMENT, LIST } from 'services'
+import { LOADER, FETCH, APPOINTMENT, LIST } from 'services'
 import { Table, DatePicker, Button } from 'common'
 import { formatTimetable } from '../util'
 import PageHeader from './PageHeader'
 import { Calendar } from '../../common';
 
-const events=[
-  {
-    id: 0,
-    title: 'All Day Event very long title',
-    allDay: true,
-    start: new Date(2018, 5, 4),
-    end: new Date(2018, 5, 12),
-  },
-  {
-    id: 1,
-    title: 'Long Event',
-    start: new Date(2018, 3, 7),
-    end: new Date(2018, 3, 10),
-  },
-
-  {
-    id: 2,
-    title: 'DTS STARTS',
-    start: new Date(2018, 2, 13, 0, 0, 0),
-    end: new Date(2018, 2, 20, 0, 0, 0),
-  },
-
-  {
-    id: 3,
-    title: 'DTS ENDS',
-    start: new Date(2018, 10, 6, 0, 0, 0),
-    end: new Date(2018, 10, 13, 0, 0, 0),
-  }
-]
-
-const WorkCalendar = () => {
+const WorkCalendar = ({ events }) => {
   BigCalendar.momentLocalizer(moment)
 
   return (
@@ -48,19 +20,8 @@ const WorkCalendar = () => {
           selectable
           events={events}
           defaultView="week"
-          // scrollToTime={new moment()}
-          // defaultDate={new moment()} 
-          scrollToTime={new Date(1970, 1, 1, 6)}
-          defaultDate={new Date(2015, 3, 12)}
-       
-          // onSelectEvent={event => alert(event.title)}
-          // onSelectSlot={slotInfo =>
-          //   alert(
-          //     `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
-          //       `\nend: ${slotInfo.end.toLocaleString()}` +
-          //       `\naction: ${slotInfo.action}`
-          //   )
-          // }
+          scrollToTime={new Date()}
+          defaultDate={new Date()}
         />
     </div>
   )
@@ -71,39 +32,68 @@ class DentistWorkTable extends Component {
     super()
 
     this.state = {
-      data: [],
+      eventsById: [],
       loading: true, 
     }
   }
 
   componentDidMount() {
-    const { clinic } = this.props
-    const { dentistTimeslots, appointments } = this.props
-    // const events = []
-    // dentistTimeslots.forEach((slot) => {
-    //   const { clinic, startTime, treatment}
-    //   if (clinic._id === _id) {
+    const { clinic, appointments } = this.props
+    const dataByDent = {}
 
-    //   }
-    // })
-    console.log(dentistTimeslots, clinic, appointments)
-    // const { events = [] } = g
+    appointments.forEach((app) => {
+      const { slot, treatment } = app
+      const { _id, dentist, clinic } = slot
 
-    // const data = events.map(event => ({
-    //   ...event,
-    //   start: new Date(event.start_time),
-    //   end: new Date(event.end_time || event.start_time),
-    //   title: event.name
-    // }))
+      if (clinic._id === slot.clinic._id) {
+        if (!dataByDent[dentist._id]) {
+          dataByDent[dentist._id] = {}
+        } 
 
-    // this.setState({ data })
+        dataByDent[dentist._id][_id] = {}
+        dataByDent[dentist._id][_id].slot = slot
+        dataByDent[dentist._id][_id].appointment = app
+        dataByDent[dentist._id][_id].treatment = treatment
+      }
+    })
+
+    let idx = 0
+    const eventsById = {}
+    _.forEach(dataByDent, (d, dentId) => {
+      if (!eventsById[dentId]) {
+        eventsById[dentId] = []
+      }
+      _.forEach(d, (s, slotId) => {
+        const { slot, appointment: { patient }, treatment } = s
+        const startTime = stringToMoment(slot.startTime).toDate()
+        const endTime = stringToMoment(slot.startTime).add(treatment.treatment || 30, 'minute').toDate()
+
+        eventsById[dentId].push({
+          id: idx,
+          title: `${patient.firstname} ${patient.lastname}`,
+          desc: treatment.name,
+          start: startTime,
+          end: endTime,
+        })
+
+        console.log(startTime, s.appointment._id, `${patient.firstname} ${patient.lastname}`)
+        
+        idx += 1
+      })
+    })
+
+    this.setState({ loading: false, eventsById })
   }
 
   render() {
+    const { loading, eventsById } = this.state
+
+    if (loading) return <div>loading</div>
+    
     return (
       <div>
         <PageHeader title={'ตารางงาน'} />
-        <WorkCalendar />
+        <WorkCalendar events={eventsById[Object.keys(eventsById)[0]]}/>
       </div>
     )
   }
@@ -112,7 +102,6 @@ class DentistWorkTable extends Component {
 const enhance = compose(
   LOADER,
   FETCH(APPOINTMENT, LIST),
-  FETCH(DENTIST_TIMESLOT, LIST)
 )
 
 export default enhance(DentistWorkTable)
