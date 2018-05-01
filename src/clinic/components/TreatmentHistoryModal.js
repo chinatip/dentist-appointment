@@ -26,13 +26,13 @@ const GlobalStyles = ({ theme }) => {
 
 class TreatmentHistoryModal extends Component {
   render() {
-    const { data, visible, onOk, onCancel } = this.props
+    const { data, visible, onCancel, onSubmit } = this.props
 
     return (
       <Container>
         <GlobalStyles />
-        <Modal visible={visible} onOk={onOk} onCancel={onCancel} wrapClassName={'treatment-history-modal'}>
-          <TeethHistory onSubmit={onCancel} {...data} />
+        <Modal visible={visible} onOk={onCancel} onCancel={onCancel} wrapClassName={'treatment-history-modal'}>
+          <TeethHistory onSubmit={onSubmit} {...data} />
         </Modal>
       </Container>
     )

@@ -84,30 +84,31 @@ class TeethHistory extends Component {
   handleUpdateData = async () => {
     const { data, note } = this.state
     const { report, appointment, onSubmit } = this.props
+    let newReport = null
 
     if (report) {
       const { _id } = report
-      const rep = await POST(REPORT, UPDATE, { _id, data, note })
+      newReport = await POST(REPORT, UPDATE, { _id, data, note })
     } else {
       const { patient, slot: { dentist, clinic } } = appointment
-      const rep = await POST(REPORT, CREATE, { 
+      newReport = await POST(REPORT, CREATE, { 
         clinic: clinic._id,
         dentist: dentist._id,
         patient: patient._id,
         data, 
         note
       })
-      const res = await POST(APPOINTMENT, UPDATE, { _id: appointment._id, report: rep._id })
+
+      const res = await POST(APPOINTMENT, UPDATE, { _id: appointment._id, report: newReport._id })
     }
 
-    onSubmit()
-    window.location.reload()
+    onSubmit(newReport)
   }
 
   addTooth = () => {
     const updateData = this.state.data
     updateData.push({
-      name: 'new',
+      name: '??',
       list: []
     })
 

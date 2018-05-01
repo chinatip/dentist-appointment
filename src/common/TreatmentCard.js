@@ -6,8 +6,8 @@ import ToothItem from './ToothItem'
 
 const Container = styled.div`
   padding: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   border-radius: 4px;
+  ${props => props.show && 'box-shadow: 0 4px 12px rgba(0,0,0,0.2);'}
 `
 const NoteContainer = styled.div`
   
@@ -32,7 +32,7 @@ export default ({
   onUpdateNote
 }) => {
   return (
-    <Container>
+    <Container show={data.length > 0}>
       { data.map((d, dIdx) => {
         const { name, list } = d
 
@@ -51,7 +51,7 @@ export default ({
         )
       })}
       <NoteContainer>
-        <NoteInput value={note} onChange={onUpdateNote} />
+        <NoteInput value={note} onChange={onUpdateNote} placeholder="โน๊ต" />
       </NoteContainer>
     </Container>
   )

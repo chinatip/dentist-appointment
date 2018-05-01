@@ -20,7 +20,7 @@ const EditContainerLabel = styled.div`
 `
 
 const AppointmentStatus = (props) => {
-  const { editable, editTreatment, treatmentData, updateEdit, updateTreatmentHistory } = props
+  const { editable, editTreatment, treatmentData, updateEdit, updateTreatmentHistory, handleUpdateReport } = props
   const { dataSource, columns } = formatStatus(props)
 
   return (
@@ -33,7 +33,7 @@ const AppointmentStatus = (props) => {
       </PageHeader>
       <Table columns={columns} dataSource={dataSource} />
       { editTreatment &&  
-        <TreatmentHistoryModal data={treatmentData} visible={editTreatment} onOk={updateTreatmentHistory} onCancel={updateTreatmentHistory} />
+        <TreatmentHistoryModal data={treatmentData} visible={editTreatment} onCancel={updateTreatmentHistory} onSubmit={handleUpdateReport} />
       }
     </div>
   )
@@ -58,6 +58,18 @@ const enhance = compose(
         }
 
         return { editTreatment: !editTreatment, treatmentData: null }
+      },
+      handleUpdateReport: ({ treatmentData, editTreatment }, { appointments }) => (report) => {
+        const { appointment } = treatmentData
+        const newAppointments = appointments
+
+        newAppointments.forEach((app) => {
+          if (app._id === appointment._id) {
+            app.report = report
+          }
+        })
+
+        return { appointments: newAppointments, editTreatment: !editTreatment, treatmentData: null }
       }
     }
   )
