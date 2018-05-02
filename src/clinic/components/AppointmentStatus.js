@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { compose, withStateHandlers } from 'recompose'
 
 import { formatStatus } from '../util'
-import PageHeader from './PageHeader'
+import PageHeader from 'common/PageHeader'
 import TreatmentHistoryModal from './TreatmentHistoryModal'
 
 import { Table, Button, Switch } from 'common'

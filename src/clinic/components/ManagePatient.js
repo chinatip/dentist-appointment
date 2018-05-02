@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 
 import { formatPatients } from '../util'
-import PageHeader from './PageHeader'
+import PageHeader from 'common/PageHeader'
 import AddPatientModal from './AddPatientModal'
 
 import { Table, Button } from 'common'

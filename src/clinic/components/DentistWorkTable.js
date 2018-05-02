@@ -9,7 +9,7 @@ import { stringToMoment } from 'common/utils'
 import { cssFontH3, cssFontP, colorBlue } from 'common/styles/style-base'
 import { LOADER, FETCH, APPOINTMENT, LIST } from 'services'
 import { Select } from 'common'
-import PageHeader from './PageHeader'
+import PageHeader from 'common/PageHeader'
 
 const Container = styled.div`
   .rbc-today {

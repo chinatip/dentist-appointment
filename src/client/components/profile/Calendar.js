@@ -9,7 +9,7 @@ import { stringToMoment } from 'common/utils'
 import { cssFontH3, cssFontP, colorBlue } from 'common/styles/style-base'
 import { LOADER, FETCH, APPOINTMENT, FIND_BY_FB_ID } from 'services'
 import { Select } from 'common'
-// import PageHeader from './PageHeader'
+import PageHeader from 'common/PageHeader'
 
 const Container = styled.div`
   .rbc-today {
@@ -115,9 +115,7 @@ class DentistWorkTable extends Component {
     
     return (
       <div>
-        {/* <PageHeader title={'ตารางงาน'}> */}
-          {/* <Select value={dentist} onChange={this.updateDentist} options={dentistOptions} /> */}
-        {/* </PageHeader> */}
+        <PageHeader title={'ปฏิทิน'}/>
         <WorkCalendar events={events}/>
       </div>
     )

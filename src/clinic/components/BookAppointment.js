@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 
-import PageHeader from './PageHeader'
+import PageHeader from 'common/PageHeader'
 import BookAppointmentForm from './BookAppointmentForm'
 import { LOADER, FETCH, POST, LIST, CREATE, CLINIC, DENTIST_TIMESLOT, APPOINTMENT, PATIENT } from 'services'
 

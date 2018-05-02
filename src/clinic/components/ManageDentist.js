@@ -6,7 +6,7 @@ import { Table, Button } from 'common'
 import { formatDentists } from '../util'
 import ManageDentistModal from './ManageDentistModal'
 import { LOADER, FETCH, DENTIST_TIMESLOT, TREATMENT, LIST } from 'services'
-import PageHeader from './PageHeader'
+import PageHeader from 'common/PageHeader'
 
 const ManageDentist = ({ clinic, treatments, data, modal, onUpdateModal }) => {
   const dentists = clinic.dentists  

@@ -5,7 +5,7 @@ import moment from 'moment'
 import { LOADER, FETCH, DENTIST_TIMESLOT, LIST } from 'services'
 import { Table, DatePicker, Button } from 'common'
 import { formatTimetable } from '../util'
-import PageHeader from './PageHeader'
+import PageHeader from 'common/PageHeader'
 
 const ManageTimeTable = ({ clinic, dentistTimeslots, date, updateDate, updateDTSlots }) => {
   const { dataSource, columns } = formatTimetable({ clinic, date, dentistTimeslots, updateDTSlots: (dtslots) => updateDTSlots(dtslots) })
