@@ -9,6 +9,14 @@ import { stringToMoment } from 'common/utils'
 import { FormContainer, FormItem, NavigationButton } from 'common/form'
 import { POST, CREATE, APPOINTMENT } from 'services'
 
+const Flex = styled.div`
+  display: flex;
+
+  .ant-tag {
+    margin-left: 15px;
+  }
+`
+
 class AppointmentForm extends Component {
   state = {
     slot: null
@@ -43,7 +51,7 @@ class AppointmentForm extends Component {
         try {
           const res = await POST(APPOINTMENT, CREATE, body)
           this.setState({ appointmentStatus: 'success', appointmentErr: null })
-          message.success('นัดหมายสำเร็จ')
+          message.success('นัดหมายสำเร็จ เราจะยืนยันการนัดหมายของคุณอีกครั้ง')
         } catch (err) {
           this.setState({ appointmentStatus: 'error', appointmentErr: err })
           message.error(err.message)
@@ -156,9 +164,11 @@ class AppointmentForm extends Component {
         <FormItem label={'วันที่นัดหมาย'} field={'date'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} date />
         <FormItem label={'วันที่นัดหมาย'} field={'slot'} message={'กรุณาวันที่'} getFieldDecorator={getFieldDecorator} hidden />
         {this.renderTimeSlot()}
-        <NavigationButton onSubmit={this.handleSubmit} last loading={appointmentStatus === 'loading'}/>
-        { appointmentStatus === 'success' && <Tag color="green">Success</Tag>}
-        { appointmentStatus === 'error' && <Tag color="red">Error</Tag>}
+        <Flex>
+          <NavigationButton onSubmit={this.handleSubmit} last loading={appointmentStatus === 'loading'}/>
+          {/* { appointmentStatus === 'success' && <Tag color="green">Success</Tag>}
+          { appointmentStatus === 'error' && <Tag color="red">Error</Tag>} */}
+        </Flex>
       </FormContainer>
     )
   }
