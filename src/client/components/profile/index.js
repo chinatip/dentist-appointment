@@ -41,7 +41,7 @@ class WithPatientAutoLogin extends React.Component {
     if (patient && typeof patient === 'object') {
       removeUser()
       setUser(patient)
-      history.push(`/profile/history`)
+      history.push(`/profile/${id}/type/history`)
     } else {
       history.push(`/register/${id}`)
     }
@@ -59,13 +59,13 @@ const PatientAutoLogin = connect(
   { setUser, removeUser }
 )(withRouter(WithPatientAutoLogin))
 
-const ProfileDetail = ({ type }) => {
+const ProfileDetail = ({ type, id }) => {
   if (type === 'book') {
-    return <BookAppointment />
+    return <BookAppointment id={id} />
   } else if (type === 'appointments') {
-    return <Appointment />
+    return <Appointment id={id} />
   } else if (type === 'history') {
-    return <History />
+    return <History id={id} />
   } 
 
   return <PatientAutoLogin id={type} />
@@ -73,12 +73,13 @@ const ProfileDetail = ({ type }) => {
 
 export default ({ match }) => {
   const type = match.params.type
-
+  const id = match.params.id
+  console.log('==========================', match.params)
   return (
     <Container>
-      <Navigation type={type} />
+      <Navigation type={type} id={id} />
       <InnerContainer>
-        <ProfileDetail type={type} />
+        <ProfileDetail type={type} id={id} />
       </InnerContainer>
   </Container>
   )

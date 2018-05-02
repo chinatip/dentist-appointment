@@ -74,8 +74,4 @@ const Index = ({ appointments }) => {
   )
 }
 
-export default connect(
-  (state) => ({ 
-    user: getUser(state)
-  }), {}
-)(enhance(Index))
+export default enhance(Index)

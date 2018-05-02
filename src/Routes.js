@@ -17,8 +17,8 @@ export default () => {
         <Route path="/register/:id" component={Register} />
         <Route path="/clinic/:id/type/:type" component={Clinic} />
         <Route path="/clinic/:id" component={Clinic} />
-        <Route exact path="/profile" render={() => <Redirect to="/profile/book" />} />
-        <Route path="/profile/:type" component={Profile} />
+        <Route exact path="/profile/:id" render={(props) => <Redirect to={`/profile/${props.match.params.id}/type/book`} />} />
+        <Route path="/profile/:id/type/:type" component={Profile} />
       </Switch>
     </Router>
   )

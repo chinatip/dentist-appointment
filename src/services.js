@@ -42,10 +42,17 @@ export const FETCH = (table, action, body = null) => {
 
       return
     } else if (action === FIND_BY_FB_ID) {
-      if (props.user) {
-        const actualBody = { facebookId: props.user.facebookId }
+      const l = (o) => {
+        console.log(o)
+        return o
+      }
+      l(props)
+      const id = props.id || _.get(props, 'match.params.id') || _.get(props, 'user.facebookId')
+      console.log('[id]', id)
+      if (id) {
+        const actualBody = { facebookId: id }
         
-        return axios.post(url, actualBody).then(({ data }) => data)
+        return axios.post(url, actualBody).then(({ data }) => l(data))
       }
 
       return 

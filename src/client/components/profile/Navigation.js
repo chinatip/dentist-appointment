@@ -12,7 +12,7 @@ const Container = styled.div`
   }
 `
 
-export default ({ type }) => {
+export default ({ type, id }) => {
   return (
     <Container>
       <Menu
@@ -24,13 +24,13 @@ export default ({ type }) => {
       >
         <Menu.SubMenu key='sub1' title={<span>ข้อมูลส่วนตัว</span>}>
           <Menu.Item key='profile'>
-            <Link to={`/profile/book`}>จอง</Link>
+            <Link to={`/profile/${id}/type/book`}>จอง</Link>
           </Menu.Item>
           <Menu.Item key='appointments'>
-            <Link to={`/profile/appointments`}>นัดหมาย</Link>
+            <Link to={`/profile/${id}/type/appointments`}>นัดหมาย</Link>
           </Menu.Item>
           <Menu.Item key='history'>
-            <Link to={`/profile/history`}>ประวัติ</Link>
+            <Link to={`/profile/${id}/type/history`}>ประวัติ</Link>
           </Menu.Item>
         </Menu.SubMenu>
       </Menu>
