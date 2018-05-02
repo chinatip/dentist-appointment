@@ -15,8 +15,8 @@ export default () => {
         <Route path="/login" component={Login} />
         <Route exact path="/register" render={() => <Redirect to="/register/new" />} />
         <Route path="/register/:id" component={Register} />
-        <Route exact path="/clinic" render={() => <Redirect to="/clinic/status" />} />
-        <Route path="/clinic/:type" component={Clinic} />
+        <Route path="/clinic/:id/type/:type" component={Clinic} />
+        <Route path="/clinic/:id" component={Clinic} />
         <Route exact path="/profile" render={() => <Redirect to="/profile/book" />} />
         <Route path="/profile/:type" component={Profile} />
       </Switch>

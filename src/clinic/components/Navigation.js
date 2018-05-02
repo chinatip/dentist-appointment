@@ -12,7 +12,7 @@ const Container = styled.div`
   }
 `
 
-export default ({ type }) => {
+export default ({ type, id }) => {
   return (
     <Container>
       <Menu
@@ -24,24 +24,24 @@ export default ({ type }) => {
       >
         <Menu.SubMenu key='sub1' title={<span>จัดการคลินิค</span>}>
           <Menu.Item key='status'>
-            <Link to={`/clinic/status`}>สถานะการนัดหมาย</Link>
+            <Link to={`/clinic/${id}/type/status`}>สถานะการนัดหมาย</Link>
           </Menu.Item>
           <Menu.Item key='timetable'>
-            <Link to={`/clinic/timetable`}>ตารางเวลา</Link>
+            <Link to={`/clinic/${id}/type/timetable`}>ตารางเวลา</Link>
           </Menu.Item>
           <Menu.Item key='patients'>
-            <Link to={`/clinic/patients`}>คนไข้</Link>
+            <Link to={`/clinic/${id}/type/patients`}>คนไข้</Link>
           </Menu.Item>
           <Menu.Item key='book'>
-            <Link to={`/clinic/book`}>นัดหมาย</Link>
+            <Link to={`/clinic/${id}/type/book`}>นัดหมาย</Link>
           </Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu key='sub1' title={<span>หมอฟัน</span>}>
           <Menu.Item key='dentists'>
-            <Link to={`/clinic/dentists`}>ประวัติ</Link>
+            <Link to={`/clinic/${id}/type/dentists`}>ประวัติ</Link>
           </Menu.Item>
           <Menu.Item key='dentistsWorks'>
-            <Link to={`/clinic/dentistsWorks`}>ตารางงาน</Link>
+            <Link to={`/clinic/${id}/type/dentistsWorks`}>ตารางงาน</Link>
           </Menu.Item>
         </Menu.SubMenu>
       </Menu>

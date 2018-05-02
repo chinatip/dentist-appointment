@@ -10,7 +10,7 @@ import ManagePatient from './components/ManagePatient'
 import BookAppointment from './components/BookAppointment'
 import DentistWorkTable from './components/DentistWorkTable'
 
-import { LOADER, FETCH, CLINIC, LIST } from 'services'
+import { LOADER, FETCH, CLINIC, LIST, FIND_BY_ID } from 'services'
 import Loader from '../common';
 
 const Container = styled.div`
@@ -44,7 +44,7 @@ const Title = styled.div`
 
 const enhance = compose(
   LOADER,
-  FETCH(CLINIC, LIST)
+  FETCH(CLINIC, FIND_BY_ID, { path: 'match.params.id' })
 )
 
 const ClinicDetail = ({ type, clinic }) => {
@@ -67,16 +67,15 @@ const ClinicDetail = ({ type, clinic }) => {
 
 export default enhance(({ match, clinics }) => {
   const type = match.params.type
-  const clinic = clinics[0]
-
+  console.log(clinics)
   return (
     <Container>
       <Header>
       </Header>
       <ContentContainer>
-        <Navigation type={type} />
+        <Navigation type={type} id={clinics._id} />
         <InnerContainer>
-          <ClinicDetail type={type} clinic={clinic} />
+          <ClinicDetail type={type} clinic={clinics} />
         </InnerContainer>
     </ContentContainer>
   </Container>

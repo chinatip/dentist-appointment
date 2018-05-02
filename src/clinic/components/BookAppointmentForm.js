@@ -48,6 +48,15 @@ class AppointmentForm extends Component {
           this.setState({ appointmentStatus: 'error', appointmentErr: err })
           message.error(err.message)
         }
+
+        form.setFields({
+          patient: {
+            value: null,
+          },
+          treatment: {
+            value: null
+          }
+        })
       }
     })
   }

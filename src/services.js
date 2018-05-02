@@ -1,6 +1,6 @@
 import { client, resolve } from 'react-resolver'
 import axios from 'axios'
-
+import _ from 'lodash'
 import { Loader } from 'common'
 
 export const API_URL = 'https://pacific-inlet-14356.herokuapp.com'
@@ -29,7 +29,8 @@ export const FETCH = (table, action, body = null) => {
     const url = `${API_URL}/${table}/${action}`
     
     if (action === FIND_BY_ID) {
-      const actualBody = { _id: props[body.path]}
+      console.log('iddd', _.get(props, body.path))
+      const actualBody = { _id: _.get(props, body.path) }
       
       return axios.post(url, actualBody).then(({ data }) => data)
     } else if (action === FIND_BY_PATIENT_ID) {
