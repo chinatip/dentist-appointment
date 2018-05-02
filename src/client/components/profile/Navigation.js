@@ -32,6 +32,9 @@ export default ({ type, id }) => {
           <Menu.Item key='history'>
             <Link to={`/profile/${id}/type/history`}>ประวัติ</Link>
           </Menu.Item>
+          <Menu.Item key='calendar'>
+            <Link to={`/profile/${id}/type/calendar`}>ปฏิทิน</Link>
+          </Menu.Item>
         </Menu.SubMenu>
       </Menu>
     </Container>

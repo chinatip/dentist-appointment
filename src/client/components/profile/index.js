@@ -9,6 +9,7 @@ import Navigation from './Navigation'
 import BookAppointment from '../appointment'
 import Appointment from './Appointment'
 import History from './History'
+import Calendar from './Calendar'
 
 const Container = styled.div`
   width: 100%;
@@ -66,6 +67,8 @@ const ProfileDetail = ({ type, id }) => {
     return <Appointment id={id} />
   } else if (type === 'history') {
     return <History id={id} />
+  } else if (type === 'calendar') {
+    return <Calendar id={id} />
   } 
 
   return <PatientAutoLogin id={type} />
