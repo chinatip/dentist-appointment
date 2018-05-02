@@ -66,7 +66,8 @@ class RegisterForm extends React.Component {
   }
 
   redirectToLogin() {
-    this.props.history.push(`/profile`)
+    const { history, id } = this.props 
+    history.push(`/profile/${id}`)
   }
 
   handleFBData() {
