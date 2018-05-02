@@ -25,7 +25,7 @@ export const REPORT = 'reports'
 export const LOADER = client(Loader)
 
 export const FETCH = (table, action, body = null) => {
-  return resolve(table, (props) => {
+  return resolve(table, async (props) => {
     const url = `${API_URL}/${table}/${action}`
     
     if (action === FIND_BY_ID) {
@@ -34,8 +34,10 @@ export const FETCH = (table, action, body = null) => {
       
       return axios.post(url, actualBody).then(({ data }) => data)
     } else if (action === FIND_BY_PATIENT_ID) {
-      if (props.report) {
-        const actualBody = { patient: props.report.patient }
+      const id = props.id || _.get(props, 'match.params.id') || _.get(props, 'user.facebookId') || props.report.patient
+      if (id) {
+        const user = await POST(PATIENT, FIND_BY_FB_ID, { facebookId: id })
+        const actualBody = { patient: user._id }
         
         return axios.post(url, actualBody).then(({ data }) => data)
       }

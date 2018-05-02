@@ -5,46 +5,55 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 
 import { getUser } from 'redux/user'
-import { LOADER, FETCH, APPOINTMENT, FIND_BY_FB_ID } from 'services'
+import { LOADER, FETCH, REPORT, FIND_BY_PATIENT_ID } from 'services'
+import TreatmentCard from 'common/TreatmentCard'
 
 
 const enhance = compose(
   LOADER,
-  FETCH(APPOINTMENT, FIND_BY_FB_ID)
+  FETCH(REPORT, FIND_BY_PATIENT_ID)
 )
 
 const Container = styled.div``
-const AppContainer = styled.div`
-
+const Flex = styled.div`
+  display: flex;
 `
-const AppItemContainer = styled.div`
-
+const RepContainer = styled.div`
+  margin-right: 15px;
 `
 
-const AppItem = ({ appointment }) => {
-  console.log(appointment)
-  
-  const { slot, status, report } = appointment
-  return (
-    <AppItemContainer>
-      
-    </AppItemContainer>
-  )
-}
 
-const Index = ({ appointments }) => {
-  return (
-    <Container>
-      history
-      <AppContainer>
-        { _.map(appointments, (app) => <AppItem appointment={app} />)}
-      </AppContainer>
-    </Container>
-  )
+class History extends Component {
+  render() {
+    const { reports} = this.props
+
+    return (
+      <Container>
+        history
+        <Flex>
+            { reports.map((rep) => {
+                const { data, note } = rep
+
+                return (
+                  <RepContainer>
+                    { rep._id }
+                    <TreatmentCard 
+                      edit={false}
+                      data={data}
+                      note={note}
+                    />
+                  </RepContainer>
+                )
+              })
+            }
+          </Flex>
+      </Container>
+    )
+  }
 }
 
 export default connect(
   (state) => ({ 
     user: getUser(state)
   }), {}
-)(enhance(Index))
+)(enhance(History))
