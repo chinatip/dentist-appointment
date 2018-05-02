@@ -24,13 +24,13 @@ export default ({ type, id }) => {
       >
         <Menu.SubMenu key='sub1' title={<span>ข้อมูลส่วนตัว</span>}>
           <Menu.Item key='profile'>
-            <Link to={`/profile/${id}/type/book`}>จอง</Link>
+            <Link to={`/profile/${id}/type/book`}>นัดหมาย</Link>
           </Menu.Item>
           <Menu.Item key='appointments'>
-            <Link to={`/profile/${id}/type/appointments`}>นัดหมาย</Link>
+            <Link to={`/profile/${id}/type/appointments`}>ประวัติการนัดหมาย</Link>
           </Menu.Item>
           <Menu.Item key='history'>
-            <Link to={`/profile/${id}/type/history`}>ประวัติ</Link>
+            <Link to={`/profile/${id}/type/history`}>ประวัติการรักษา</Link>
           </Menu.Item>
           <Menu.Item key='calendar'>
             <Link to={`/profile/${id}/type/calendar`}>ปฏิทิน</Link>

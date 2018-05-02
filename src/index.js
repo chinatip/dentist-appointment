@@ -38,14 +38,16 @@ const GlobalStyles = ({theme}) => {
 
     .ant-menu-submenu-title {
       font-weight: 500 !important;
-      font-size: 1rem !important;
+      font-size: 1.3rem !important;
       line-height: 2.5rem !important;
       color: #00bcce !important;
+      font-family: Prompt, sans-serif;
     }
     .ant-menu-item {
       a {
         color: rgb(110, 133, 136) !important;
-
+        font-family: Prompt, sans-serif;
+        transition: all 0.3s;
         &:hover {
           color: rgba(0, 188, 206, 0.9) !important;
         }
@@ -53,12 +55,13 @@ const GlobalStyles = ({theme}) => {
     }
     .ant-menu-item-selected {
       background: rgba(69, 239, 255, 0.04) !important;
-
+      font-family: Prompt, sans-serif;
       &::after {
         border-right: 3px solid rgba(12, 158, 181, 0.23) !important
       }
       a {
         color: rgba(0, 188, 206, 0.87) !important;
+        font-size: 1.1rem;
       }
     }
   `

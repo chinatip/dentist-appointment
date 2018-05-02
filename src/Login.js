@@ -54,8 +54,8 @@ class LoginForm extends React.Component {
 
     return (
       <FormContainer width={700}>
-        <FormItem label={'username'} field={'username'} message={'username'} getFieldDecorator={getFieldDecorator} />
-        <FormItem label={'password'} field={'password'} message={'password'} getFieldDecorator={getFieldDecorator} />
+        <FormItem label={'Username'} field={'username'} message={'username'} getFieldDecorator={getFieldDecorator} />
+        <FormItem label={'Password'} field={'password'} message={'password'} getFieldDecorator={getFieldDecorator} />
         <Flex>
           <NavigationButton onSubmit={this.handleSubmit} last />
           {/* { appointmentStatus === 'success' && <Tag color="green">Success</Tag>}

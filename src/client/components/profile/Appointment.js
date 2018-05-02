@@ -8,6 +8,7 @@ import { getUser } from 'redux/user'
 import { Table } from 'common'
 import { LOADER, FETCH, APPOINTMENT, FIND_BY_FB_ID } from 'services'
 import { stringToMoment } from 'common/utils'
+import PageHeader from 'common/PageHeader'
 
 const enhance = compose(
   LOADER,
@@ -65,7 +66,7 @@ const Index = ({ appointments }) => {
 
   return (
     <Container>
-      appointment
+      <PageHeader title={'ประวัติการนัดหมาย'}/>
       <AppContainer>
         <Table dataSource={dataSource} columns={columns} />
         {/* { _.map(appointments, (app) => <AppItem appointment={app} />)} */}

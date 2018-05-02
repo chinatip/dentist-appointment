@@ -9,6 +9,7 @@ import Step2 from './Step2'
 import Step3 from './Step3'
 
 import { getUser } from 'redux/user'
+import PageHeader from 'common/PageHeader'
 import { LOADER, FETCH, POST, LIST, CREATE, CLINIC, DENTIST, DENTIST_TIMESLOT, APPOINTMENT } from 'services'
 
 const Container = styled.div``
@@ -97,7 +98,8 @@ class Index extends Component {
   render() {
     return (
       <Container>
-          {this.renderStep()}
+        <PageHeader title={'นัดหมาย'}/>
+        {this.renderStep()}
       </Container>
     )
   }

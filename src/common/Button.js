@@ -50,8 +50,8 @@ const cssTeeth = css`
     ${cssFontP}
     width: 42px;
     margin-right: 5px;
-    color: #d3d6d6;
-    border-color: #d3d6d6;
+    color: #929c9c;
+    border-color: #929c9c;
     font-size: 0.9rem;
     
     &:hover {

@@ -3,6 +3,7 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 import { Form, Input, Select, Button } from 'antd'
 
+import { cssFontP } from 'common/styles/style-base'
 import { DatePicker } from 'common'
 
 const cssFontInput = css`
@@ -127,7 +128,7 @@ const FormContainerWrapper = styled.div`
     margin-left: 5px;
     
     label {
-      ${cssFontInput};
+      ${cssFontP};
       margin-bottom: 0;
       &::before, &::after {
         display: none;
@@ -137,6 +138,7 @@ const FormContainerWrapper = styled.div`
 
   .ant-input {
     ${cssFontInput};
+    border: 1px solid rgba(7, 188, 206, 0.42)
   }
 
   .ant-form-item-control-wrapper, .ant-calendar-picker {
@@ -160,6 +162,10 @@ const FormContainerWrapper = styled.div`
     .ant-row:last-child {
       margin-right: 0px ;
     }
+  }
+
+  .ant-select-selection {
+    border: 1px solid rgba(7, 188, 206, 0.42);
   }
 `
 export const FormContainer = ({ children, width, step3 }) => {

@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { getUser } from 'redux/user'
 import { LOADER, FETCH, REPORT, FIND_BY_PATIENT_ID } from 'services'
 import TreatmentCard from 'common/TreatmentCard'
-
+import PageHeader from 'common/PageHeader'
 
 const enhance = compose(
   LOADER,
@@ -29,7 +29,7 @@ class History extends Component {
 
     return (
       <Container>
-        history
+        <PageHeader title={'ประวัติการรักษา'}/>
         <Flex>
             { reports.map((rep) => {
                 const { data, note } = rep
