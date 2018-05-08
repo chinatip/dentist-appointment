@@ -25,6 +25,7 @@ const AppTimeLabel = styled.div`
 
 const RepContainer = styled.div`
   margin-right: 15px;
+  margin-bottom: 15px;
 `
 
 const Label = styled.div`
@@ -33,6 +34,7 @@ const Label = styled.div`
 const Flex = styled.div`
   display: flex;
   margin-bottom: 30px;
+  flex-wrap: wrap;
 `
 
 const AppItem = ({ slot, treatment, status }) => {
@@ -72,7 +74,7 @@ class ManagePatient extends Component {
     const appointmentsById = {}
 
     const patients = await POST(CLINIC, PATIENT, { _id: clinic._id })
-    
+
     for (let p of patients) {
       const reports = await POST(PATIENT, REPORT, { _id: p._id })
       reportsById[p._id] = reports
@@ -90,7 +92,7 @@ class ManagePatient extends Component {
 
   handleAddPatient = () => {
     const { addPatient } = this.state
-    
+
     this.setState({
       addPatient: !addPatient
     })
@@ -99,7 +101,7 @@ class ManagePatient extends Component {
   handleCreatePatient = async (values) => {
     const { clinic } = this.props
     const { patients } = this.state
-    const patient = await POST(PATIENT, CREATE, { 
+    const patient = await POST(PATIENT, CREATE, {
       ...values,
       fileByClinic: { [clinic._id]: "000" }
     })
@@ -118,17 +120,18 @@ class ManagePatient extends Component {
             { appointmentsById[_id] && _.map(appointmentsById[_id], (app) => {
                 const { treatment, status, slot } = app
                 return <AppItem key={app._id} treatment={treatment} status={status} slot={slot} />
-              }) 
+              })
             }
           </Flex>
           <Label>ประวัติการรักษา</Label>
           <Flex>
             { reportsById[_id] && reportsById[_id].map((rep) => {
                 const { data, note } = rep
+                console.log(rep);
                 return (
                   <RepContainer>
                     { rep._id }
-                    <TreatmentCard 
+                    <TreatmentCard
                       edit={false}
                       data={data}
                       note={note}
@@ -141,7 +144,7 @@ class ManagePatient extends Component {
       </div>
     )
   }
-  
+
   renderTable() {
     const { patients } = this.state
     const { dataSource, columns } = formatPatients({ patients })

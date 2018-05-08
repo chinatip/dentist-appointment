@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
-import { Button } from 'common' 
+import { Button } from 'common'
 import { getUser } from 'redux/user'
 import { cssFontP } from 'common/styles/style-base'
 
@@ -63,7 +63,7 @@ const Navigation = ({ onLogin, user }) => {
 }
 
 export default connect(
-  (state) => ({ 
+  (state) => ({
     user: getUser(state)
   }),
   { }

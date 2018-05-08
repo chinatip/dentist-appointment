@@ -18,9 +18,11 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 let store = createStore(reducer, {}, composeEnhancers(applyMiddleware(...middlewares)))
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  ${'' /* width: 100vw; */}
+  ${'' /* height: 100vh; */}
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 `
 const GlobalStyles = ({theme}) => {
   injectGlobal `

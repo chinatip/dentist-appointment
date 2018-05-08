@@ -14,6 +14,16 @@ import { LOADER, FETCH, POST, LIST, CREATE, CLINIC, DENTIST, DENTIST_TIMESLOT, A
 
 const Container = styled.div``
 
+const InstructionContainer = styled.div`
+  margin-top: 25px;
+  border: 5px solid #3ed925;
+  background-color: #c9ffbf;
+  padding: 5px;
+  h2{
+    color: #00bcce;
+  }
+`
+
 const enhance = compose(
   LOADER,
   FETCH(CLINIC, LIST),
@@ -36,17 +46,17 @@ class Index extends Component {
   handleSubmit = (newData) => {
     const { step, data } = this.state
     const updateData = { ...data, ...newData }
-    this.setState({ 
+    this.setState({
       data: updateData,
-      step: step + 1 
+      step: step + 1
     })
   }
 
   createAppointment = async () => {
     const { data } = this.state
     const { user: { _id }, onCancel } = this.props
-    const body = { 
-      ...data, 
+    const body = {
+      ...data,
       patient: _id,
       status: 'waiting'
     }
@@ -74,10 +84,10 @@ class Index extends Component {
       })
       return match
     })
-    
+
     return matchDentists
   }
-  
+
   renderStep() {
     const { step, data } = this.state
     const { clinics, appointments, dentistTimeslots } = this.props
@@ -86,7 +96,7 @@ class Index extends Component {
       return <Step1 onSubmit={this.handleSubmit} clinics={clinics} data={data} />
     } else if (step === 1) {
       const matchDentists = []
-      return <Step2 onSubmit={this.handleSubmit} onBackStep={this.handleUpdateStep(step - 1)} 
+      return <Step2 onSubmit={this.handleSubmit} onBackStep={this.handleUpdateStep(step - 1)}
         dentists={this.findDentists()} appointments={appointments} data={data} timeslots={dentistTimeslots} />
     } else if (step === 2) {
       return <Step3 onSubmit={this.createAppointment} onBackStep={this.handleUpdateStep(step - 1)} data={data} />
@@ -95,18 +105,33 @@ class Index extends Component {
     return <Step1 onSubmit={this.handleSubmit} clinics={clinics} data={data} />
   }
 
+  renderinstruction(){
+    return <InstructionContainer>
+      <h2>ขั้นตอนการนัดหมาย</h2>
+      <p>1. เลือกคลินิค </p>
+      <p>2. เลือกการรักษา </p>
+      <p>3. เลือกทันตแพทย์ </p>
+      <p>4. เลือกเลือกวันที่ </p>
+      <p>5. เลือกเวลานัดหมาย </p>
+      <p>6. เช็ดความถูกต้องของข้อมูล </p>
+      <p>7. เลือกตกลง</p>
+      <p>8. การนัดหมายเสร็จสิ้น</p>
+    </InstructionContainer>
+  }
+
   render() {
     return (
       <Container>
         <PageHeader title={'นัดหมาย'}/>
         {this.renderStep()}
+        {this.renderinstruction()}
       </Container>
     )
   }
 }
 
 export default connect(
-  (state) => ({ 
+  (state) => ({
     user: getUser(state)
   }),
   { }

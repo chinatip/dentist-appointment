@@ -17,16 +17,22 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  overflow-x: hidden;
+  ${'' /* overflow-x: hidden; */}
+  overflow-x: auto;
+  min-width: 1200px;
 `
 const Header = styled.div`
   width: 100%;
   height: 50px;
   box-shadow: 0 4px 12px rgba(0, 188, 206, 0.14);
   margin-bottom: 10px;
+  h1{
+    color: #00bcce;
+  }
 `
 const ContentContainer = styled.div`
   display: flex;
+  background-color: #00ff94;
 `
 const InnerContainer = styled.div`
   width: 100%;
@@ -34,6 +40,8 @@ const InnerContainer = styled.div`
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
+  background-color: white;
+  min-height: 100vh;
 `
 
 const Title = styled.div`
@@ -71,6 +79,7 @@ export default enhance(({ match, clinics }) => {
   return (
     <Container>
       <Header>
+        <h1>Meet Dent</h1>
       </Header>
       <ContentContainer>
         <Navigation type={type} id={clinics._id} />

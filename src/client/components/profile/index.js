@@ -15,13 +15,30 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  background-color: #00ff94;
+  overflow-y: auto;
+  min-height: 100vh;
+  min-width: 1000px;
 `
 const InnerContainer = styled.div`
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
-  height: 600px;
+  height: 100%;
   padding: 20px;
+  background-color: white;
+  min-height: 100vh;
+`
+
+const Header = styled.div`
+  width: 100%;
+  height: 50px;
+  box-shadow: 0 4px 12px rgba(0, 188, 206, 0.14);
+  margin-bottom: 10px;
+  h1{
+    color: #00bcce;
+  }
+
 `
 
 const Title = styled.div`
@@ -38,7 +55,7 @@ class WithPatientAutoLogin extends React.Component {
   async loadData() {
     const { id, match, setUser, removeUser, history } = this.props
     const patient = await POST(PATIENT, FIND_BY_FB_ID, { facebookId: id })
-      
+
     if (patient && typeof patient === 'object') {
       removeUser()
       setUser(patient)
@@ -54,7 +71,7 @@ class WithPatientAutoLogin extends React.Component {
 }
 
 const PatientAutoLogin = connect(
-  (state) => ({ 
+  (state) => ({
     user: getUser(state)
   }),
   { setUser, removeUser }
@@ -69,7 +86,7 @@ const ProfileDetail = ({ type, id }) => {
     return <History id={id} />
   } else if (type === 'calendar') {
     return <Calendar id={id} />
-  } 
+  }
 
   return <PatientAutoLogin id={type} />
 }
@@ -79,11 +96,16 @@ export default ({ match }) => {
   const id = match.params.id
   console.log('==========================', match.params)
   return (
+    <div>
+      <Header>
+        <h1>Meet Dent</h1>
+      </Header>
     <Container>
       <Navigation type={type} id={id} />
       <InnerContainer>
         <ProfileDetail type={type} id={id} />
       </InnerContainer>
   </Container>
+      </div>
   )
 }

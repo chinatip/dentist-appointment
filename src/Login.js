@@ -6,12 +6,17 @@ import { Form, Tag, message } from 'antd'
 import { FormContainer, FormItem, NavigationButton } from 'common/form'
 import { LOADER, POST, CLINIC } from 'services'
 
+import './dentist-style.css';
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  background: #00ff94;
+  min-height: 100vh;
 `
 const Flex = styled.div`
   display: flex;
@@ -53,6 +58,11 @@ class LoginForm extends React.Component {
     const { getFieldDecorator } = form
 
     return (
+      <div className="loginbg">
+        <div className="texttitle">
+          <img className="loginimage" src="https://www.shareicon.net/data/512x512/2016/07/12/795023_dentist_512x512.png"></img>
+          <h1>Meet Dent</h1>
+        </div>
       <FormContainer width={700}>
         <FormItem label={'Username'} field={'username'} message={'username'} getFieldDecorator={getFieldDecorator} />
         <FormItem label={'Password'} field={'password'} message={'password'} getFieldDecorator={getFieldDecorator} />
@@ -62,6 +72,7 @@ class LoginForm extends React.Component {
           { appointmentStatus === 'error' && <Tag color="red">Error</Tag>} */}
         </Flex>
       </FormContainer>
+      </div>
     )
   }
 }

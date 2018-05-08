@@ -1,0 +1,19 @@
+
+.loginbg {
+  background-color: white;
+  padding: 25px;
+}
+
+.texttitle {
+  text-align: center;
+
+}
+
+.texttitle h1{
+  color: #00bcce;
+}
+.loginimage {
+  width: 100px;
+  height: 100px;
+}
+/* background: transparent url('http://www.nintenderos.com/wp-content/uploads/2018/01/Art-Wing-Gundam-Wallpaper-Images-907.jpg') center; */
