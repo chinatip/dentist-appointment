@@ -134,6 +134,14 @@ const FormContainerWrapper = styled.div`
         display: none;
       }
     }
+
+    input {
+      font-family: 'Prompt',sans-serif;
+      font-weight: 300;
+      font-size: 0.85rem;
+      line-height: 0rem;
+      color: rgb(122, 125, 125);
+    }
   }
 
   .ant-input {
@@ -166,6 +174,15 @@ const FormContainerWrapper = styled.div`
 
   .ant-select-selection {
     border: 1px solid rgba(7, 188, 206, 0.42);
+
+    .ant-select-selection-selected-value {
+      font-family: 'Prompt', sans-serif;
+      
+    }
+  }
+
+  .ant-select-dropdown {
+    font-family: 'Prompt', sans-serif !important;
   }
 `
 export const FormContainer = ({ children, width, step3 }) => {

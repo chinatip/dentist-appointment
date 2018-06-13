@@ -26,13 +26,14 @@ const Header = styled.div`
   height: 50px;
   box-shadow: 0 4px 12px rgba(0, 188, 206, 0.14);
   margin-bottom: 10px;
+  padding: 0 20px;
   h1{
     color: #00bcce;
   }
 `
 const ContentContainer = styled.div`
   display: flex;
-  background-color: #00ff94;
+  // background-color: #00ff94;
 `
 const InnerContainer = styled.div`
   width: 100%;

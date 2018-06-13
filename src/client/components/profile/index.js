@@ -15,7 +15,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  background-color: #00ff94;
+  // background-color: #00ff94;
   overflow-y: auto;
   min-height: 100vh;
   min-width: 1000px;
@@ -35,7 +35,8 @@ const Header = styled.div`
   height: 50px;
   box-shadow: 0 4px 12px rgba(0, 188, 206, 0.14);
   margin-bottom: 10px;
-  h1{
+  padding: 0 20px;
+  h1 {
     color: #00bcce;
   }
 
