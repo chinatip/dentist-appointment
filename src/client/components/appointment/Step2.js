@@ -22,9 +22,9 @@ const Timeslot = styled.div`
   padding: 10px;
   max-width: 60px;
   text-align: center;
+  margin-right: 5px;
   margin-bottom: 5px;
   cursor: pointer;
-
   &:hover {
     ${cssSelectSlot}
   }
@@ -78,6 +78,28 @@ class Step2Form extends Component {
     })
   }
 
+  findTimeslot({ appointments, timeslots, dentist, date }) {
+    const selectedDateAppointments = appointments.filter((app) => {
+      const appDate = stringToMoment(app.slot.startTime)
+      return appDate.isSame(date, 'days') && app.status !== 'cancel'
+    })
+
+    const dentistSlots = timeslots.filter((slot) => {
+      const slotDate = stringToMoment(slot.startTime)
+
+      return slot.dentist._id === dentist && slotDate.isSame(date, 'days')
+    })
+
+    let availableTimeslots = dentistSlots.filter((slot) => 
+      !(selectedDateAppointments.filter((app) => {
+        return app.slot._id === slot._id
+      }).length === 1)
+    )
+    availableTimeslots = _.sortBy(availableTimeslots, 'startTime')
+
+    return availableTimeslots
+  }
+
   renderTimetable() {
     const { form: { getFieldValue }, appointments, timeslots } = this.props
     
@@ -85,24 +107,7 @@ class Step2Form extends Component {
     const date = getFieldValue('date')
 
     if (dentist && date) {
-      const selectedDateAppointments = appointments.filter((app) => {
-        const appDate = stringToMoment(app.slot.startTime)
-        return appDate.isSame(date, 'days') && app.status !== 'cancel'
-      })
-
-      const dentistSlots = timeslots.filter((slot) => {
-        const slotDate = stringToMoment(slot.startTime)
-
-        return slot.dentist._id === dentist && slotDate.isSame(date, 'days')
-      })
-
-      let availableTimeslots = dentistSlots.filter((slot) => 
-        !(selectedDateAppointments.filter((app) => {
-          return app.slot._id === slot._id
-        }).length === 1)
-      )
-      availableTimeslots = _.sortBy(availableTimeslots, 'startTime')
-
+      const availableTimeslots = this.findTimeslot({ appointments, timeslots, dentist, date })
       const timeslot = getFieldValue('slot')
 
       return (

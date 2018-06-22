@@ -20,13 +20,14 @@ const NavigationContainer = styled.div`
   display: flex;
 `
 const FormButton = styled(Button)`
-  // ${props => props.ghost? cssGhostButton: cssNormalButton}
+  ${props => props.fade? cssGhostButton: cssNormalButton}
+  margin-right: 10px;
 `
 export const NavigationButton = ({ onSubmit, onBackStep, last, loading = false }) => {
   return (
     <NavigationContainer>
       {onBackStep && <FormButton onClick={onBackStep}>{'ย้อนกลับ'}</FormButton>}
-      <FormButton loading={loading} onClick={onSubmit}>{ !last? 'ต่อไป': 'ตกลง'}</FormButton>
+      <FormButton loading={loading} onClick={onSubmit} fade={true}>{ !last? 'ต่อไป': 'ตกลง'}</FormButton>
     </NavigationContainer>
   )
 }
@@ -65,9 +66,9 @@ const getOptions = (opts) => {
   return { selectOptions, mode }
 }
 
-const getInputItem = ({ date, textarea, options }) => {
+const getInputItem = ({ date, textarea, options, password, disabled, dateOption }) => {
   if (date) {
-    return <DatePicker value={date} />
+    return <DatePicker value={date} option={dateOption}/>
   } else if (textarea) {
     return <Input.TextArea row={4} />
   } else if (options) {
@@ -76,13 +77,13 @@ const getInputItem = ({ date, textarea, options }) => {
     return (
       <Select mode={mode}>
         { selectOptions.map((s) => {
-          return <Select.Option value={s.value}>{s.label}</Select.Option>
+          return <Select.Option value={s.value} disabled={disabled}>{s.label}</Select.Option>
         })}
       </Select>
     )
   }
 
-  return <Input />
+  return <Input type={password? 'password': 'text'} disabled={disabled} />
 }
 
 export const FormItem = ({ getFieldDecorator, label, message, field, required = true, hidden, ...props }) => {

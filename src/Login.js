@@ -5,8 +5,8 @@ import { Form, Tag, message } from 'antd'
 
 import { FormContainer, FormItem, NavigationButton } from 'common/form'
 import { LOADER, POST, CLINIC } from 'services'
-
-import './dentist-style.css';
+import { cssFontH1 } from 'common/styles/style-base'
+import ToothLogo from './tooth.svg'
 
 const Container = styled.div`
   width: 100%;
@@ -15,7 +15,6 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: #00ff94;
   min-height: 100vh;
 `
 const Flex = styled.div`
@@ -24,6 +23,23 @@ const Flex = styled.div`
   .ant-tag {
     margin-left: 15px;
   }
+`
+
+const LoginWrapper = styled.div`
+  padding: 25px;
+  box-shadow: 0px 2px 12px rgba(0, 188, 206, 0.39);
+  border-radius: 4px;
+`
+const Title = styled.div`
+  ${cssFontH1};
+  text-align: center;
+  font-weight: 500;
+  color: #00bcce;
+`
+const Image = styled.img`
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
 `
 
 class LoginForm extends React.Component {
@@ -58,21 +74,21 @@ class LoginForm extends React.Component {
     const { getFieldDecorator } = form
 
     return (
-      <div className="loginbg">
-        <div className="texttitle">
-          <img className="loginimage" src="https://www.shareicon.net/data/512x512/2016/07/12/795023_dentist_512x512.png"></img>
-          <h1>Meet Dent</h1>
-        </div>
+      <LoginWrapper>
+        <Title>
+          <Image src={ToothLogo} />
+          <p>MeetDent</p>
+        </Title>
       <FormContainer width={700}>
         <FormItem label={'Username'} field={'username'} message={'username'} getFieldDecorator={getFieldDecorator} />
-        <FormItem label={'Password'} field={'password'} message={'password'} getFieldDecorator={getFieldDecorator} />
+        <FormItem label={'Password'} field={'password'} message={'password'} getFieldDecorator={getFieldDecorator} password />
         <Flex>
           <NavigationButton onSubmit={this.handleSubmit} last />
           {/* { appointmentStatus === 'success' && <Tag color="green">Success</Tag>}
           { appointmentStatus === 'error' && <Tag color="red">Error</Tag>} */}
         </Flex>
       </FormContainer>
-      </div>
+      </LoginWrapper>
     )
   }
 }

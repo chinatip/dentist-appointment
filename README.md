@@ -34,4 +34,4 @@ It has two side which are patient and clinic sides.
 #### For testing clinic
 | Username | Password |
 | ------ | ------ |
-| clinic01 | clinic01 |
+| clinic1 | clinic1 |

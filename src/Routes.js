@@ -11,7 +11,7 @@ export default () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={Login} />
         <Route path="/login" component={Login} />
         <Route exact path="/register" render={() => <Redirect to="/register/new" />} />
         <Route path="/register/:id" component={Register} />
