@@ -29,11 +29,11 @@ export const FETCH = (table, action, body = null) => {
     const url = `${API_URL}/${table}/${action}`
     
     if (action === FIND_BY_ID) {
-      console.log('iddd', _.get(props, body.path))
       const actualBody = { _id: _.get(props, body.path) }
       
       return axios.post(url, actualBody).then(({ data }) => data)
     } else if (action === FIND_BY_PATIENT_ID) {
+      console.log('>>>>', props)
       const id = props.id || _.get(props, 'match.params.id') || _.get(props, 'user.facebookId') || props.report.patient
       if (id) {
         const user = await POST(PATIENT, FIND_BY_FB_ID, { facebookId: id })
@@ -45,12 +45,10 @@ export const FETCH = (table, action, body = null) => {
       return
     } else if (action === FIND_BY_FB_ID) {
       const l = (o) => {
-        console.log(o)
         return o
       }
       l(props)
       const id = props.id || _.get(props, 'match.params.id') || _.get(props, 'user.facebookId')
-      console.log('[id]', id)
       if (id) {
         const actualBody = { facebookId: id }
         

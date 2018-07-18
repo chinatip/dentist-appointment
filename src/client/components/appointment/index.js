@@ -16,10 +16,8 @@ const Container = styled.div``
 
 const InstructionContainer = styled.div`
   margin-top: 25px;
-  border: 5px solid #3ed925;
-  background-color: #c9ffbf;
   padding: 5px;
-  h2{
+  h2 {
     color: #00bcce;
   }
 `
@@ -105,7 +103,7 @@ class Index extends Component {
     return <Step1 onSubmit={this.handleSubmit} clinics={clinics} data={data} />
   }
 
-  renderinstruction(){
+  renderInstruction(){
     return <InstructionContainer>
       <h2>ขั้นตอนการนัดหมาย</h2>
       <p>1. เลือกคลินิค </p>
@@ -123,8 +121,8 @@ class Index extends Component {
     return (
       <Container>
         <PageHeader title={'นัดหมาย'}/>
-        {this.renderStep()}
-        {this.renderinstruction()}
+        { this.renderStep() }
+        { this.renderInstruction() }
       </Container>
     )
   }

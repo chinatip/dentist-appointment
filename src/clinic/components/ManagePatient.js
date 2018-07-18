@@ -162,8 +162,9 @@ class ManagePatient extends Component {
 
     return (
       <div>
-        <PageHeader title={'คนไข้'} />
-        <Button value='เพิ่มคนไข้' onClick={this.handleAddPatient}/>
+        <PageHeader title={'คนไข้'}>
+          <Button value='เพิ่มคนไข้' onClick={this.handleAddPatient}/>
+        </PageHeader>
         { loading? 'loading': this.renderTable()}
         <AddPatientModal visible={addPatient} onClose={this.handleAddPatient} onSubmit={this.handleCreatePatient} />
       </div>
