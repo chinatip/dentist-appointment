@@ -33,13 +33,15 @@ export const FETCH = (table, action, body = null) => {
       
       return axios.post(url, actualBody).then(({ data }) => data)
     } else if (action === FIND_BY_PATIENT_ID) {
-      console.log('>>>>', props)
-      const id = props.id || _.get(props, 'match.params.id') || _.get(props, 'user.facebookId') || props.report.patient
-      if (id) {
-        const user = await POST(PATIENT, FIND_BY_FB_ID, { facebookId: id })
-        const actualBody = { patient: user._id }
-        
-        return axios.post(url, actualBody).then(({ data }) => data)
+      const { id, report } = props
+      if (report) {
+        const patientId = id || _.get(props, 'match.params.id') || _.get(props, 'user.facebookId') || report.patient
+        if (patientId) {
+          const user = await POST(PATIENT, FIND_BY_FB_ID, { facebookId: patientId })
+          const actualBody = { patient: user._id }
+          
+          return axios.post(url, actualBody).then(({ data }) => data)
+        }
       }
 
       return
